@@ -20,7 +20,16 @@ definitions written in JavaScript. The workflow is:
 4. The parser converts source code into a **Concrete Syntax Tree** (CST) — a structured
    representation of the code
 
-The `tree-sitter` CLI tool handles steps 2-4. Your job as a grammar author is step 1.
+> [!NOTE]
+> The `tree-sitter` CLI tool handles steps 2-4 automatically. Your primary job as a grammar author is just step 1!
+
+```mermaid
+graph TD
+    A[grammar.js (You write this)] -->|tree-sitter generate| B(parser.c)
+    B -->|C Compiler| C{Shared Library}
+    D[Source Code] -->|Parsed by| C
+    C --> E[Concrete Syntax Tree]
+```
 
 ## Prerequisites
 

@@ -12,6 +12,9 @@ reusable helper functions and constants used by ALL grammar definitions in the m
 
 ### Why Do We Need Shared Utilities?
 
+> [!TIP]
+> **DRY (Don't Repeat Yourself)**: Both Apex and SOQL share a lot of syntax characteristics. Centralizing logic in `common/` prevents bugs when updating case-insensitivity rules or Salesforce keywords across multiple grammars.
+
 Salesforce languages have characteristics that come up repeatedly in grammar definitions:
 
 1. **Case-insensitivity**: Apex and SOQL are case-insensitive languages. `SELECT`, `Select`,

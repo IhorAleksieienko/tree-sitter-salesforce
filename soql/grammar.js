@@ -146,6 +146,8 @@ module.exports = grammar({
      * Internal alias — the actual query expression.
      * Underscore prefix means this rule is "hidden" in the syntax tree
      * (the node won't appear, its child is promoted up).
+     * WHY hide this? Hiding structural wrapper nodes makes the final syntax tree
+     * simpler, flatter, and easier to traverse for downstream tools.
      */
     _soql_query_expression: ($) => $.soql_query_body,
 
@@ -219,6 +221,8 @@ module.exports = grammar({
      * Any expression that can appear in a SELECT clause.
      * This is a "hidden" rule (underscore prefix) — it won't appear
      * as a node in the tree; one of its children will appear instead.
+     * WHY? We want to group all valid select expressions logically in the grammar
+     * without cluttering the output syntax tree with an extra `_selectable_expression` node layer.
      */
     _selectable_expression: ($) => choice(
       $._value_expression,      // Field or function: Name, SUM(Amount)
