@@ -11,5 +11,35 @@
 ;                         ^^^^^^^^^^^^^^^^^^^^^^^^
 ;                         This is parsed by SOQL parser
 ;
-; Will be populated in Step 7.
 ; ============================================================================
+; TIER 1: Inline static SOQL — full injection
+((soql_expression) @injection.content
+  (#set! injection.language "soql"))
+
+; TIER 2: Database.query() with simple string literal — full injection
+((method_invocation
+  object: (identifier) @_obj
+  name: (identifier) @_method
+  arguments: (argument_list
+    (string_literal) @injection.content))
+  (#eq? @_obj "Database")
+  (#eq? @_method "query")
+  (#set! injection.language "soql"))
+
+((method_invocation
+  object: (identifier) @_obj
+  name: (identifier) @_method
+  arguments: (argument_list
+    (string_literal) @injection.content))
+  (#eq? @_obj "Database")
+  (#eq? @_method "countQuery")
+  (#set! injection.language "soql"))
+
+((method_invocation
+  object: (identifier) @_obj
+  name: (identifier) @_method
+  arguments: (argument_list
+    (string_literal) @injection.content))
+  (#eq? @_obj "Database")
+  (#eq? @_method "getQueryLocator")
+  (#set! injection.language "soql"))

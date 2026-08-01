@@ -8,5 +8,6 @@
 ; already highlighted by the Apex parser. Standalone SOQL needs its own
 ; comment highlighting.
 ;
-; Will be populated in Step 7.
 ; ============================================================================
+(formatting_comment) @comment
+(header_comment) @comment

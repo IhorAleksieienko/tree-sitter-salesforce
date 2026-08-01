@@ -11,5 +11,11 @@
 ;   @definition.function - Function declarations
 ;   @reference.call      - Method/function calls
 ;
-; Will be populated in Step 7.
 ; ============================================================================
+(class_declaration name: (identifier) @name) @definition.class
+(interface_declaration name: (identifier) @name) @definition.interface
+(enum_declaration name: (identifier) @name) @definition.enum
+(trigger_declaration name: (identifier) @name) @definition.function
+
+(method_declaration name: (identifier) @name) @definition.method
+(constructor_declaration name: (identifier) @name) @definition.method
