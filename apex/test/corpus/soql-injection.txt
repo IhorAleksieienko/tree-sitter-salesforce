@@ -23,11 +23,13 @@ public class T {
         name: (identifier)
         parameters: (formal_parameters)
         body: (block
-          (expression_statement
-            (assignment_expression
-              left: (binary_expression
-                left: (binary_expression
-                  left: (identifier)
-                  right: (identifier))
-                right: (identifier))
-              right: (soql_expression))))))))
+          (local_variable_declaration
+            type: (generic_type
+              (type_identifier
+                (identifier))
+              (type_arguments
+                (type_identifier
+                  (identifier))))
+            (variable_declarator
+              name: (identifier)
+              value: (soql_expression))))))))

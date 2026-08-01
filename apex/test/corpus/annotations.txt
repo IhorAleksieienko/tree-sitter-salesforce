@@ -1,0 +1,102 @@
+==================
+Annotations
+==================
+
+@IsTest
+private class MyTest {
+    @IsTest(SeeAllData=true)
+    static void testMe() { }
+    
+    @AuraEnabled(cacheable=true)
+    public static String getStr() { return 'a'; }
+
+    @InvocableMethod(label='Get Name' description='Returns the name')
+    public static List<String> getNames(List<Id> ids) { return null; }
+
+    @SuppressWarnings('PMD.AvoidHardcodingId')
+    public void doWork() {}
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (annotation
+        name: (identifier))
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (annotation
+            name: (identifier)
+            arguments: (annotation_arguments
+              (annotation_key_value
+                key: (identifier)
+                value: (boolean))))
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block))
+      (method_declaration
+        (modifiers
+          (annotation
+            name: (identifier)
+            arguments: (annotation_arguments
+              (annotation_key_value
+                key: (identifier)
+                value: (boolean))))
+          (modifier)
+          (modifier))
+        type: (type_identifier
+          (identifier))
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (return_statement
+            (string_literal))))
+      (method_declaration
+        (modifiers
+          (annotation
+            name: (identifier)
+            arguments: (annotation_arguments
+              (annotation_key_value
+                key: (identifier)
+                value: (string_literal))
+              (annotation_key_value
+                key: (identifier)
+                value: (string_literal))))
+          (modifier)
+          (modifier))
+        type: (generic_type
+          (type_identifier
+            (identifier))
+          (type_arguments
+            (type_identifier
+              (identifier))))
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (generic_type
+              (type_identifier
+                (identifier))
+              (type_arguments
+                (type_identifier
+                  (identifier))))
+            name: (identifier)))
+        body: (block
+          (return_statement
+            (null_literal))))
+      (method_declaration
+        (modifiers
+          (annotation
+            name: (identifier)
+            arguments: (annotation_arguments
+              (string_literal)))
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block)))))

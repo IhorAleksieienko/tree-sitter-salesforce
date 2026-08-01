@@ -1,0 +1,72 @@
+==================
+Dynamic SOQL Method Invocations
+==================
+
+public class T {
+    public void doWork() {
+        a = Database.query('SELECT Id FROM Account');
+        b = Database.countQuery('SELECT count() FROM Account');
+        c = Database.getQueryLocator('SELECT Id FROM Account');
+        
+        String q = 'SELECT Name ' + 'FROM Account ' + 'WHERE Id = ' + id;
+        Database.query(q);
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (method_invocation
+                object: (identifier)
+                name: (identifier)
+                arguments: (argument_list
+                  (string_literal)))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (method_invocation
+                object: (identifier)
+                name: (identifier)
+                arguments: (argument_list
+                  (string_literal)))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (method_invocation
+                object: (identifier)
+                name: (identifier)
+                arguments: (argument_list
+                  (string_literal)))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (binary_expression
+                  left: (binary_expression
+                    left: (string_literal)
+                    right: (string_literal))
+                  right: (string_literal))
+                right: (identifier))))
+          (expression_statement
+            (method_invocation
+              object: (identifier)
+              name: (identifier)
+              arguments: (argument_list
+                (identifier)))))))))

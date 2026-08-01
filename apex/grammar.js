@@ -379,7 +379,31 @@ module.exports = grammar({
      *
      * These are case-insensitive in Apex.
      */
-    modifiers: ($) => repeat1($.modifier),
+    modifiers: ($) => repeat1(choice($.annotation, $.modifier)),
+
+    annotation: ($) => seq(
+      "@",
+      field("name", $._name),
+      optional(field("arguments", $.annotation_arguments))
+    ),
+
+    annotation_arguments: ($) => seq(
+      "(",
+      choice(
+        $._literal,
+        seq(
+          $.annotation_key_value,
+          repeat(seq(optional(","), $.annotation_key_value))
+        )
+      ),
+      ")"
+    ),
+
+    annotation_key_value: ($) => seq(
+      field("key", $.identifier),
+      "=",
+      field("value", $.expression)
+    ),
 
     modifier: ($) => choice(
       // Access modifiers
@@ -540,8 +564,14 @@ module.exports = grammar({
       $.soql_expression,
     ),
 
+    _lhs_expression: ($) => choice(
+      $.identifier,
+      $.field_access,
+      $.array_access
+    ),
+
     assignment_expression: ($) => prec.right(PREC.ASSIGN, seq(
-      field("left", $.expression),
+      field("left", $._lhs_expression),
       choice("=", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=", "<<=", ">>=", ">>>="),
       field("right", $.expression)
     )),
