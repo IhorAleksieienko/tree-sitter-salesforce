@@ -1,0 +1,146 @@
+==================
+ORDER BY single field
+==================
+
+SELECT Name FROM Account ORDER BY Name
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (order_by_clause
+      (order_expression
+        (field_identifier (identifier))))))
+
+==================
+ORDER BY with direction
+==================
+
+SELECT Name FROM Account ORDER BY Name DESC
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (order_by_clause
+      (order_expression
+        (field_identifier (identifier))
+        (order_direction)))))
+
+==================
+ORDER BY with NULLS LAST
+==================
+
+SELECT Name FROM Account ORDER BY Name ASC NULLS LAST
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (order_by_clause
+      (order_expression
+        (field_identifier (identifier))
+        (order_direction)
+        (order_null_direction)))))
+
+==================
+LIMIT clause
+==================
+
+SELECT Name FROM Account LIMIT 10
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (limit_clause
+      (int))))
+
+==================
+OFFSET clause
+==================
+
+SELECT Id FROM Account LIMIT 10 OFFSET 20
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (limit_clause
+      (int))
+    (offset_clause
+      (int))))
+
+==================
+GROUP BY clause
+==================
+
+SELECT StageName, COUNT(Id) FROM Opportunity GROUP BY StageName
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier))
+      (function_expression
+        (identifier)
+        (field_identifier (identifier))))
+    (from_clause
+      (storage_identifier (identifier)))
+    (group_by_clause
+      (field_identifier (identifier)))))
+
+==================
+FOR UPDATE clause
+==================
+
+SELECT Id FROM Account FOR UPDATE
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (for_clause
+      (for_type))))
+
+==================
+WITH USER_MODE
+==================
+
+SELECT Name FROM Account WITH USER_MODE
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (with_clause
+      (with_type))))

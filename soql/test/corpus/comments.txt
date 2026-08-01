@@ -1,0 +1,16 @@
+==================
+Header comment
+==================
+
+// This is a query
+SELECT Id FROM Account
+
+---
+
+(source_file
+  (header_comment)
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))))
