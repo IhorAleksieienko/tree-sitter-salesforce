@@ -1,0 +1,103 @@
+==================
+String literal in field
+==================
+
+public class T {
+    String s = 'hello world';
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (primary_expression
+            (string_literal)))))))
+
+==================
+Integer literal
+==================
+
+public class T {
+    Integer n = 42;
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (primary_expression
+            (int)))))))
+
+==================
+Boolean literals
+==================
+
+public class T {
+    Boolean a = true;
+    Boolean b = false;
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (primary_expression
+            (boolean))))
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (primary_expression
+            (boolean)))))))
+
+==================
+Null literal
+==================
+
+public class T {
+    Object o = null;
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (primary_expression
+            (null_literal)))))))

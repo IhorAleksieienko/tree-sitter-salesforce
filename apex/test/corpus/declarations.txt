@@ -1,0 +1,271 @@
+==================
+Simple public class
+==================
+
+public class AccountService {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body)))
+
+==================
+Class with sharing
+==================
+
+public with sharing class AccountService {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier)
+      (modifier))
+    name: (identifier)
+    body: (class_body)))
+
+==================
+Class extending another class
+==================
+
+public class AccountHandler extends TriggerHandler {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (superclass
+      (type_identifier
+        (identifier)))
+    body: (class_body)))
+
+==================
+Class implementing interface
+==================
+
+public class AccountService implements Queueable {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (interfaces
+      (type_identifier
+        (identifier)))
+    body: (class_body)))
+
+==================
+Global class with multiple interfaces
+==================
+
+global class MyService implements Queueable, Database.Batchable {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (interfaces
+      (type_identifier
+        (identifier))
+      (type_identifier
+        (scoped_type_identifier
+          (identifier)
+          (identifier))))
+    body: (class_body)))
+
+==================
+Interface declaration
+==================
+
+public interface Notifiable {
+}
+
+---
+
+(source_file
+  (interface_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (interface_body)))
+
+==================
+Enum declaration
+==================
+
+public enum Season {
+    SPRING, SUMMER, FALL, WINTER
+}
+
+---
+
+(source_file
+  (enum_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (enum_body
+      (enum_constant
+        (identifier))
+      (enum_constant
+        (identifier))
+      (enum_constant
+        (identifier))
+      (enum_constant
+        (identifier)))))
+
+==================
+Trigger declaration
+==================
+
+trigger AccountTrigger on Account (before insert, after insert) {
+}
+
+---
+
+(source_file
+  (trigger_declaration
+    name: (identifier)
+    object: (identifier)
+    (trigger_event)
+    (trigger_event)
+    body: (trigger_body)))
+
+==================
+Inner class
+==================
+
+public class OuterClass {
+    public class InnerClass {
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (class_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        body: (class_body)))))
+
+==================
+Abstract class
+==================
+
+public abstract class BaseHandler {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier)
+      (modifier))
+    name: (identifier)
+    body: (class_body)))
+
+==================
+Virtual class
+==================
+
+public virtual class BaseHandler {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier)
+      (modifier))
+    name: (identifier)
+    body: (class_body)))
+
+==================
+Class with field declarations
+==================
+
+public class MyClass {
+    private String name;
+    public static Integer count = 0;
+    private final Boolean IS_ACTIVE = true;
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        (modifiers
+          (modifier))
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)))
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (primary_expression
+            (int))))
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (primary_expression
+            (boolean)))))))
+
+==================
+Inherited sharing class
+==================
+
+public inherited sharing class SecureService {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier)
+      (modifier))
+    name: (identifier)
+    body: (class_body)))

@@ -1,0 +1,52 @@
+==================
+Line comment
+==================
+
+public class T {
+    // This is a comment
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers (modifier))
+    name: (identifier)
+    body: (class_body
+      (line_comment))))
+
+==================
+Block comment
+==================
+
+public class T {
+    /* block comment */
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers (modifier))
+    name: (identifier)
+    body: (class_body
+      (block_comment))))
+
+==================
+JavaDoc-style comment
+==================
+
+/**
+ * Documentation comment
+ */
+public class T {
+}
+
+---
+
+(source_file
+  (block_comment)
+  (class_declaration
+    (modifiers (modifier))
+    name: (identifier)
+    body: (class_body)))
