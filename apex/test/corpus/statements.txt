@@ -1,0 +1,287 @@
+==================
+If else statement
+==================
+
+public class T {
+    public void doWork() {
+        if (true) {
+        } else if (false) {
+        } else {
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (if_statement
+            condition: (boolean)
+            consequence: (block)
+            alternative: (if_statement
+              condition: (boolean)
+              consequence: (block)
+              alternative: (block))))))))
+
+==================
+For statements
+==================
+
+public class T {
+    public void doWork() {
+        for (Integer i = 0; i < 10; i++) {
+        }
+        for (Account a : accounts) {
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (for_statement
+            init: (local_variable_declaration
+              type: (type_identifier
+                (identifier))
+              (variable_declarator
+                name: (identifier)
+                value: (int)))
+            condition: (binary_expression
+              left: (identifier)
+              right: (int))
+            update: (update_expression
+              (identifier))
+            body: (block))
+          (enhanced_for_statement
+            type: (type_identifier
+              (identifier))
+            name: (identifier)
+            value: (identifier)
+            body: (block)))))))
+
+==================
+While and Do-While statements
+==================
+
+public class T {
+    public void doWork() {
+        while (true) {
+        }
+        do {
+        } while (false);
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (while_statement
+            condition: (boolean)
+            body: (block))
+          (do_while_statement
+            body: (block)
+            condition: (boolean)))))))
+
+==================
+Switch statements
+==================
+
+public class T {
+    public void doWork() {
+        switch on x {
+            when 1, 2 { }
+            when Account a { }
+            when else { }
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_statement
+            condition: (identifier)
+            (when_clause
+              (int)
+              (int)
+              body: (block))
+            (when_clause
+              type: (type_identifier
+                (identifier))
+              name: (identifier)
+              body: (block))
+            (when_else_clause
+              body: (block))))))))
+
+==================
+Try Catch Finally statements
+==================
+
+public class T {
+    public void doWork() {
+        try {
+            throw new Exception();
+        } catch (Exception e) {
+        } finally {
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (try_statement
+            body: (block
+              (throw_statement
+                (new_expression
+                  type: (type_identifier
+                    (identifier))
+                  arguments: (argument_list))))
+            (catch_clause
+              (catch_formal_parameter
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              body: (block))
+            (finally_clause
+              body: (block))))))))
+
+==================
+DML statements
+==================
+
+public class T {
+    public void doWork() {
+        insert a;
+        update a;
+        upsert a;
+        delete a;
+        undelete a;
+        merge a b;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (dml_statement
+            (dml_type)
+            (identifier))
+          (dml_statement
+            (dml_type)
+            (identifier))
+          (dml_statement
+            (dml_type)
+            (identifier))
+          (dml_statement
+            (dml_type)
+            (identifier))
+          (dml_statement
+            (dml_type)
+            (identifier))
+          (dml_statement
+            (dml_type)
+            (identifier)
+            (identifier)))))))
+
+==================
+Return, Break, Continue
+==================
+
+public class T {
+    public void doWork() {
+        return;
+        break;
+        continue;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (return_statement)
+          (break_statement)
+          (continue_statement))))))

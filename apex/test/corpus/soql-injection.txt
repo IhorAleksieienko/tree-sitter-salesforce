@@ -1,0 +1,33 @@
+==================
+Inline SOQL query
+==================
+
+public class T {
+    public void doWork() {
+        List<Account> accts = [SELECT Id FROM Account];
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (binary_expression
+                left: (binary_expression
+                  left: (identifier)
+                  right: (identifier))
+                right: (identifier))
+              right: (soql_expression))))))))

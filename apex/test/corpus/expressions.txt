@@ -1,0 +1,332 @@
+==================
+Binary expressions
+==================
+
+public class T {
+    public void doWork() {
+        a = a + b;
+        a = a * b;
+        a = a && b;
+        a = a == b;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (binary_expression
+                left: (identifier)
+                right: (identifier)))))))))
+
+==================
+Unary expressions
+==================
+
+public class T {
+    public void doWork() {
+        a = !flag;
+        ++i;
+        i++;
+        a = -value;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (unary_expression
+                (identifier))))
+          (expression_statement
+            (update_expression
+              (identifier)))
+          (expression_statement
+            (update_expression
+              (identifier)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (unary_expression
+                (identifier)))))))))
+
+==================
+Ternary expression
+==================
+
+public class T {
+    public void doWork() {
+        a = condition ? trueVal : falseVal;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (ternary_expression
+                condition: (identifier)
+                consequence: (identifier)
+                alternative: (identifier)))))))))
+
+==================
+Null coalescing and Safe navigation
+==================
+
+public class T {
+    public void doWork() {
+        a = value ?? defaultValue;
+        b = account?.Name;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (null_coalescing_expression
+                left: (identifier)
+                right: (identifier))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (field_access
+                object: (identifier)
+                field: (identifier)))))))))
+
+==================
+instanceof and Cast
+==================
+
+public class T {
+    public void doWork() {
+        a = obj instanceof Account;
+        a = (Account) sobj;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (instanceof_expression
+                left: (identifier)
+                right: (type_identifier
+                  (identifier)))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (cast_expression
+                type: (type_identifier
+                  (identifier))
+                value: (identifier)))))))))
+
+==================
+New expressions
+==================
+
+public class T {
+    public void doWork() {
+        a = new Account();
+        b = new List<Account>();
+        c = new Map<String, Object>();
+        d = new List<String>{'a', 'b'};
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (type_identifier
+                  (identifier))
+                arguments: (argument_list))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))))
+                arguments: (argument_list))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))
+                    (type_identifier
+                      (identifier))))
+                arguments: (argument_list))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))))
+                (array_initializer
+                  (string_literal)
+                  (string_literal))))))))))
+
+==================
+Method invocation and Array access
+==================
+
+public class T {
+    public void doWork() {
+        obj.method(arg1, arg2);
+        a = list[0];
+        acct.getName().toUpperCase();
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (method_invocation
+              object: (identifier)
+              name: (identifier)
+              arguments: (argument_list
+                (identifier)
+                (identifier))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (array_access
+                array: (identifier)
+                index: (int))))
+          (expression_statement
+            (method_invocation
+              object: (method_invocation
+                object: (identifier)
+                name: (identifier)
+                arguments: (argument_list))
+              name: (identifier)
+              arguments: (argument_list))))))))

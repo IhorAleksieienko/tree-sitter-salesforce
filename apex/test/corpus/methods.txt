@@ -1,0 +1,134 @@
+==================
+Simple void method
+==================
+
+public class T {
+    public void doWork() {
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block)))))
+
+==================
+Method with parameters and return type
+==================
+
+public class T {
+    public Account getAccount(String name, Integer max) {
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (type_identifier
+          (identifier))
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier))
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier)))
+        body: (block)))))
+
+==================
+Abstract method
+==================
+
+public abstract class T {
+    public abstract void doWork();
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier)
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)))))
+
+==================
+Constructor
+==================
+
+public class T {
+    public T() {
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block)))))
+
+==================
+Property with getter/setter
+==================
+
+public class T {
+    public String Name { get; private set; }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (property_declaration
+        (modifiers
+          (modifier))
+        type: (type_identifier
+          (identifier))
+        name: (identifier)
+        (getter)
+        (setter
+          (modifiers
+            (modifier)))))))

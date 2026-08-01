@@ -116,6 +116,7 @@ module.exports = grammar({
     $._name,
     $._class_body_declaration,
     $._variable_initializer,
+    $.primary_expression,
   ],
 
   // ---------------------------------------------------------------------------
@@ -133,7 +134,16 @@ module.exports = grammar({
   // These tell tree-sitter that certain rule combinations are intentionally
   // ambiguous, and it should use GLR parsing to try all possibilities.
   // ---------------------------------------------------------------------------
-  conflicts: ($) => [],
+  conflicts: ($) => [
+    [$.type_identifier, $.expression],
+    [$.scoped_type_identifier, $.expression],
+    [$.generic_type, $.expression],
+    [$.type_identifier, $.scoped_type_identifier],
+    [$.type_identifier, $.generic_type],
+    [$.scoped_type_identifier, $.generic_type],
+    [$._type, $.generic_type],
+    [$.scoped_type_identifier],
+  ],
 
   // ---------------------------------------------------------------------------
   // RULES
@@ -223,11 +233,49 @@ module.exports = grammar({
      */
     _class_body_declaration: ($) => choice(
       $.field_declaration,
+      $.method_declaration,
+      $.constructor_declaration,
+      $.property_declaration,
       $.class_declaration,      // Inner classes
       $.interface_declaration,  // Inner interfaces
       $.enum_declaration,       // Inner enums
-      // Methods, constructors, properties added in Step 5
       ";",  // Empty statement (allowed in class body)
+    ),
+
+    // --- Method, Constructor, Property ---
+    method_declaration: ($) => seq(
+      optional($.modifiers),
+      field("type", $._type),
+      field("name", $.identifier),
+      field("parameters", $.formal_parameters),
+      choice(field("body", $.block), ";")  // abstract methods have no body
+    ),
+
+    constructor_declaration: ($) => seq(
+      optional($.modifiers),
+      field("name", $.identifier),
+      field("parameters", $.formal_parameters),
+      field("body", $.block)
+    ),
+
+    property_declaration: ($) => seq(
+      optional($.modifiers),
+      field("type", $._type),
+      field("name", $.identifier),
+      "{",
+      optional($.getter),
+      optional($.setter),
+      "}"
+    ),
+
+    getter: ($) => seq(optional($.modifiers), ci("get"), choice($.block, ";")),
+    setter: ($) => seq(optional($.modifiers), ci("set"), choice($.block, ";")),
+
+    formal_parameters: ($) => seq("(", optional(commaJoined1($.formal_parameter)), ")"),
+    formal_parameter: ($) => seq(
+      optional($.modifiers),
+      field("type", $._type),
+      field("name", $.identifier)
     ),
 
     // --- Interface Declaration ---
@@ -477,7 +525,130 @@ module.exports = grammar({
      */
     expression: ($) => choice(
       $.primary_expression,
-      // Binary, unary, ternary, assignment, etc. added in Steps 5-6
+      $.assignment_expression,
+      $.binary_expression,
+      $.unary_expression,
+      $.update_expression,
+      $.ternary_expression,
+      $.null_coalescing_expression,
+      $.cast_expression,
+      $.instanceof_expression,
+      $.new_expression,
+      $.method_invocation,
+      $.field_access,
+      $.array_access,
+      $.soql_expression,
+    ),
+
+    assignment_expression: ($) => prec.right(PREC.ASSIGN, seq(
+      field("left", $.expression),
+      choice("=", "+=", "-=", "*=", "/=", "%=", "&=", "^=", "|=", "<<=", ">>=", ">>>="),
+      field("right", $.expression)
+    )),
+
+    binary_expression: ($) => choice(
+      ...[
+        ["||", PREC.OR],
+        ["&&", PREC.AND],
+        ["|", PREC.BIT_OR],
+        ["^", PREC.BIT_XOR],
+        ["&", PREC.BIT_AND],
+        ["==", PREC.EQUALITY],
+        ["!=", PREC.EQUALITY],
+        ["<>", PREC.EQUALITY],
+        ["===", PREC.EQUALITY],
+        ["!==", PREC.EQUALITY],
+        ["<", PREC.REL],
+        ["<=", PREC.REL],
+        [">", PREC.REL],
+        [">=", PREC.REL],
+        ["<<", PREC.SHIFT],
+        [">>", PREC.SHIFT],
+        [">>>", PREC.SHIFT],
+        ["+", PREC.ADD],
+        ["-", PREC.ADD],
+        ["*", PREC.MULT],
+        ["/", PREC.MULT],
+        ["%", PREC.MULT],
+      ].map(([operator, precedence]) =>
+        prec.left(precedence, seq(
+          field("left", $.expression),
+          operator,
+          field("right", $.expression)
+        ))
+      )
+    ),
+
+    unary_expression: ($) => prec.left(PREC.UNARY, seq(
+      choice("+", "-", "!", "~"),
+      $.expression
+    )),
+
+    update_expression: ($) => prec.left(PREC.UNARY, choice(
+      seq(choice("++", "--"), $.expression),
+      seq($.expression, choice("++", "--"))
+    )),
+
+    ternary_expression: ($) => prec.right(PREC.TERNARY, seq(
+      field("condition", $.expression),
+      "?",
+      field("consequence", $.expression),
+      ":",
+      field("alternative", $.expression)
+    )),
+
+    null_coalescing_expression: ($) => prec.right(PREC.NULL_COALESCE, seq(
+      field("left", $.expression),
+      "??",
+      field("right", $.expression)
+    )),
+
+    cast_expression: ($) => prec.right(PREC.CAST, seq(
+      "(", field("type", $._type), ")", field("value", $.expression)
+    )),
+
+    instanceof_expression: ($) => prec.left(PREC.REL, seq(
+      field("left", $.expression),
+      ci("instanceof"),
+      field("right", $._type)
+    )),
+
+    new_expression: ($) => prec.right(PREC.OBJ_INST, seq(
+      ci("new"),
+      field("type", $._type),
+      choice(
+        field("arguments", $.argument_list),
+        $.array_initializer
+      )
+    )),
+
+    argument_list: ($) => seq("(", optional(commaJoined1($.expression)), ")"),
+    
+    array_initializer: ($) => seq("{", optional(commaJoined1($.expression)), "}"),
+
+    method_invocation: ($) => prec.left(PREC.OBJ_ACCESS, seq(
+      optional(seq(field("object", $.expression), choice(".", "?."))),
+      field("name", $.identifier),
+      field("arguments", $.argument_list)
+    )),
+
+    field_access: ($) => prec.left(PREC.OBJ_ACCESS, seq(
+      field("object", $.expression),
+      choice(".", "?."),
+      field("field", $.identifier)
+    )),
+
+    array_access: ($) => prec.left(PREC.ARRAY, seq(
+      field("array", $.expression),
+      "[",
+      field("index", $.expression),
+      "]"
+    )),
+
+    soql_expression: ($) => seq(
+      "[",
+      /[^\]]*/,
+      "]"
     ),
 
     /**
@@ -526,9 +697,111 @@ module.exports = grammar({
       $.expression_statement,
       $.block,
       $.local_variable_declaration,
+      $.if_statement,
+      $.for_statement,
+      $.enhanced_for_statement,
+      $.while_statement,
+      $.do_while_statement,
+      $.switch_statement,
+      $.try_statement,
+      $.return_statement,
+      $.break_statement,
+      $.continue_statement,
+      $.throw_statement,
+      $.dml_statement,
     ),
 
-    expression_statement: ($) => seq($.expression, ";"),
+    if_statement: ($) => prec.right(seq(
+      ci("if"), "(", field("condition", $.expression), ")",
+      field("consequence", $.statement),
+      optional(seq(ci("else"), field("alternative", $.statement)))
+    )),
+
+    for_statement: ($) => seq(
+      ci("for"), "(",
+      field("init", choice($.local_variable_declaration, seq(optional(commaJoined1($.expression)), ";"))),
+      field("condition", optional($.expression)), ";",
+      field("update", optional(commaJoined1($.expression))),
+      ")",
+      field("body", $.statement)
+    ),
+
+    enhanced_for_statement: ($) => seq(
+      ci("for"), "(",
+      field("type", $._type),
+      field("name", $.identifier),
+      ":",
+      field("value", $.expression),
+      ")",
+      field("body", $.statement)
+    ),
+
+    while_statement: ($) => seq(
+      ci("while"), "(", field("condition", $.expression), ")",
+      field("body", $.statement)
+    ),
+
+    do_while_statement: ($) => seq(
+      ci("do"), field("body", $.statement),
+      ci("while"), "(", field("condition", $.expression), ")", ";"
+    ),
+
+    switch_statement: ($) => seq(
+      ci("switch on"), field("condition", $.expression), "{",
+      repeat($.when_clause),
+      optional($.when_else_clause),
+      "}"
+    ),
+    
+    when_clause: ($) => seq(
+      ci("when"), 
+      choice(
+        commaJoined1($.expression),
+        seq(field("type", $._type), field("name", $.identifier))
+      ),
+      field("body", $.block)
+    ),
+    
+    when_else_clause: ($) => seq(
+      ci("when else"), field("body", $.block)
+    ),
+
+    try_statement: ($) => seq(
+      ci("try"), field("body", $.block),
+      repeat($.catch_clause),
+      optional($.finally_clause)
+    ),
+
+    catch_clause: ($) => seq(
+      ci("catch"), "(", $.catch_formal_parameter, ")", field("body", $.block)
+    ),
+
+    catch_formal_parameter: ($) => seq(
+      optional($.modifiers), field("type", $._type), field("name", $.identifier)
+    ),
+
+    finally_clause: ($) => seq(ci("finally"), field("body", $.block)),
+
+    return_statement: ($) => seq(ci("return"), optional($.expression), ";"),
+    throw_statement: ($) => seq(ci("throw"), $.expression, ";"),
+    break_statement: ($) => seq(ci("break"), ";"),
+    continue_statement: ($) => seq(ci("continue"), ";"),
+
+    dml_statement: ($) => seq($.dml_type, $.expression, optional($.expression), ";"),
+    dml_type: ($) => choice(
+      ci("insert"), ci("update"), ci("upsert"),
+      ci("delete"), ci("undelete"), ci("merge")
+    ),
+
+    expression_statement: ($) => seq(
+      choice(
+        $.assignment_expression,
+        $.update_expression,
+        $.method_invocation,
+        $.new_expression
+      ),
+      ";"
+    ),
 
     block: ($) => seq("{", repeat($.statement), "}"),
 

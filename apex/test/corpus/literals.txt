@@ -19,8 +19,7 @@ public class T {
           (identifier))
         (variable_declarator
           name: (identifier)
-          value: (primary_expression
-            (string_literal)))))))
+          value: (string_literal))))))
 
 ==================
 Integer literal
@@ -43,8 +42,7 @@ public class T {
           (identifier))
         (variable_declarator
           name: (identifier)
-          value: (primary_expression
-            (int)))))))
+          value: (int))))))
 
 ==================
 Boolean literals
@@ -68,15 +66,13 @@ public class T {
           (identifier))
         (variable_declarator
           name: (identifier)
-          value: (primary_expression
-            (boolean))))
+          value: (boolean)))
       (field_declaration
         type: (type_identifier
           (identifier))
         (variable_declarator
           name: (identifier)
-          value: (primary_expression
-            (boolean)))))))
+          value: (boolean))))))
 
 ==================
 Null literal
@@ -99,5 +95,4 @@ public class T {
           (identifier))
         (variable_declarator
           name: (identifier)
-          value: (primary_expression
-            (null_literal)))))))
+          value: (null_literal))))))

@@ -240,8 +240,7 @@ public class MyClass {
           (identifier))
         (variable_declarator
           name: (identifier)
-          value: (primary_expression
-            (int))))
+          value: (int)))
       (field_declaration
         (modifiers
           (modifier)
@@ -250,8 +249,7 @@ public class MyClass {
           (identifier))
         (variable_declarator
           name: (identifier)
-          value: (primary_expression
-            (boolean)))))))
+          value: (boolean))))))
 
 ==================
 Inherited sharing class
