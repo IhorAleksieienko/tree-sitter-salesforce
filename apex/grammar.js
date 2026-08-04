@@ -710,7 +710,7 @@ module.exports = grammar({
     ),
 
     string_literal: ($) => /'(\\[nNrRtTbBfFuU"'_%\\]|[^\\'])*'/,
-    int: ($) => token(joined(/_+/, /[0-9]+/)),
+    int: ($) => token(/[0-9]+(_[0-9]+)*/),
     decimal: ($) => /\d+\.\d+/,
     boolean: ($) => choice(ci("true"), ci("false")),
     null_literal: ($) => ci("null"),
