@@ -17,46 +17,46 @@ organized by the API version that introduced each feature.
 
 | Feature | API Version | Parser Status | Notes |
 |---|---|---|---|
-| Classes and Interfaces | v7+ | 🔲 Planned | |
-| Enums | v7+ | 🔲 Planned | |
-| Triggers | v7+ | 🔲 Planned | |
-| Try/Catch/Finally | v7+ | 🔲 Planned | |
-| DML Statements (insert, update, delete, upsert, undelete, merge) | v7+ | 🔲 Planned | |
-| SOQL For Loops | v7+ | 🔲 Planned | |
-| Static Methods/Variables | v7+ | 🔲 Planned | |
-| Access Modifiers (public, private, protected, global) | v7+ | 🔲 Planned | |
-| Sharing Keywords (with sharing, without sharing) | v7+ | 🔲 Planned | |
-| Collections (List, Set, Map) | v7+ | 🔲 Planned | |
-| Enhanced For Loops | v20+ | 🔲 Planned | |
-| Annotations (@IsTest, @Future, etc.) | v24+ | 🔲 Planned | |
+| Classes and Interfaces | v7+ | ✅ Implemented | |
+| Enums | v7+ | ✅ Implemented | |
+| Triggers | v7+ | ✅ Implemented | |
+| Try/Catch/Finally | v7+ | ✅ Implemented | |
+| DML Statements (insert, update, delete, upsert, undelete, merge) | v7+ | ✅ Implemented | |
+| SOQL For Loops | v7+ | ✅ Implemented | |
+| Static Methods/Variables | v7+ | ✅ Implemented | |
+| Access Modifiers (public, private, protected, global) | v7+ | ✅ Implemented | |
+| Sharing Keywords (with sharing, without sharing) | v7+ | ✅ Implemented | |
+| Collections (List, Set, Map) | v7+ | ✅ Implemented | |
+| Enhanced For Loops | v20+ | ✅ Implemented | |
+| Annotations (@IsTest, @Future, etc.) | v24+ | ✅ Implemented | |
 
 ### Modern Features
 
 | Feature | API Version | Parser Status | Notes |
 |---|---|---|---|
-| Switch/When Statements | v43 (Summer '18) | 🔲 Planned | |
-| @InvocableMethod / @InvocableVariable | v31+ | 🔲 Planned | |
-| inherited sharing | v44 (Winter '19) | 🔲 Planned | |
-| @SuppressWarnings | v36+ | 🔲 Planned | |
-| Safe Navigation Operator `?.` | v50 (Spring '21) | 🔲 Planned | |
-| Null Coalescing Operator `??` | v59 (Winter '24) | 🔲 Planned | |
+| Switch/When Statements | v43 (Summer '18) | ✅ Implemented | |
+| @InvocableMethod / @InvocableVariable | v31+ | ✅ Implemented | |
+| inherited sharing | v44 (Winter '19) | ✅ Implemented | |
+| @SuppressWarnings | v36+ | ✅ Implemented | |
+| Safe Navigation Operator `?.` | v50 (Spring '21) | ✅ Implemented | |
+| Null Coalescing Operator `??` | v59 (Winter '24) | ✅ Implemented | |
 
 ## SOQL Features
 
 | Feature | Parser Status | Notes |
 |---|---|---|
-| SELECT, FROM, WHERE | 🔲 Planned | |
-| Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) | 🔲 Planned | |
-| GROUP BY, HAVING | 🔲 Planned | |
-| ORDER BY, LIMIT, OFFSET | 🔲 Planned | |
-| Relationship Queries (Parent.Field) | 🔲 Planned | |
-| Child Subqueries | 🔲 Planned | |
-| TYPEOF (Polymorphic Relationships) | 🔲 Planned | |
-| Date Literals (YESTERDAY, LAST_N_DAYS:n, etc.) | 🔲 Planned | |
-| Bind Variables (:apexVariable) | 🔲 Planned | |
-| FOR UPDATE / FOR REFERENCE / FOR VIEW | 🔲 Planned | |
-| WITH USER_MODE / WITH SYSTEM_MODE | 🔲 Planned | |
-| WITH SECURITY_ENFORCED | 🔲 Planned | |
+| SELECT, FROM, WHERE | ✅ Implemented | |
+| Aggregate Functions (COUNT, SUM, AVG, MIN, MAX) | ✅ Implemented | |
+| GROUP BY, HAVING | ✅ Implemented | |
+| ORDER BY, LIMIT, OFFSET | ✅ Implemented | |
+| Relationship Queries (Parent.Field) | ✅ Implemented | |
+| Child Subqueries | ✅ Implemented | |
+| TYPEOF (Polymorphic Relationships) | ✅ Implemented | |
+| Date Literals (YESTERDAY, LAST_N_DAYS:n, etc.) | ✅ Implemented | |
+| Bind Variables (:apexVariable) | ✅ Implemented | |
+| FOR UPDATE / FOR REFERENCE / FOR VIEW | ✅ Implemented | |
+| WITH USER_MODE / WITH SYSTEM_MODE | ✅ Implemented | |
+| WITH SECURITY_ENFORCED | ✅ Implemented | |
 
 ## Backward Compatibility
 

@@ -1,11 +1,10 @@
 # tree-sitter-salesforce
 
-> 🚧 **Under Construction** — This project is in active development.
+Tree-sitter grammars for Salesforce languages — **Apex** and **SOQL**.
 
-Tree-sitter grammars for Salesforce languages, including:
+> Providing fast, incremental, error-tolerant parsing for Salesforce development tools.
 
-- **Apex** — The server-side programming language for the Salesforce platform
-- **SOQL** — Salesforce Object Query Language
+## Features
 
 - 🚀 **Production-quality** Apex parser targeting Salesforce API v67 (Summer '25), ensuring compatibility with the latest platform features.
 - 🔍 **SOQL parser** with full query syntax support to accurately analyze database operations.
@@ -14,15 +13,88 @@ Tree-sitter grammars for Salesforce languages, including:
 - 📚 **Educational** — Every grammar rule is documented with comments explaining *why* it exists, helping junior developers and open-source contributors understand the underlying parsing logic.
 - 🧩 **Extensible** — Mono-repo architecture ready for SOSL, Anonymous Apex, and more, providing a unified foundation for all Salesforce language tooling.
 
-| Parser | Grammar | Tests | Highlights | Injections |
-|---|---|---|---|---|
-| Apex | 🔲 Planned | 🔲 | 🔲 | 🔲 |
-| SOQL | 🔲 Planned | 🔲 | 🔲 | — |
+## Quick Start
+
+### Node.js
+
+```sh
+npm install tree-sitter tree-sitter-salesforce
+```
+
+```javascript
+const Parser = require('tree-sitter');
+const Salesforce = require('tree-sitter-salesforce');
+
+const parser = new Parser();
+parser.setLanguage(Salesforce.apex);
+
+const tree = parser.parse(`
+  public with sharing class AccountService {
+      public List<Account> getAccounts() {
+          return [SELECT Id, Name FROM Account];
+      }
+  }
+`);
+
+console.log(tree.rootNode.toString());
+```
+
+### Python
+
+```sh
+pip install tree-sitter-salesforce
+```
+
+```python
+import tree_sitter_salesforce as tss
+from tree_sitter import Language, Parser
+
+parser = Parser()
+parser.language = Language(tss.apex())
+tree = parser.parse(b"public class T { }")
+print(tree.root_node.sexp())
+```
+
+## Parser Status
+
+| Parser | Grammar | Tests | Highlights | Injection | Tags |
+|---|---|---|---|---|---|
+| **Apex** | ✅ | ✅ | ✅ | ✅ SOQL | ✅ |
+| **SOQL** | ✅ | ✅ | ✅ | — | — |
 
 ## Salesforce API Version
 
-This parser targets **Salesforce API v67 (Summer '25)**.
-See [SALESFORCE_API.md](SALESFORCE_API.md) for the full compatibility matrix.
+Targets **API v67 (Summer '25)**. See [SALESFORCE_API.md](SALESFORCE_API.md).
+
+## Dynamic SOQL Support
+
+| Scenario | Support Level |
+|---|---|
+| Inline `[SELECT ...]` | ✅ Full SOQL parsing |
+| `Database.query('SELECT ...')` | ✅ SOQL parsing in string |
+| Concatenated query strings | ⚠️ Structural recognition |
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
+
+## Roadmap
+
+| Language | Status |
+|---|---|
+| SOSL | 🔲 Planned |
+| Anonymous Apex | 🔲 Planned |
+| SFLog | 🔲 Future |
+
+## Documentation
+
+- [How Tree-Sitter Works](docs/00-how-tree-sitter-works.md)
+- [Grammar DSL Cheatsheet](docs/02-grammar-dsl-cheatsheet.md)
+- [Adding a New Language](docs/05-adding-new-language.md)
+- [Testing Guide](docs/06-testing-guide.md)
+- [Architecture](ARCHITECTURE.md)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

@@ -41,9 +41,9 @@
     "build-generate": "npm run build-soql && npm run build-apex",
     "build-apex": "cd apex && npx tree-sitter generate",
     "build-soql": "cd soql && npx tree-sitter generate",
-    "test": "npm run test-soql && npm run test-apex",
-    "test-apex": "cd apex && npx tree-sitter test",
-    "test-soql": "cd soql && npx tree-sitter test",
+    "test": "npx tree-sitter test",
+    "test-apex": "npx tree-sitter test apex",
+    "test-soql": "npx tree-sitter test soql",
     "install": "node-gyp-build"
   },
   "files": [
