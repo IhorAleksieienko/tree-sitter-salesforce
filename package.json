@@ -1,0 +1,61 @@
+{
+  "name": "tree-sitter-salesforce",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammars for Salesforce languages: Apex, SOQL, and more",
+  "homepage": "https://github.com/ia/tree-sitter-salesforce",
+  "license": "MIT",
+  "author": {
+    "name": "Ihor A."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ia/tree-sitter-salesforce.git"
+  },
+  "keywords": [
+    "tree-sitter",
+    "parser",
+    "salesforce",
+    "apex",
+    "soql",
+    "incremental",
+    "parsing"
+  ],
+  "dependencies": {
+    "node-addon-api": "^8.7.0",
+    "node-gyp-build": "^4.8.0"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.22.4"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.25.0"
+  },
+  "main": "bindings/node",
+  "scripts": {
+    "build": "npm run build-generate",
+    "build-generate": "npm run build-soql && npm run build-apex",
+    "build-apex": "cd apex && npx tree-sitter generate",
+    "build-soql": "cd soql && npx tree-sitter generate",
+    "test": "npm run test-soql && npm run test-apex",
+    "test-apex": "cd apex && npx tree-sitter test",
+    "test-soql": "cd soql && npx tree-sitter test",
+    "install": "node-gyp-build"
+  },
+  "files": [
+    "*/queries/*",
+    "*/src/grammar.json",
+    "*/src/node-types.json",
+    "*/src/parser.c",
+    "*/src/tree_sitter/parser.h",
+    "bindings/node/*.js",
+    "bindings/node/*.ts",
+    "bindings/node/binding.cc",
+    "binding.gyp",
+    "prebuilds/**"
+  ]
+}

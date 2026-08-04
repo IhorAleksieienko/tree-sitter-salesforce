@@ -1,0 +1,58 @@
+# ============================================================================
+# tree-sitter-salesforce .gitignore
+# ============================================================================
+# This file tells Git which files to ignore (not track in version control).
+# Generated files, dependencies, and build artifacts should NOT be committed.
+# ============================================================================
+
+# --- Node.js Dependencies ---
+# The node_modules/ directory contains ALL npm packages installed by
+# `npm install`. It can be hundreds of MB and is always recreatable from
+# package.json + package-lock.json. NEVER commit this.
+node_modules/
+
+# --- Build Artifacts ---
+# When tree-sitter compiles parsers for testing, it creates shared libraries
+# in a build/ directory. These are platform-specific binaries.
+build/
+
+# --- Tree-sitter Generated Files ---
+# The `tree-sitter generate` command creates these files in each parser's
+# src/ directory. They are auto-generated from grammar.js and should not
+# be manually edited. However, they ARE typically committed to the repo
+# because consumers need them (they won't have tree-sitter-cli installed).
+# We comment these out intentionally — we WANT to commit generated parser files.
+# !apex/src/parser.c
+# !apex/src/grammar.json
+# !apex/src/node-types.json
+# !soql/src/parser.c
+
+# --- WASM Build Outputs ---
+# Generated WASM files for web bindings. Large binary files.
+*.wasm
+
+# --- OS-Specific Files ---
+# macOS creates .DS_Store in every directory you open in Finder
+.DS_Store
+# Windows creates Thumbs.db for image thumbnails
+Thumbs.db
+# Windows desktop.ini files
+desktop.ini
+
+# --- Editor/IDE Files ---
+# VS Code settings (each developer has their own preferences)
+.vscode/
+# JetBrains IDEs (IntelliJ, WebStorm, etc.)
+.idea/
+# Vim swap files
+*.swp
+*.swo
+*~
+
+# --- Logs ---
+*.log
+npm-debug.log*
+
+# --- Prebuilt Binaries ---
+# Platform-specific prebuilt native bindings
+prebuilds/

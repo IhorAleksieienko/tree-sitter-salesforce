@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammars for Salesforce's Apex and SOQL languages",
+    "authors": [
+      {
+        "name": "Ihor A."
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/ia/tree-sitter-salesforce.git"
+    }
+  },
+  "grammars": [
+    {
+      "name": "apex",
+      "camelcase": "Apex",
+      "scope": "source.apex",
+      "path": "apex",
+      "file-types": ["cls", "trigger", "apex"],
+      "highlights": [
+        "apex/queries/highlights.scm"
+      ],
+      "injections": [
+        "apex/queries/injections.scm"
+      ],
+      "locals": [
+        "apex/queries/locals.scm"
+      ],
+      "tags": [
+        "apex/queries/tags.scm"
+      ]
+    },
+    {
+      "name": "soql",
+      "camelcase": "Soql",
+      "scope": "source.soql",
+      "path": "soql",
+      "file-types": ["soql"],
+      "highlights": [
+        "soql/queries/highlights-distinct.scm",
+        "soql/queries/highlights.scm"
+      ]
+    }
+  ],
+  "bindings": {
+    "c": false,
+    "go": false,
+    "java": false,
+    "kotlin": false,
+    "node": true,
+    "python": true,
+    "rust": false,
+    "swift": false
+  }
+}
