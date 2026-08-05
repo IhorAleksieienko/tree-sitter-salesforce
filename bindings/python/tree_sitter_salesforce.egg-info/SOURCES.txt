@@ -1,0 +1,13 @@
+LICENSE
+NOTICE
+README.md
+pyproject.toml
+bindings/python/tree_sitter_salesforce.egg-info/PKG-INFO
+bindings/python/tree_sitter_salesforce.egg-info/SOURCES.txt
+bindings/python/tree_sitter_salesforce.egg-info/dependency_links.txt
+bindings/python/tree_sitter_salesforce.egg-info/top_level.txt
+bindings/python/tree_sitter_salesforce/__init__.py
+bindings/python/tree_sitter_salesforce.egg-info/PKG-INFO
+bindings/python/tree_sitter_salesforce.egg-info/SOURCES.txt
+bindings/python/tree_sitter_salesforce.egg-info/dependency_links.txt
+bindings/python/tree_sitter_salesforce.egg-info/top_level.txt

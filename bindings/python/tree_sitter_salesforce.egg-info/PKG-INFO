@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: tree-sitter-salesforce
+Version: 0.1.0
+Summary: Salesforce Apex and SOQL grammars for tree-sitter
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Compilers
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+License-File: LICENSE
+License-File: NOTICE
+Dynamic: license-file
