@@ -84,5 +84,13 @@ Update the Node.js, Python, and WASM bindings to export your new parser.
 3. **Node (`bindings/node/index.js` & `index.d.ts`)**: Export the new parser.
 4. **Python (`bindings/python/tree_sitter_salesforce/__init__.py`)**: Add a new function returning `Language(_SHARED_LIB, "new_language")`.
 
-## 7. Documentation
-Update the root `README.md` and `ARCHITECTURE.md` to reflect the new addition!
+## 7. Documentation & Case Studies
+Update the root `README.md`, `ARCHITECTURE.md`, and `SALESFORCE_API.md` to reflect the new addition.
+
+### Case Study: `tree-sitter-sflog` (Salesforce Debug Logs)
+The `sflog` parser (`sflog/`) is an example of introducing a specialized, domain-specific execution trace grammar into the multi-grammar monorepo. It showcases:
+- Parsing structured, line-oriented execution traces without requiring nested blocks.
+- Specialized event payloads for `USER_DEBUG`, `SOQL_EXECUTE_BEGIN`/`END`, `DML_BEGIN`/`END`, `METHOD_ENTRY`/`EXIT`, etc., with clean fallback to `generic_event`.
+- Structured governor limit metric tables (`limit_usage_section`, `limit_usage_for_ns`, `limit_metric_line`).
+- Full cross-language bindings across Node.js (`tree-sitter-salesforce/sflog`), Python (`tss.sflog()`), and WebAssembly (`tree-sitter-sflog.wasm`).
+

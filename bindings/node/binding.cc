@@ -32,6 +32,8 @@ extern "C" {
   const void *tree_sitter_sosl();
   // Defined in formula/src/parser.c
   const void *tree_sitter_formula();
+  // Defined in sflog/src/parser.c
+  const void *tree_sitter_sflog();
 }
 
 /**
@@ -108,6 +110,19 @@ Napi::Value FormulaLanguage(const Napi::CallbackInfo &info) {
 }
 
 /**
+ * Returns the Salesforce Debug Log parser's Language pointer as a JavaScript external value.
+ */
+Napi::Value SflogLanguage(const Napi::CallbackInfo &info) {
+  auto env = info.Env();
+  auto language = Napi::External<void>::New(env,
+    const_cast<void *>(tree_sitter_sflog()));
+  auto languageObject = Napi::Object::New(env);
+  languageObject.Set("name", Napi::String::New(env, "sflog"));
+  languageObject.Set("language", language);
+  return languageObject;
+}
+
+/**
  * Module initialization — registers all parser functions.
  * When Node.js loads this native module, this function is called once.
  */
@@ -119,6 +134,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("soql", Napi::Function::New(env, SoqlLanguage));
   exports.Set("sosl", Napi::Function::New(env, SoslLanguage));
   exports.Set("formula", Napi::Function::New(env, FormulaLanguage));
+  exports.Set("sflog", Napi::Function::New(env, SflogLanguage));
   return exports;
 }
 

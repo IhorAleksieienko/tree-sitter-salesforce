@@ -142,6 +142,21 @@ organized by the API version that introduced each feature.
 | Scientific Notation Decimals (`1.2e-5`) | v7+ | ✅ Implemented | `scientific_decimal` node |
 | Class Reflection Literals (`Account.class`, `void.class`) | v7+ | ✅ Implemented | `class_literal` node with `type` field |
 
+## Salesforce Debug Log Features (`sflog`)
+
+| Feature | API Version | Parser Status | Notes |
+|---|---|---|---|
+| Log Headers & Filters | v7+ | ✅ Implemented | `log_header` with `api_version` and `category_filter` category/level pairs |
+| Timestamped Events | v7+ | ✅ Implemented | `event_line` with `timestamp`, `nanoseconds`, and event payloads |
+| Execution Traces | v7+ | ✅ Implemented | `EXECUTION_STARTED`, `EXECUTION_FINISHED`, `CODE_UNIT_STARTED`, `CODE_UNIT_FINISHED` |
+| Method Traces | v7+ | ✅ Implemented | `METHOD_ENTRY`, `METHOD_EXIT`, `CONSTRUCTOR_ENTRY`, `CONSTRUCTOR_EXIT` |
+| Debug Statements | v7+ | ✅ Implemented | `USER_DEBUG` exposing `line`, `level`, and `message` fields |
+| Database & SOQL/DML Traces | v7+ | ✅ Implemented | `SOQL_EXECUTE_BEGIN`/`END`, `DML_BEGIN`/`END` with line, op, type, aggregations, and query |
+| Variable Traces | v7+ | ✅ Implemented | `VARIABLE_SCOPE_BEGIN`, `VARIABLE_ASSIGNMENT` with name, type, values, and addresses |
+| Exception & Fatal Errors | v7+ | ✅ Implemented | `EXCEPTION_THROWN`, `FATAL_ERROR`, and multi-line stack trace lines |
+| Cumulative Governor Limits | v7+ | ✅ Implemented | `limit_usage_section` with per-namespace `limit_usage_for_ns` blocks and `limit_metric_line` metrics |
+
+
 ## Backward Compatibility
 
 This parser will successfully parse code written for **ANY** Salesforce API

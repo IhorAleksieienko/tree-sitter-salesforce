@@ -10,7 +10,8 @@
         "apex-anon/src",
         "soql/src",
         "sosl/src",
-        "formula/src"
+        "formula/src",
+        "sflog/src"
       ],
       "sources": [
         "bindings/node/binding.cc",
@@ -18,7 +19,8 @@
         "apex-anon/src/parser.c",
         "soql/src/parser.c",
         "sosl/src/parser.c",
-        "formula/src/parser.c"
+        "formula/src/parser.c",
+        "sflog/src/parser.c"
       ],
       "conditions": [
         ["OS!='win'", {

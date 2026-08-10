@@ -1,0 +1,1357 @@
+[
+  {
+    "type": "boolean_flag",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "category_filter",
+    "named": true,
+    "fields": {
+      "category": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "category_identifier",
+            "named": true
+          }
+        ]
+      },
+      "level": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "log_level",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "code_unit_description",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "code_unit_finished_event",
+    "named": true,
+    "fields": {
+      "description": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "code_unit_description",
+            "named": true
+          }
+        ]
+      },
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CODE_UNIT_FINISHED",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "code_unit_started_event",
+    "named": true,
+    "fields": {
+      "description": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "code_unit_description",
+            "named": true
+          }
+        ]
+      },
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CODE_UNIT_STARTED",
+            "named": false
+          }
+        ]
+      },
+      "frame": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "frame_identifier",
+            "named": true
+          },
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "id": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "id_or_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "dml_begin_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "DML_BEGIN",
+            "named": false
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "operation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dml_operation",
+            "named": true
+          }
+        ]
+      },
+      "rows": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "rows_count",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "dml_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "dml_end_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "DML_END",
+            "named": false
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "event_line",
+    "named": true,
+    "fields": {
+      "nanoseconds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "nanoseconds",
+            "named": true
+          }
+        ]
+      },
+      "timestamp": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "timestamp",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "code_unit_finished_event",
+          "named": true
+        },
+        {
+          "type": "code_unit_started_event",
+          "named": true
+        },
+        {
+          "type": "dml_begin_event",
+          "named": true
+        },
+        {
+          "type": "dml_end_event",
+          "named": true
+        },
+        {
+          "type": "exception_thrown_event",
+          "named": true
+        },
+        {
+          "type": "fatal_error_event",
+          "named": true
+        },
+        {
+          "type": "generic_event",
+          "named": true
+        },
+        {
+          "type": "method_entry_event",
+          "named": true
+        },
+        {
+          "type": "method_exit_event",
+          "named": true
+        },
+        {
+          "type": "soql_begin_event",
+          "named": true
+        },
+        {
+          "type": "soql_end_event",
+          "named": true
+        },
+        {
+          "type": "user_debug_event",
+          "named": true
+        },
+        {
+          "type": "user_info_event",
+          "named": true
+        },
+        {
+          "type": "variable_assignment_event",
+          "named": true
+        },
+        {
+          "type": "variable_scope_event",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exception_message",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "exception_thrown_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "EXCEPTION_THROWN",
+            "named": false
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "message": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "exception_message",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "fatal_error_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "FATAL_ERROR",
+            "named": false
+          }
+        ]
+      },
+      "message": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "exception_message",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "generic_details",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "generic_event",
+    "named": true,
+    "fields": {
+      "details": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "generic_details",
+            "named": true
+          }
+        ]
+      },
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "event_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "gmt_offset",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "limit_metric_line",
+    "named": true,
+    "fields": {
+      "max": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "limit_name",
+            "named": true
+          }
+        ]
+      },
+      "notes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "limit_notes",
+            "named": true
+          }
+        ]
+      },
+      "used": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "limit_usage_end_line",
+    "named": true,
+    "fields": {
+      "nanoseconds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "nanoseconds",
+            "named": true
+          }
+        ]
+      },
+      "timestamp": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "timestamp",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "limit_usage_for_ns_block",
+    "named": true,
+    "fields": {
+      "header": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "limit_usage_ns_header_line",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "limit_metric_line",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "limit_usage_ns_header_line",
+    "named": true,
+    "fields": {
+      "namespace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "default_namespace",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "nanoseconds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "nanoseconds",
+            "named": true
+          }
+        ]
+      },
+      "timestamp": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "timestamp",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "limit_usage_section",
+    "named": true,
+    "fields": {
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "limit_usage_end_line",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "limit_usage_start_line",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "limit_metric_line",
+          "named": true
+        },
+        {
+          "type": "limit_usage_for_ns_block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "limit_usage_start_line",
+    "named": true,
+    "fields": {
+      "nanoseconds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "nanoseconds",
+            "named": true
+          }
+        ]
+      },
+      "timestamp": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "timestamp",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "log_header",
+    "named": true,
+    "fields": {
+      "version": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "api_version",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "category_filter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "log_level",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "method_entry_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CONSTRUCTOR_ENTRY",
+            "named": false
+          },
+          {
+            "type": "METHOD_ENTRY",
+            "named": false
+          },
+          {
+            "type": "SYSTEM_CONSTRUCTOR_ENTRY",
+            "named": false
+          },
+          {
+            "type": "SYSTEM_METHOD_ENTRY",
+            "named": false
+          }
+        ]
+      },
+      "id": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "id_or_type",
+            "named": true
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "frame_identifier",
+            "named": true
+          },
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "method_signature",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "method_exit_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CONSTRUCTOR_EXIT",
+            "named": false
+          },
+          {
+            "type": "METHOD_EXIT",
+            "named": false
+          },
+          {
+            "type": "SYSTEM_CONSTRUCTOR_EXIT",
+            "named": false
+          },
+          {
+            "type": "SYSTEM_METHOD_EXIT",
+            "named": false
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "frame_identifier",
+            "named": true
+          },
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "signature": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "method_signature",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "method_signature",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "soql_begin_event",
+    "named": true,
+    "fields": {
+      "aggregations": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "aggregations",
+            "named": true
+          }
+        ]
+      },
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SOQL_EXECUTE_BEGIN",
+            "named": false
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "query": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "soql_query",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "soql_end_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SOQL_EXECUTE_END",
+            "named": false
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "rows": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "rows_count",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "soql_query",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "event_line",
+          "named": true
+        },
+        {
+          "type": "limit_usage_section",
+          "named": true
+        },
+        {
+          "type": "log_header",
+          "named": true
+        },
+        {
+          "type": "raw_line",
+          "named": true
+        },
+        {
+          "type": "stack_trace_line",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "timezone",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "user_debug_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "USER_DEBUG",
+            "named": false
+          }
+        ]
+      },
+      "level": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "log_level",
+            "named": true
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "message": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "debug_message",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "user_info_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "USER_INFO",
+            "named": false
+          }
+        ]
+      },
+      "frame": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "frame_identifier",
+            "named": true
+          },
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "gmt_offset": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "gmt_offset",
+            "named": true
+          }
+        ]
+      },
+      "timezone": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "timezone",
+            "named": true
+          }
+        ]
+      },
+      "user_id": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "id_or_type",
+            "named": true
+          }
+        ]
+      },
+      "username": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "username",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "username",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "variable_assignment_event",
+    "named": true,
+    "fields": {
+      "address": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "memory_address",
+            "named": true
+          }
+        ]
+      },
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "VARIABLE_ASSIGNMENT",
+            "named": false
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "variable_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "variable_scope_event",
+    "named": true,
+    "fields": {
+      "event_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "VARIABLE_SCOPE_BEGIN",
+            "named": false
+          }
+        ]
+      },
+      "is_input": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean_flag",
+            "named": true
+          }
+        ]
+      },
+      "is_static": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean_flag",
+            "named": true
+          }
+        ]
+      },
+      "line": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "line_reference",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "variable_value",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "CODE_UNIT_FINISHED",
+    "named": false
+  },
+  {
+    "type": "CODE_UNIT_STARTED",
+    "named": false
+  },
+  {
+    "type": "CONSTRUCTOR_ENTRY",
+    "named": false
+  },
+  {
+    "type": "CONSTRUCTOR_EXIT",
+    "named": false
+  },
+  {
+    "type": "CUMULATIVE_LIMIT_USAGE",
+    "named": false
+  },
+  {
+    "type": "CUMULATIVE_LIMIT_USAGE_END",
+    "named": false
+  },
+  {
+    "type": "DEBUG",
+    "named": false
+  },
+  {
+    "type": "DML_BEGIN",
+    "named": false
+  },
+  {
+    "type": "DML_END",
+    "named": false
+  },
+  {
+    "type": "ERROR",
+    "named": false
+  },
+  {
+    "type": "EXCEPTION_THROWN",
+    "named": false
+  },
+  {
+    "type": "FATAL_ERROR",
+    "named": false
+  },
+  {
+    "type": "FINE",
+    "named": false
+  },
+  {
+    "type": "FINER",
+    "named": false
+  },
+  {
+    "type": "FINEST",
+    "named": false
+  },
+  {
+    "type": "INFO",
+    "named": false
+  },
+  {
+    "type": "LIMIT_USAGE_FOR_NS",
+    "named": false
+  },
+  {
+    "type": "METHOD_ENTRY",
+    "named": false
+  },
+  {
+    "type": "METHOD_EXIT",
+    "named": false
+  },
+  {
+    "type": "NONE",
+    "named": false
+  },
+  {
+    "type": "SOQL_EXECUTE_BEGIN",
+    "named": false
+  },
+  {
+    "type": "SOQL_EXECUTE_END",
+    "named": false
+  },
+  {
+    "type": "SYSTEM_CONSTRUCTOR_ENTRY",
+    "named": false
+  },
+  {
+    "type": "SYSTEM_CONSTRUCTOR_EXIT",
+    "named": false
+  },
+  {
+    "type": "SYSTEM_METHOD_ENTRY",
+    "named": false
+  },
+  {
+    "type": "SYSTEM_METHOD_EXIT",
+    "named": false
+  },
+  {
+    "type": "USER_DEBUG",
+    "named": false
+  },
+  {
+    "type": "USER_INFO",
+    "named": false
+  },
+  {
+    "type": "VARIABLE_ASSIGNMENT",
+    "named": false
+  },
+  {
+    "type": "VARIABLE_SCOPE_BEGIN",
+    "named": false
+  },
+  {
+    "type": "WARN",
+    "named": false
+  },
+  {
+    "type": "aggregations",
+    "named": true
+  },
+  {
+    "type": "api_version",
+    "named": true
+  },
+  {
+    "type": "category_identifier",
+    "named": true
+  },
+  {
+    "type": "debug_message",
+    "named": true
+  },
+  {
+    "type": "default_namespace",
+    "named": true
+  },
+  {
+    "type": "dml_operation",
+    "named": true
+  },
+  {
+    "type": "dml_type",
+    "named": true
+  },
+  {
+    "type": "event_identifier",
+    "named": true
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "frame_identifier",
+    "named": true
+  },
+  {
+    "type": "id_or_type",
+    "named": true
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "limit_name",
+    "named": true
+  },
+  {
+    "type": "limit_notes",
+    "named": true
+  },
+  {
+    "type": "line_reference",
+    "named": true
+  },
+  {
+    "type": "memory_address",
+    "named": true
+  },
+  {
+    "type": "nanoseconds",
+    "named": true
+  },
+  {
+    "type": "number",
+    "named": true
+  },
+  {
+    "type": "out of",
+    "named": false
+  },
+  {
+    "type": "raw_line",
+    "named": true
+  },
+  {
+    "type": "rows_count",
+    "named": true
+  },
+  {
+    "type": "stack_trace_line",
+    "named": true
+  },
+  {
+    "type": "timestamp",
+    "named": true
+  },
+  {
+    "type": "true",
+    "named": false
+  },
+  {
+    "type": "type_identifier",
+    "named": true
+  },
+  {
+    "type": "|",
+    "named": false
+  }
+]

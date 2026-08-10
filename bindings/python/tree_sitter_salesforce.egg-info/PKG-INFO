@@ -1,14 +1,19 @@
 Metadata-Version: 2.4
 Name: tree-sitter-salesforce
-Version: 0.1.0
-Summary: Salesforce Apex and SOQL grammars for tree-sitter
+Version: 0.2.0
+Summary: Salesforce Apex, SOQL, SOSL, Formula, and Debug Log (sflog) grammars for tree-sitter
 License: MIT
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
 Classifier: Topic :: Software Development :: Compilers
 Classifier: Topic :: Text Processing :: Linguistic
 Classifier: Typing :: Typed
-Requires-Python: >=3.9
+Requires-Python: >=3.10
 License-File: LICENSE
 License-File: NOTICE
+Requires-Dist: tree-sitter>=0.24.0
 Dynamic: license-file

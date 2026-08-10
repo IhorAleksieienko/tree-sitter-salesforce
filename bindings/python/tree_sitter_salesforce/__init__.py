@@ -19,6 +19,7 @@ Available language loaders:
     tss.soql()       — SOQL query language (.soql)
     tss.sosl()       — SOSL search language (.sosl)
     tss.formula()    — Salesforce Formula Language (.formula)
+    tss.sflog()      — Salesforce Debug Log parser (.log)
 
 Requires: tree-sitter >= 0.22.0
 """
@@ -107,10 +108,22 @@ def formula() -> Language:
     return Language(_binding_formula.language())
 
 
+def sflog() -> Language:
+    """
+    Returns the Salesforce Debug Log (sflog) language object for tree-sitter.
+
+    Parses Salesforce execution debug logs (.log), event traces, and cumulative
+    governor limit summaries.
+    """
+    from . import _binding_sflog
+    return Language(_binding_sflog.language())
+
+
 __all__ = [
     "apex",
     "apex_anon",
     "soql",
     "sosl",
     "formula",
+    "sflog",
 ]

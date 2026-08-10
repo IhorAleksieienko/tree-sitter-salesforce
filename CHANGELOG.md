@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] — 2026-08-10
 
-- **Modern Node.js subpath exports** (`package.json`) — Support for direct granular imports (`tree-sitter-salesforce/apex`, `tree-sitter-salesforce/apex-anon`, `tree-sitter-salesforce/soql`, `tree-sitter-salesforce/sosl`, `tree-sitter-salesforce/formula`) in CommonJS and ESM with full TypeScript type declarations.
+- **Salesforce Debug Log grammar (`sflog`)** (`sflog/grammar.js`) — Dedicated Tree-sitter parser for Salesforce execution debug logs (`.log`), parsing API version headers, category log filters, timestamped execution events (`USER_DEBUG`, `SOQL_EXECUTE_BEGIN`/`END`, `DML_BEGIN`/`END`, `METHOD_ENTRY`/`EXIT`, `CODE_UNIT_STARTED`/`FINISHED`, `USER_INFO`, `VARIABLE_SCOPE_BEGIN`, `VARIABLE_ASSIGNMENT`, `EXCEPTION_THROWN`, `FATAL_ERROR`), and cumulative governor limit summary tables.
+- **`sflog` multi-language bindings and subpath exports** — Added `tree-sitter-salesforce/sflog` subpath export in Node.js, `tss.sflog()` loader in Python bindings, native N-API and C-API bindings, and playground WASM support.
+- **Modern Node.js subpath exports** (`package.json`) — Support for direct granular imports (`tree-sitter-salesforce/apex`, `tree-sitter-salesforce/apex-anon`, `tree-sitter-salesforce/soql`, `tree-sitter-salesforce/sosl`, `tree-sitter-salesforce/formula`, `tree-sitter-salesforce/sflog`) in CommonJS and ESM with full TypeScript type declarations.
 - **Interactive WebAssembly Playground** (`docs/playground/`) — Browser-based CST visualizer featuring live multi-grammar switching, real-time node filtering, S-Expression/JSON views, and preloaded Summer '25 sample snippets.
 - **WebAssembly Playground Guide** (`docs/14-wasm-playground.md`) — Comprehensive guide for local playground execution, WASM compilation, and syntax debugging.
 - **Playground build helper script** (`scripts/build-wasm-playground.js`) — Automated compilation and distribution pipeline for playground WASM assets.

@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Steps 10–17, 27 are COMPLETE.
 > - Grammar repository infrastructure supports multi-grammar builds.
 > - Node.js, Python, and Rust binding build scripts are operational.
@@ -171,6 +171,6 @@ Verify the entire log parses into structured `event_line` and `limit_usage_secti
 
 ## Documentation Updates Required
 
-- [ ] `README.md`: Add `sflog` to supported languages table and quick-start examples.
-- [ ] `docs/05-adding-new-language.md`: Reference `sflog` as a case study for domain-specific logging grammars.
-- [ ] `CHANGELOG.md`: Record addition of `tree-sitter-sflog` debug log parser.
+- [x] `README.md`: Add `sflog` to supported languages table and quick-start examples.
+- [x] `docs/05-adding-new-language.md`: Reference `sflog` as a case study for domain-specific logging grammars.
+- [x] `CHANGELOG.md`: Record addition of `tree-sitter-sflog` debug log parser.

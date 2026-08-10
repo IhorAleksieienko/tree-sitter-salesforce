@@ -20,6 +20,7 @@ const grammars = [
   { name: "soql", dir: "soql", wasmName: "tree-sitter-soql.wasm" },
   { name: "sosl", dir: "sosl", wasmName: "tree-sitter-sosl.wasm" },
   { name: "formula", dir: "formula", wasmName: "tree-sitter-formula.wasm" },
+  { name: "sflog", dir: "sflog", wasmName: "tree-sitter-sflog.wasm" },
 ];
 
 const rootDir = path.join(__dirname, "..");

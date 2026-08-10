@@ -1,7 +1,7 @@
 [project]
 name = "tree-sitter-salesforce"
 version = "0.2.0"
-description = "Salesforce Apex, SOQL, SOSL, and Formula grammars for tree-sitter"
+description = "Salesforce Apex, SOQL, SOSL, Formula, and Debug Log (sflog) grammars for tree-sitter"
 license = {text = "MIT"}
 requires-python = ">=3.10"
 dependencies = [

@@ -2,7 +2,7 @@
   "metadata": {
     "version": "0.1.0",
     "license": "MIT",
-    "description": "Tree-sitter grammars for Salesforce's Apex, Anonymous Apex, SOQL, SOSL, and Formula languages",
+    "description": "Tree-sitter grammars for Salesforce's Apex, Anonymous Apex, SOQL, SOSL, Formula, and Debug Log languages",
     "authors": [
       {
         "name": "Ihor A."
@@ -74,6 +74,16 @@
       "file-types": ["formula"],
       "highlights": [
         "formula/queries/highlights.scm"
+      ]
+    },
+    {
+      "name": "sflog",
+      "camelcase": "Sflog",
+      "scope": "source.sflog",
+      "path": "sflog",
+      "file-types": ["log"],
+      "highlights": [
+        "sflog/queries/highlights.scm"
       ]
     }
   ],

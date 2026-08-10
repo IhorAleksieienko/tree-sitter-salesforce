@@ -57,6 +57,11 @@ TESTS = [
         b"IF(ISBLANK(Email__c), 'Required: ' & FirstName, $User.ProfileId)",
         "Formula with IF and global var",
     ),
+    (
+        tss.sflog,
+        b"67.0 APEX_CODE,FINEST;DB,INFO\n14:32:01.042 (42105102)|USER_INFO|[EXTERNAL]|0055e000000xxxx|user@example.com|(GMT-07:00) Pacific Daylight Time (America/Los_Angeles)|GMT-07:00\n14:32:01.043 (43100200)|EXECUTION_STARTED\n14:32:01.052 (52301000)|USER_DEBUG|[5]|DEBUG|Processing 10 accounts\n14:32:01.075 (75000000)|CUMULATIVE_LIMIT_USAGE\n14:32:01.075 (75100000)|LIMIT_USAGE_FOR_NS|(default)|\n  Number of SOQL queries: 1 out of 100\n14:32:01.080 (80000000)|CUMULATIVE_LIMIT_USAGE_END\n14:32:01.082 (82000000)|EXECUTION_FINISHED",
+        "Salesforce Debug Log with limits",
+    ),
 ]
 
 parser = Parser()

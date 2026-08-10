@@ -5,7 +5,7 @@
 const { execSync } = require("child_process");
 const path = require("path");
 
-const grammars = ["apex", "apex-anon", "soql", "sosl", "formula"];
+const grammars = ["apex", "apex-anon", "soql", "sosl", "formula", "sflog"];
 const results = [];
 
 for (const grammar of grammars) {

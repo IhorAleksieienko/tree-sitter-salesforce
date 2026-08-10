@@ -66,6 +66,24 @@ def test_formula_parser():
     assert len(tree.root_node.children) > 0
 
 
+def test_sflog_parser():
+    parser = Parser()
+    parser.language = tss.sflog()
+    source = b"""67.0 APEX_CODE,FINEST;DB,INFO
+14:32:01.042 (42105102)|USER_INFO|[EXTERNAL]|0055e000000xxxx|user@example.com|(GMT-07:00) Pacific Daylight Time (America/Los_Angeles)|GMT-07:00
+14:32:01.043 (43100200)|EXECUTION_STARTED
+14:32:01.052 (52301000)|USER_DEBUG|[5]|DEBUG|Processing 10 accounts
+14:32:01.075 (75000000)|CUMULATIVE_LIMIT_USAGE
+14:32:01.075 (75100000)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 1 out of 100
+14:32:01.080 (80000000)|CUMULATIVE_LIMIT_USAGE_END
+14:32:01.082 (82000000)|EXECUTION_FINISHED"""
+    tree = parser.parse(source)
+    assert not tree.root_node.has_error, f"sflog ERROR: {tree.root_node}"
+    assert tree.root_node.type == "source_file"
+    assert len(tree.root_node.children) > 0
+
+
 if __name__ == "__main__":
     test_apex_parser()
     print("Apex: OK")
@@ -77,4 +95,6 @@ if __name__ == "__main__":
     print("SOSL: OK")
     test_formula_parser()
     print("Formula: OK")
+    test_sflog_parser()
+    print("sflog: OK")
     print("All tests passed successfully!")

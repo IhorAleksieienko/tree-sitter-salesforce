@@ -129,6 +129,37 @@ LIMIT 20`
     IMAGE('/resource/badges/' & $RecordType.Name & '.png', 'Verified Badge', 32, 32),
     IMAGE('/resource/badges/default.png', 'Default') & ' (' & $User.Username & ')'
 )`
+  },
+
+  sflog: {
+    "Execution Trace & SOQL / DML": `67.0 APEX_CODE,FINEST;DB,INFO;SYSTEM,DEBUG
+14:32:01.042 (42105102)|USER_INFO|[EXTERNAL]|0055e000000xxxx|user@example.com|(GMT-07:00) Pacific Daylight Time (America/Los_Angeles)|GMT-07:00
+14:32:01.043 (43100200)|EXECUTION_STARTED
+14:32:01.043 (43201500)|CODE_UNIT_STARTED|[EXTERNAL]|01q5e000000xxxx|AccountTrigger on Account trigger event BeforeInsert
+14:32:01.050 (50123000)|METHOD_ENTRY|[3]|01p5e000000yyyy|AccountService.validate()
+14:32:01.052 (52301000)|USER_DEBUG|[5]|DEBUG|Processing 10 accounts
+14:32:01.055 (55400000)|SOQL_EXECUTE_BEGIN|[12]|Aggregations:0|SELECT Id, Name FROM Account WHERE Id IN :tmpVar1
+14:32:01.060 (60100000)|SOQL_EXECUTE_END|[12]|Rows:10
+14:32:01.065 (65200000)|METHOD_EXIT|[3]|AccountService.validate()
+14:32:01.070 (70000000)|CODE_UNIT_FINISHED|AccountTrigger on Account trigger event BeforeInsert
+14:32:01.082 (82000000)|EXECUTION_FINISHED`,
+    "Cumulative Governor Limits": `14:32:01.075 (75000000)|CUMULATIVE_LIMIT_USAGE
+14:32:01.075 (75100000)|LIMIT_USAGE_FOR_NS|(default)|
+  Number of SOQL queries: 1 out of 100
+  Number of query rows: 10 out of 50000
+  Number of SOSL queries: 0 out of 20
+  Number of DML statements: 0 out of 150
+  Number of DML rows: 0 out of 10000
+  Maximum CPU time: 25 out of 10000
+  Maximum heap size: 1045 out of 6000000
+  Number of callouts: 0 out of 100
+14:32:01.080 (80000000)|CUMULATIVE_LIMIT_USAGE_END`,
+    "Exception & Stack Trace": `14:32:01.051 (51000000)|VARIABLE_SCOPE_BEGIN|[7]|acc|Account|true|false
+14:32:01.052 (52000000)|VARIABLE_ASSIGNMENT|[7]|acc|{"Name":"Test"}|0x12345
+14:32:01.053 (53000000)|EXCEPTION_THROWN|[15]|System.NullPointerException: Attempt to de-reference a null object
+Class.AccountService.validate: line 15, column 1
+AnonymousBlock: line 2, column 1
+14:32:01.054 (54000000)|FATAL_ERROR|System.NullPointerException: Attempt to de-reference a null object`
   }
 };
 

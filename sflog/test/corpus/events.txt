@@ -1,0 +1,181 @@
+==================
+Log Header and Filter Categories
+==================
+67.0 APEX_CODE,FINEST;APEX_PROFILING,INFO;CALLOUT,INFO;DB,INFO;SYSTEM,DEBUG;VALIDATION,INFO;VISUALFORCE,INFO;WORKFLOW,INFO
+---
+(source_file
+  (log_header
+    version: (api_version)
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))
+    (category_filter
+      category: (category_identifier)
+      level: (log_level))))
+
+==================
+User Info and Execution Boundary
+==================
+14:32:01.042 (42105102)|USER_INFO|[EXTERNAL]|0055e000000xxxx|user@example.com|(GMT-07:00) Pacific Daylight Time (America/Los_Angeles)|GMT-07:00
+14:32:01.043 (43100200)|EXECUTION_STARTED
+14:32:01.082 (82000000)|EXECUTION_FINISHED
+---
+(source_file
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (user_info_event
+      frame: (frame_identifier)
+      user_id: (id_or_type)
+      username: (username)
+      timezone: (timezone)
+      gmt_offset: (gmt_offset)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (generic_event
+      event_type: (event_identifier)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (generic_event
+      event_type: (event_identifier))))
+
+==================
+Code Units and Method Traces
+==================
+14:32:01.043 (43201500)|CODE_UNIT_STARTED|[EXTERNAL]|01q5e000000xxxx|AccountTrigger on Account trigger event BeforeInsert
+14:32:01.050 (50123000)|METHOD_ENTRY|[3]|01p5e000000yyyy|AccountService.validate()
+14:32:01.065 (65200000)|METHOD_EXIT|[3]|AccountService.validate()
+14:32:01.070 (70000000)|CODE_UNIT_FINISHED|AccountTrigger on Account trigger event BeforeInsert
+---
+(source_file
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (code_unit_started_event
+      frame: (frame_identifier)
+      id: (id_or_type)
+      description: (code_unit_description)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (method_entry_event
+      line: (line_reference)
+      id: (id_or_type)
+      signature: (method_signature)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (method_exit_event
+      line: (line_reference)
+      signature: (method_signature)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (code_unit_finished_event
+      description: (code_unit_description))))
+
+==================
+User Debug and Database Events
+==================
+14:32:01.052 (52301000)|USER_DEBUG|[5]|DEBUG|Processing 10 accounts
+14:32:01.055 (55400000)|SOQL_EXECUTE_BEGIN|[12]|Aggregations:0|SELECT Id, Name FROM Account WHERE Id IN :tmpVar1
+14:32:01.060 (60100000)|SOQL_EXECUTE_END|[12]|Rows:10
+14:32:01.062 (62000000)|DML_BEGIN|[20]|Op:Insert|Type:Account|Rows:1
+14:32:01.064 (64000000)|DML_END|[20]
+---
+(source_file
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (user_debug_event
+      line: (line_reference)
+      level: (log_level)
+      message: (debug_message)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (soql_begin_event
+      line: (line_reference)
+      aggregations: (aggregations)
+      query: (soql_query)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (soql_end_event
+      line: (line_reference)
+      rows: (rows_count)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (dml_begin_event
+      line: (line_reference)
+      operation: (dml_operation)
+      type: (dml_type)
+      rows: (rows_count)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (dml_end_event
+      line: (line_reference))))
+
+==================
+Variables and Exceptions
+==================
+14:32:01.051 (51000000)|VARIABLE_SCOPE_BEGIN|[7]|acc|Account|true|false
+14:32:01.052 (52000000)|VARIABLE_ASSIGNMENT|[7]|acc|{"Name":"Test"}|0x12345
+14:32:01.053 (53000000)|EXCEPTION_THROWN|[15]|System.NullPointerException: Attempt to de-reference a null object
+Class.AccountService.validate: line 15, column 1
+AnonymousBlock: line 2, column 1
+14:32:01.054 (54000000)|FATAL_ERROR|System.NullPointerException: Attempt to de-reference a null object
+---
+(source_file
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (variable_scope_event
+      line: (line_reference)
+      name: (identifier)
+      type: (type_identifier)
+      is_input: (boolean_flag)
+      is_static: (boolean_flag)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (variable_assignment_event
+      line: (line_reference)
+      name: (identifier)
+      value: (variable_value)
+      address: (memory_address)))
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (exception_thrown_event
+      line: (line_reference)
+      message: (exception_message)))
+  (stack_trace_line)
+  (stack_trace_line)
+  (event_line
+    timestamp: (timestamp)
+    nanoseconds: (nanoseconds)
+    (fatal_error_event
+      message: (exception_message))))

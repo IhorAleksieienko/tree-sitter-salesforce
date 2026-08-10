@@ -1,0 +1,16 @@
+{
+  "name": "tree-sitter-sflog",
+  "version": "0.1.0",
+  "description": "Salesforce Debug Log grammar for tree-sitter",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "keywords": [
+    "tree-sitter",
+    "parser",
+    "salesforce",
+    "sflog",
+    "debug-log"
+  ],
+  "author": "Ihor A.",
+  "license": "MIT"
+}

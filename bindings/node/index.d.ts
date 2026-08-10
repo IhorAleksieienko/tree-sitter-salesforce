@@ -23,3 +23,6 @@ export const sosl: Language;
 /** Formula language parser for tree-sitter */
 export const formula: Language;
 
+/** Salesforce Debug Log parser for tree-sitter */
+export const sflog: Language;
+

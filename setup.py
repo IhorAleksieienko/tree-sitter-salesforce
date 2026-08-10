@@ -49,6 +49,15 @@ extensions = [
         include_dirs=["formula/src"],
         extra_compile_args=extra_compile_args,
     ),
+    Extension(
+        name="tree_sitter_salesforce._binding_sflog",
+        sources=[
+            "bindings/python/binding_sflog.c",
+            "sflog/src/parser.c",
+        ],
+        include_dirs=["sflog/src"],
+        extra_compile_args=extra_compile_args,
+    ),
 ]
 
 setup(

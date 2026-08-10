@@ -25,6 +25,8 @@ and Anonymous Apex**.
   global context variables (`$User`, `$Organization`, `$CustomMetadata`, `$Setup`).
 - 📝 **Anonymous Apex parser** — Parses top-level executable scripts (Developer Console
   "Execute Anonymous", `sf apex run`) without a class wrapper.
+- 📋 **Salesforce Debug Log parser (`sflog`)** — Structured parser for execution logs (`.log`),
+  timestamped execution events, SOQL/DML metrics, `USER_DEBUG` messages, and cumulative governor limit tables.
 - 🔗 **Language injection** — SOQL and SOSL are highlighted correctly *inside* Apex code
   (both static `[SELECT …]`/`[FIND …]` literals and dynamic `Database.*` method strings).
 - 📦 **Multi-language bindings** — Python (≥ 0.22 native capsule API), Node.js, and
@@ -76,6 +78,11 @@ print(tree.root_node.sexp())
 parser.language = tss.formula()
 tree = parser.parse(b"IF(ISBLANK(Email__c), 'Required', Email__c & ' (' & $User.Name & ')')")
 print(tree.root_node.sexp())
+
+# ── Salesforce Debug Log (sflog) ─────────────────────────────────────────────
+parser.language = tss.sflog()
+tree = parser.parse(b"14:32:01.052 (52301000)|USER_DEBUG|[5]|DEBUG|Processing 10 accounts")
+print(tree.root_node.sexp())
 ```
 
 ### Node.js
@@ -87,7 +94,7 @@ npm install tree-sitter tree-sitter-salesforce
 #### Standard Import:
 ```javascript
 const Parser = require('tree-sitter');
-const { apex, apexAnon, soql, sosl, formula } = require('tree-sitter-salesforce');
+const { apex, apexAnon, soql, sosl, formula, sflog } = require('tree-sitter-salesforce');
 
 const parser = new Parser();
 parser.setLanguage(apex);
@@ -102,10 +109,12 @@ const apex = require('tree-sitter-salesforce/apex');
 const soql = require('tree-sitter-salesforce/soql');
 const sosl = require('tree-sitter-salesforce/sosl');
 const formula = require('tree-sitter-salesforce/formula');
+const sflog = require('tree-sitter-salesforce/sflog');
 const apexAnon = require('tree-sitter-salesforce/apex-anon');
 
 // In TypeScript / ESM:
 // import apex from 'tree-sitter-salesforce/apex';
+// import sflog from 'tree-sitter-salesforce/sflog';
 ```
 
 ### WebAssembly (Browser / VSCode Web) & Interactive Playground
@@ -120,7 +129,7 @@ npm install web-tree-sitter tree-sitter-salesforce
 
 ```javascript
 const Parser = require('web-tree-sitter');
-const { apexWasm, soqlWasm, soslWasm, formulaWasm, apexAnonWasm } = require('tree-sitter-salesforce/bindings/web');
+const { apexWasm, soqlWasm, soslWasm, formulaWasm, sflogWasm, apexAnonWasm } = require('tree-sitter-salesforce/bindings/web');
 
 async function main() {
   await Parser.init();
@@ -145,6 +154,7 @@ main();
 | **SOQL** | ✅ | ✅ | ✅ | — | — |
 | **SOSL** | ✅ | ✅ | ✅ | — | — |
 | **Formula Language** | ✅ | ✅ | ✅ | — | — |
+| **Debug Log (`sflog`)** | ✅ | ✅ | ✅ | — | — |
 
 ## Salesforce API Version
 
@@ -165,7 +175,6 @@ Targets **API v67 (Summer '25)**. See [SALESFORCE_API.md](SALESFORCE_API.md).
 
 | Feature | Status |
 |---|---|
-| SFLog parser | 🔲 Future |
 | Apex type-flow analysis queries (`locals.scm` for all grammars) | 🔲 Future |
 | VS Code extension | 🔲 Future |
 

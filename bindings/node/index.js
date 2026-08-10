@@ -40,4 +40,6 @@ module.exports = {
   sosl: binding.sosl(),
   /** Formula language parser */
   formula: binding.formula(),
+  /** Salesforce Debug Log parser */
+  sflog: binding.sflog(),
 };
