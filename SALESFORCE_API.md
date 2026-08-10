@@ -67,32 +67,48 @@ organized by the API version that introduced each feature.
 
 | Feature | Parser Status | Notes |
 |---|---|---|
-| FIND 'search_term' (Wildcards `*`, `?`) | ✅ Implemented | Supports simple strings, wildcard search expressions, and bind variables |
-| IN Field Scope | ✅ Implemented | Supports `ALL FIELDS`, `NAME FIELDS`, `EMAIL FIELDS`, `PHONE FIELDS`, `SIDEBAR FIELDS` |
-| RETURNING Clause | ✅ Implemented | Supports multi-SObject specifications with field selections |
-| RETURNING WHERE Filters | ✅ Implemented | Boolean conditions (`AND`, `OR`, `NOT`) and comparisons |
-| RETURNING ORDER BY | ✅ Implemented | Supports `ASC`/`DESC` directions and `NULLS FIRST/LAST` |
-| RETURNING LIMIT & OFFSET | ✅ Implemented | Per-object pagination limits and offsets |
-| RETURNING USING LISTVIEW | ✅ Implemented | Filtering by ListView ID |
-| WITH Clauses | ✅ Implemented | Supports `WITH HIGHLIGHT`, `WITH SNIPPET`, `WITH SPELL_CORRECTION`, `WITH DATA CATEGORY`, `WITH DIVISION`, `WITH NETWORK`, `WITH PRICEBOOK_ID` |
-| UPDATE TRACKING / VIEWSTAT | ✅ Implemented | Supports tracking search statistics and article views |
-| Top-level LIMIT & OFFSET | ✅ Implemented | Global query-level result limits and offsets |
-| Apex Inline Injection | ✅ Implemented | Injected into Apex `[FIND ...]` `sosl_expression` nodes |
+| FIND 'term' | ✅ Implemented | Single-quoted string with wildcard support (`*`, `?`) |
+| FIND :bindVar | ✅ Implemented | Bind variable search terms |
+| IN ALL / NAME / EMAIL / PHONE / SIDEBAR FIELDS | ✅ Implemented | All field scopes |
+| RETURNING SObject(fields) | ✅ Implemented | Per-object field projection |
+| RETURNING with WHERE | ✅ Implemented | Per-object filter conditions |
+| RETURNING with ORDER BY / LIMIT / OFFSET | ✅ Implemented | Per-object sorting and pagination |
+| RETURNING with USING LISTVIEW | ✅ Implemented | List view filtering |
+| WITH HIGHLIGHT | ✅ Implemented | |
+| WITH SNIPPET | ✅ Implemented | |
+| WITH SPELL_CORRECTION | ✅ Implemented | |
+| WITH DATA CATEGORY … AT/ABOVE/BELOW | ✅ Implemented | |
+| WITH DIVISION / NETWORK / PRICEBOOK_ID | ✅ Implemented | Division, Experience Cloud, and B2B Commerce filters |
+| LIMIT / OFFSET (query-level) | ✅ Implemented | |
+| UPDATE TRACKING / VIEWSTAT | ✅ Implemented | |
 
 ## Formula Language Features
 
 | Feature | Parser Status | Notes |
 |---|---|---|
-| Validation Rules | ✅ Implemented | Single-expression parser for validation rules across standard and custom SObjects |
-| Formula Fields | ✅ Implemented | Number, text, currency, date, and boolean formula fields |
-| Flow Decision Criteria | ✅ Implemented | Flow decision elements and formula resource expressions |
-| Process Builder Conditions | ✅ Implemented | Multi-condition criteria logic |
-| Global Variables (`$` prefix) | ✅ Implemented | Supports `$User`, `$UserRole`, `$Organization`, `$Profile`, `$CustomMetadata`, `$Setup`, `$GlobalConstant` |
-| Dotted Field References | ✅ Implemented | Relationship navigation (`Account.Parent.BillingState`) |
-| String Concatenation (`&`) | ✅ Implemented | Distinguishes `&` (string concat) from `+` (numeric addition) |
-| Case-Insensitive Functions | ✅ Implemented | Full built-in library (`IF`, `AND`, `OR`, `NOT`, `ISBLANK`, `ISNULL`, `ISPICKVAL`, `PRIORVALUE`, `ISCHANGED`, `ISNEW`, `REGEX`, `VLOOKUP`, etc.) |
-| Comparison Operators | ✅ Implemented | Supports `=`, `==`, `<>`, `!=`, `<`, `<=`, `>`, `>=` |
+| Arithmetic operators (`+`, `-`, `*`, `/`, `^`) | ✅ Implemented | |
+| Comparison operators (`=`, `==`, `<>`, `!=`, `<`, `<=`, `>`, `>=`) | ✅ Implemented | `=` and `==` both accepted |
+| Boolean logic (`&&`, `\|\|`, `!`) | ✅ Implemented | |
+| String concatenation (`&`) | ✅ Implemented | Distinct from bitwise AND (not present in Formula Language) |
+| Field path references (`Object.Parent.Field`) | ✅ Implemented | |
+| Global context variables (`$User`, `$Organization`, `$UserRole`) | ✅ Implemented | |
+| Custom Metadata variables (`$CustomMetadata.Type__mdt.Record.Field`) | ✅ Implemented | |
+| Custom Settings variables (`$Setup.Setting__c.Field__c`) | ✅ Implemented | |
+| 50+ built-in functions (`IF`, `ISBLANK`, `REGEX`, `VLOOKUP`, etc.) | ✅ Implemented | See grammar for full list |
+| Nested function calls | ✅ Implemented | Arbitrary depth |
 
+## Apex Enhancements (Steps 10–14)
+
+| Feature | API Version | Parser Status | Notes |
+|---|---|---|---|
+| Balanced SOQL subqueries in `[SELECT … (SELECT …) …]` | v7+ | ✅ Fixed | Replaces naive regex |
+| `[FIND …]` inline SOSL expressions | v7+ | ✅ Implemented | `sosl_expression` node |
+| `Database.queryWithBinds()` injection | v59+ | ✅ Implemented | |
+| `when Account a, Contact c {}` multi-type patterns | v43+ | ✅ Implemented | `when_type_pattern` node |
+| Anonymous Apex scripting mode | v7+ | ✅ Implemented | Separate `apex_anon` grammar |
+| `GROUP BY ROLLUP(…)` / `GROUP BY CUBE(…)` | v18+ | ✅ Implemented | |
+| SOQL date functions (`CALENDAR_MONTH`, `FISCAL_YEAR`, etc.) | v18+ | ✅ Implemented | |
+| `WITH DATA CATEGORY … AT/ABOVE/BELOW` | v18+ | ✅ Implemented | |
 
 ## Backward Compatibility
 

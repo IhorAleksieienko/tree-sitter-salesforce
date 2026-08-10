@@ -1,6 +1,6 @@
 # Getting Started with Tree-Sitter Salesforce
 
-Welcome! This tutorial will guide you step-by-step on how to set up and use the `tree-sitter-salesforce` parsers for Apex and SOQL. Tree-sitter provides fast, error-tolerant parsing that creates a structural tree of your code, which is foundational for custom linters, analysis tools, and editor integrations.
+Welcome! This tutorial will guide you step-by-step on how to set up and use the `tree-sitter-salesforce` parsers for Apex, Anonymous Apex, SOQL, SOSL, and Formula Language. Tree-sitter provides fast, error-tolerant parsing that creates a structural tree of your code, which is foundational for custom linters, analysis tools, and editor integrations.
 
 For this tutorial, we will use the open-source `apex-recipes` repository as our test project to see tree-sitter in action.
 
@@ -98,7 +98,7 @@ For automation or analysis tools, you'll likely want to interact with the syntax
    
        # Initialize the parser
        parser = Parser()
-       parser.language = Language(tss.apex())
+       parser.language = tss.apex()
        
        # Parse the content
        tree = parser.parse(content)
@@ -189,6 +189,64 @@ If you prefer JavaScript/TypeScript, you can easily use the parsers in a Node.js
    ```bash
    node index.js
    ```
+
+---
+
+## Using the New Grammars (Steps 10–17)
+
+### Parsing a SOSL Search Expression
+
+```python
+import tree_sitter_salesforce as tss
+from tree_sitter import Parser
+
+parser = Parser()
+parser.language = tss.sosl()
+
+tree = parser.parse(b"FIND 'Acme*' IN ALL FIELDS RETURNING Account(Name, BillingCity ORDER BY Name) LIMIT 20")
+
+root = tree.root_node
+print("Parse successful:", not root.has_error)
+print("Root type:", root.type)         # → source_file
+print("Query node:", root.child(0).type) # → sosl_query
+```
+
+### Parsing a Formula Language Expression
+
+```python
+parser.language = tss.formula()
+
+# Validation rule formula
+tree = parser.parse(b"""
+AND(
+  NOT(ISBLANK(Email__c)),
+  REGEX(Email__c, "[a-zA-Z0-9._]+@[a-zA-Z]+\\.[a-zA-Z]{2,}")
+)
+""".strip())
+
+print("Formula parse ok:", not tree.root_node.has_error)
+fn = tree.root_node.child(0)
+print("Function:", fn.child_by_field_name("name").text.decode())  # → AND
+```
+
+### Parsing an Anonymous Apex Script
+
+```python
+parser.language = tss.apex_anon()
+
+tree = parser.parse(b"""
+List<Account> accounts = [SELECT Id, Name FROM Account WHERE IsActive__c = true LIMIT 5];
+for (Account a : accounts) {
+    a.Description = 'Processed by script';
+}
+update accounts;
+System.debug('Updated ' + accounts.size() + ' records');
+""".strip())
+
+print("Anonymous Apex ok:", not tree.root_node.has_error)
+root = tree.root_node
+print("Top-level statements:", root.child_count)
+```
 
 ## Next Steps
 

@@ -1001,7 +1001,7 @@ Documentation steps are verified by reading and by mechanical checks, not by run
 ### 1. Verify all new files exist
 
 ```cmd
-dir d:\Git\tree-sitter-salesforce\docs\*.md
+dir docs\*.md
 ```
 
 Must list: `10-release-process.md`, `11-understanding-sosl.md`,

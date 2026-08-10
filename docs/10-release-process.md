@@ -1,136 +1,78 @@
-# Release Process & Multi-Platform Distribution
+# Release Process
 
-This document outlines the standard release lifecycle for `tree-sitter-salesforce`, covering multi-platform binary compilation, automated package distribution (PyPI and npm), WebAssembly bundling, and verification procedures.
+This document describes how to cut a new release of `tree-sitter-salesforce`.
 
----
+## Prerequisites
 
-## 1. Distribution Architecture
+- All grammar steps complete and merged to `main`
+- All CI checks green on `main`
+- `sf-rag-engine` regression tests confirmed passing
 
-`tree-sitter-salesforce` ships multi-grammar parsers (Apex, Anonymous Apex, SOQL, SOSL, Formula Language) across three distribution channels:
+## Release Checklist
 
-| Channel | Target Ecosystem | Package Format | Artifact Details |
-|---|---|---|---|
-| **PyPI** | Python (`py-tree-sitter`) | Native binary wheels (`.whl`) & sdist | CPython 3.9–3.12 for Windows (x64), Linux (x86_64, aarch64 via QEMU), macOS (x86_64, arm64) |
-| **npm** | Node.js & TypeScript | npm tarball (`.tgz`) | Pre-built N-API native addons via `node-gyp-build` and C source fallbacks |
-| **WebAssembly** | Browser, VSCode Web, Edge | Standalone `.wasm` files | Emscripten-compiled WASM modules in `bindings/web/` |
+### 1. Version Bump
 
----
+Update version in both files **to match**:
 
-## 2. Prerequisites & Secrets Configuration
+```sh
+# pyproject.toml
+version = "0.X.Y"
 
-Releases are triggered automatically via GitHub Actions upon pushing a version tag (`v*.*.*`).
+# package.json
+"version": "0.X.Y"
+```
 
-### Required GitHub Repository Configuration
-1. **PyPI Trusted Publishing (OIDC)**:
-   - Configured in PyPI Project Settings -> "Publishing" -> "Add GitHub Actions publisher".
-   - Environment Name: `pypi`.
-   - Workflow: `.github/workflows/release.yml`.
-   - Requires no long-lived PyPI API tokens.
-2. **npm Access Token**:
-   - Stored in GitHub Repository Secrets as `NPM_TOKEN`.
-   - Generated with Automation / Publish permissions on `npmjs.com`.
+### 2. Update CHANGELOG.md
 
----
+Move items from the `[Unreleased]` section to a new version heading:
+```markdown
+## [0.X.Y] — YYYY-MM-DD
+```
 
-## 3. Step-by-Step Release Workflow
+### 3. Verify Locally
 
-### Step 1 — Synchronize Package Versions
-
-Ensure the version string matches across all project manifests:
-- [`package.json`](../package.json): `"version": "X.Y.Z"`
-- [`pyproject.toml`](../pyproject.toml): `version = "X.Y.Z"`
-
-### Step 2 — Update Documentation & Changelog
-
-Update [`CHANGELOG.md`](../CHANGELOG.md):
-- Add a new section `## [X.Y.Z] - YYYY-MM-DD`.
-- Document all `Added`, `Changed`, `Fixed`, `Removed`, and `Deprecated` items.
-- Ensure migration notes are clearly stated for any breaking changes.
-
-### Step 3 — Local Pre-Release Verification
-
-Run the full local verification pipeline:
-
-```bash
-# 1. Regenerate parser C source files for all five grammars
-node scripts/generate-all.js
-
-# 2. Run full corpus test suites across all five grammars
+```cmd
 node scripts/test-all.js
-
-# 3. Test Python native capsule bindings
 python scripts/test_bindings.py
-
-# 4. Dry-run npm package bundling
-npm publish --dry-run --access public
+npm publish --dry-run
 ```
 
-All commands must exit with code `0`.
+All must exit code 0.
 
-### Step 4 — Commit & Push
+### 4. Commit and Tag
 
-```bash
-git add package.json pyproject.toml CHANGELOG.md
-git commit -m "chore: release vX.Y.Z"
-git push origin main
+```sh
+git add pyproject.toml package.json CHANGELOG.md
+git commit -m "chore: release v0.X.Y"
+git tag v0.X.Y
+git push origin main --tags
 ```
 
-### Step 5 — Tag the Release
+### 5. Monitor CI
 
-Create an annotated git tag and push it to trigger `.github/workflows/release.yml`:
+Open the Actions tab. The `release.yml` workflow triggers automatically on the tag push.
+Watch for:
+- ✅ `build-wheels` — all 3 OS × 4 Python versions
+- ✅ `build-wasm` — 5 WASM binaries
+- ✅ `publish-pypi` — wheel upload
+- ✅ `publish-npm` — npm publish
 
-```bash
-git tag vX.Y.Z
-git push origin vX.Y.Z
+### 6. Verify Published Packages
+
+```sh
+# PyPI
+pip install "tree-sitter-salesforce==0.X.Y"
+python -c "import tree_sitter_salesforce as tss; tss.apex(); print('OK')"
+
+# npm
+npm install tree-sitter-salesforce@0.X.Y
+node -e "const s = require('tree-sitter-salesforce'); console.log(Object.keys(s))"
 ```
 
-### Step 6 — Monitor CI/CD Execution
+### 7. Create GitHub Release
 
-1. Navigate to the GitHub repository **Actions** tab.
-2. Monitor the **Release** workflow:
-   - `build-wheels`: Compiles native wheels for Linux (x86_64, aarch64), macOS (x86_64, arm64), and Windows (x64).
-   - `build-wasm`: Compiles all 5 `.wasm` binaries using Emscripten.
-   - `publish-pypi`: Uploads all generated wheels to PyPI using trusted OIDC authentication.
-   - `publish-npm`: Bundles WASM binaries and source files, publishing to the npm registry.
-
-### Step 7 — Post-Release Verification
-
-Verify packages in clean environments:
-
-```bash
-# Test PyPI installation
-pip install --upgrade tree-sitter-salesforce==X.Y.Z
-python -c "import tree_sitter_salesforce as tss; from tree_sitter import Parser; p = Parser(); p.language = tss.apex(); print(p.parse(b'public class Foo {}').root_node)"
-
-# Test npm installation
-npm install tree-sitter-salesforce@X.Y.Z
-node -e "const ts = require('tree-sitter-salesforce'); console.log(Object.keys(ts));"
-```
-
-### Step 8 — Create GitHub Release
-
-1. Go to **Releases** -> **Draft a new release**.
-2. Select tag `vX.Y.Z`.
-3. Set Release Title: `vX.Y.Z`.
-4. Copy the release notes from [`CHANGELOG.md`](../CHANGELOG.md).
-5. Attach any standalone assets if desired (e.g. WASM bundle tarball).
-6. Click **Publish release**.
-
----
-
-## 4. Troubleshooting & Rollback Procedures
-
-### Wheel Build Failure on aarch64 Linux
-- Verify `docker/setup-qemu-action@v3` ran prior to `cibuildwheel`.
-- Check if any grammar source file contains non-portable compiler flags or syntax errors.
-
-### WASM Build Failure
-- Verify Emscripten version in CI (`mymindstorm/setup-emsdk@v14`, pinned to `3.1.50`+).
-- Ensure `npx tree-sitter build --wasm` syntax is used (not deprecated `build-wasm`).
-
-### Failed Release / Corrupted Artifact
-- PyPI does not permit re-uploading an existing version tag. If a released wheel is defective:
-  1. Fix the underlying bug.
-  2. Bump the patch version (`vX.Y.(Z+1)`).
-  3. Publish the new patch release following this guide.
-  4. (Optional) Yank the defective version on PyPI via the PyPI web management console.
+- Go to the repository Releases page
+- Click "Draft a new release"
+- Select the new tag
+- Paste the CHANGELOG entry as the release notes
+- Attach the WASM artifacts from the CI run

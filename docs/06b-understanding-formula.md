@@ -11,7 +11,7 @@ The **Salesforce Formula Language** is a declarative, expression-oriented langua
 
 Unlike Apex or SOQL, a Formula is **a single expression** — there are no statements, declarations, or blocks.
 
-```
+```text
 IF(ISBLANK(Email__c), 'No Email Provided', Email__c)
 ```
 
@@ -27,7 +27,7 @@ All function names are case-insensitive: `IF(...)`, `if(...)`, and `If(...)` are
 
 ### 3. Field References & Dot Notation
 Field references navigate through SObject relationships using dot notation:
-```
+```text
 Account.Parent.BillingState
 ```
 This produces a `field_reference` node containing `(identifier)` children for each relationship step.
@@ -50,7 +50,7 @@ In Salesforce Formula Language:
 
 ### 6. Equality Comparison (`=` and `==`)
 In Formula Language, a single `=` is the primary equality operator:
-```
+```text
 Account.BillingCountry = 'US'
 ```
 The double equals `==` is also supported as an alias for backward compatibility. Similarly, both `<>` and `!=` represent inequality.
@@ -96,10 +96,10 @@ Any unknown or custom function identifier is also supported gracefully via fallb
 ## AST Structure Examples
 
 ### Simple Validation Rule
-```
+```text
 ISBLANK(Email__c)
 ```
-```
+```text
 (source_file
   (function_call
     name: (function_name)
@@ -108,13 +108,13 @@ ISBLANK(Email__c)
 ```
 
 ### Complex Logical Rule with Global Variable
-```
+```text
 AND(
   NOT(ISBLANK(Email__c)),
   $User.ProfileId != '00e000000000001'
 )
 ```
-```
+```text
 (source_file
   (function_call
     name: (function_name)

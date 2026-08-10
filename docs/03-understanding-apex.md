@@ -21,8 +21,9 @@ There are no package declarations or multiple top-level classes in a standard `.
 Apex allows developers to write SOQL and SOSL queries directly in the code, enclosed in brackets:
 ```apex
 List<Account> accounts = [SELECT Id, Name FROM Account WHERE Name = 'Acme'];
+List<List<SObject>> searchResults = [FIND 'Acme*' IN ALL FIELDS RETURNING Account(Id, Name)];
 ```
-Our parser handles this by defining a `soql_expression` rule which is completely opaque (i.e., `seq('[', /[^\]]+/, ']')`), and then relying on Tree-Sitter's injection framework to parse the inner content with the standalone SOQL parser.
+Our parser handles this by defining balanced `soql_expression` and `sosl_expression` rules, and then relying on Tree-Sitter's injection framework to parse the inner content with the standalone SOQL and SOSL parsers.
 
 ### DML Statements
 Apex has built-in keywords for Data Manipulation Language (DML) operations:
@@ -63,6 +64,57 @@ Apex provides polymorphic `switch on` statements that support:
 
 The parser models type patterns with dedicated `when_type_pattern` AST nodes containing `type` and `name` fields.
 
+## Multi-SObject `when` Clause Patterns
+
+Salesforce Apex allows a `switch on` statement to match multiple SObject types in a single
+`when` clause:
+
+```apex
+switch on genericSObject {
+    when Account a, Contact c {
+        // Both Account and Contact are bound here
+        System.debug(a?.Name ?? c?.Name);
+    }
+    when Opportunity o { }
+    when else { }
+}
+```
+
+In the AST, each comma-separated type pattern becomes a `when_type_pattern` node with
+`type` and `name` fields:
+
+```text
+(when_clause
+  (when_type_pattern type: (type_identifier) name: (identifier))  ; Account a
+  (when_type_pattern type: (type_identifier) name: (identifier))  ; Contact c
+  body: (block …))
+```
+
+## Anonymous Apex vs. Class-Based Apex
+
+The `apex_anon` grammar parses top-level statements without a class wrapper. Use it
+when analysing scripts from:
+- **Developer Console** Execute Anonymous window
+- **`sf apex run`** / **`sfdx force:apex:execute`**
+- Data migration and CI seed scripts
+
+```python
+import tree_sitter_salesforce as tss
+from tree_sitter import Parser
+
+parser = Parser()
+
+# Class-based Apex → use tss.apex()
+parser.language = tss.apex()
+
+# Anonymous Apex → use tss.apex_anon()
+parser.language = tss.apex_anon()
+tree = parser.parse(b"insert new Account(Name = 'Test');\nSystem.debug('done');")
+```
+
+Both grammars share the same `statement`, `expression`, and `type` rules. The only
+difference is the `source_file` entry point.
+
 ## Parsing Challenges
 - **Ambiguities:** Because Apex is case-insensitive, distinguishing between a variable named `Select` and the start of a SOQL query or method call can sometimes produce grammar conflicts. We use the `conflicts` array in `grammar.js` to instruct Tree-Sitter to use GLR (Generalized LR) parsing to explore multiple branches dynamically.
-- **Dynamic SOQL:** Queries constructed via `Database.query(myString)` are evaluated at runtime. Our parser recognizes the method invocation pattern and tags it, but it cannot parse the concatenated string as valid SOQL.
+- **Dynamic Queries:** Queries constructed via `Database.query(myString)` or `Database.queryWithBinds(...)` are evaluated at runtime. Our parser recognizes the method invocation pattern and injects the SOQL grammar into string literals when statically determinable.

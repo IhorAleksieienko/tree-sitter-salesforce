@@ -40,27 +40,37 @@ FROM Task
 ```
 Our grammar implements `typeof_clause` specifically for this syntax.
 
-### Date Literals and Date Functions
-SOQL has robust built-in date literals (e.g., `YESTERDAY`, `LAST_N_DAYS:5`) and date/time functions:
-- **Date Literals:** Represent relative dates in WHERE filters (`WHERE CreatedDate > YESTERDAY`).
-- **Date Functions:** Extract date and fiscal components in SELECT and GROUP BY clauses:
-  `CALENDAR_MONTH()`, `CALENDAR_QUARTER()`, `CALENDAR_YEAR()`, `DAY_IN_MONTH()`, `DAY_IN_WEEK()`, `DAY_IN_YEAR()`, `DAY_ONLY()`, `FISCAL_MONTH()`, `FISCAL_QUARTER()`, `FISCAL_YEAR()`, `HOUR_IN_DAY()`, `WEEK_IN_MONTH()`, `WEEK_IN_YEAR()`.
-  ```soql
-  SELECT CALENDAR_MONTH(CloseDate), SUM(Amount)
-  FROM Opportunity
-  GROUP BY CALENDAR_MONTH(CloseDate)
-  ```
+## Advanced SOQL Constructs (API v67)
 
-### Aggregate Extensions: ROLLUP and CUBE
-In addition to standard `GROUP BY field1, field2`, SOQL supports multi-level subtotaling:
-- **`GROUP BY ROLLUP(field1, field2)`**: Generates hierarchical subtotals from right to left.
-- **`GROUP BY CUBE(field1, field2)`**: Generates subtotals for all possible combinations of dimensions.
+### Date Functions
+
+Date functions can appear in `SELECT` and `GROUP BY` clauses to extract date parts:
+
 ```soql
+SELECT CALENDAR_MONTH(CloseDate) cm, SUM(Amount) total
+FROM Opportunity
+GROUP BY CALENDAR_MONTH(CloseDate)
+```
+
+Supported functions: `CALENDAR_MONTH`, `CALENDAR_QUARTER`, `CALENDAR_YEAR`,
+`DAY_IN_MONTH`, `DAY_IN_WEEK`, `DAY_IN_YEAR`, `DAY_ONLY`, `FISCAL_MONTH`,
+`FISCAL_QUARTER`, `FISCAL_YEAR`, `HOUR_IN_DAY`, `WEEK_IN_MONTH`, `WEEK_IN_YEAR`.
+
+### GROUP BY ROLLUP and CUBE
+
+```soql
+-- ROLLUP: subtotals at each grouping level
 SELECT StageName, LeadSource, COUNT(Id)
 FROM Opportunity
 GROUP BY ROLLUP(StageName, LeadSource)
-HAVING COUNT(Id) > 5
+
+-- CUBE: all possible subtotal combinations
+SELECT StageName, LeadSource, SUM(Amount)
+FROM Opportunity
+GROUP BY CUBE(StageName, LeadSource)
 ```
+
+Use `GROUPING(field)` in `SELECT` to identify which rows are subtotal rows.
 
 ### Scalar Functions
 SOQL provides specialized scalar functions wrapping field expressions in the `SELECT` clause:
@@ -69,12 +79,16 @@ SOQL provides specialized scalar functions wrapping field expressions in the `SE
 - `toLabel(picklistField)`: Returns translated picklist values for multilingual orgs.
 - `GROUPING(field)`: Distinguishes between aggregate subtotal rows and regular data rows in ROLLUP/CUBE queries.
 
-### Data Category Filtering
-For Salesforce Knowledge and Ideas queries, the `WITH DATA CATEGORY` clause filters articles by categorization hierarchy using operators `AT`, `ABOVE`, `BELOW`, and `ABOVE_OR_BELOW`:
+### WITH DATA CATEGORY
+
 ```soql
-SELECT Id, Title FROM KnowledgeArticleVersion
-WITH DATA CATEGORY Geography__c AT USA__c AND Product__c ABOVE (Phones__c, Computers__c)
+SELECT Id, Title
+FROM KnowledgeArticleVersion
+WITH DATA CATEGORY Geography__c AT USA__c
 ```
+
+Supported operators: `AT`, `ABOVE`, `BELOW`, `ABOVE_OR_BELOW`.
+Multiple category filters are comma-separated.
 
 ### Bind Variables
 When embedded in Apex, SOQL queries can reference Apex variables using a colon prefix (`:varName`).
@@ -85,4 +99,3 @@ Our SOQL parser explicitly defines a `bind_variable` rule to capture `:identifie
 
 ## Integration with Apex
 When writing a Tree-Sitter grammar, the SOQL parser is completely standalone. It parses standard SOQL strings. The integration with Apex happens solely via Tree-Sitter's injection system (`injections.scm`), which detects SOQL blocks inside Apex code and applies the SOQL parser to those specific text ranges.
-

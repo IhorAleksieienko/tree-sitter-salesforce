@@ -221,7 +221,7 @@ console.log(tree.rootNode.toString());
 pip install tree-sitter-salesforce
 ​```
 
-​```python
+```python
 import tree_sitter_salesforce as tss
 from tree_sitter import Language, Parser
 
