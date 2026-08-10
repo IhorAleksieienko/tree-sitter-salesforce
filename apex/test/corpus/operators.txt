@@ -1,0 +1,441 @@
+==================
+Compound assignment operators
+==================
+
+public class T {
+    public void test() {
+        x += 1;
+        x -= 2;
+        x *= 3;
+        x /= 4;
+        x %= 5;
+        x &= 6;
+        x |= 7;
+        x ^= 8;
+        x <<= 9;
+        x >>= 10;
+        x >>>= 11;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int)))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (int))))))))
+
+==================
+Bitwise and shift operators
+==================
+
+public class T {
+    public void test() {
+        Integer a = x & y;
+        Integer b = x | y;
+        Integer c = x ^ y;
+        Integer d = ~x;
+        Integer e = x << 2;
+        Integer f = x >> 2;
+        Integer g = x >>> 2;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (unary_expression
+                (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (int))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (int))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (int)))))))))
+
+==================
+Ternary conditional expressions
+==================
+
+public class T {
+    public void test() {
+        String result = isValid ? 'PASS' : 'FAIL';
+        Integer val = (x > 0) ? (y > 0 ? 1 : 2) : 3;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (ternary_expression
+                condition: (identifier)
+                consequence: (string_literal)
+                alternative: (string_literal))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (ternary_expression
+                condition: (parenthesized_expression
+                  (binary_expression
+                    left: (identifier)
+                    right: (int)))
+                consequence: (parenthesized_expression
+                  (ternary_expression
+                    condition: (binary_expression
+                      left: (identifier)
+                      right: (int))
+                    consequence: (int)
+                    alternative: (int)))
+                alternative: (int)))))))))
+
+==================
+Null coalescing and safe navigation
+==================
+
+public class T {
+    public void test() {
+        String name = contact?.Account?.Name ?? 'Default';
+        Integer length = list?.size() ?? 0;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (null_coalescing_expression
+                left: (field_access
+                  object: (field_access
+                    object: (identifier)
+                    field: (identifier))
+                  field: (identifier))
+                right: (string_literal))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (null_coalescing_expression
+                left: (method_invocation
+                  object: (identifier)
+                  name: (identifier)
+                  arguments: (argument_list))
+                right: (int)))))))))
+
+==================
+Unary and update operators
+==================
+
+public class T {
+    public void test() {
+        i++;
+        ++i;
+        i--;
+        --i;
+        Boolean flag = !isValid;
+        Integer pos = +val;
+        Integer neg = -val;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (update_expression
+              (identifier)))
+          (expression_statement
+            (update_expression
+              (identifier)))
+          (expression_statement
+            (update_expression
+              (identifier)))
+          (expression_statement
+            (update_expression
+              (identifier)))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (unary_expression
+                (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (unary_expression
+                (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (unary_expression
+                (identifier))))))))))
+
+==================
+Relational and equality operators
+==================
+
+public class T {
+    public void test() {
+        Boolean r1 = a == b;
+        Boolean r2 = a != b;
+        Boolean r3 = a <> b;
+        Boolean r4 = a === b;
+        Boolean r5 = a !== b;
+        Boolean r6 = a < b;
+        Boolean r7 = a <= b;
+        Boolean r8 = a > b;
+        Boolean r9 = a >= b;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))
+          (local_variable_declaration
+            type: (type_identifier
+              (identifier))
+            (variable_declarator
+              name: (identifier)
+              value: (binary_expression
+                left: (identifier)
+                right: (identifier))))))))))

@@ -81,6 +81,46 @@ SELECT Id FROM Account WHERE CreatedDate > 2024-01-15T10:30:00Z
         (date_time)))))
 
 ==================
+DateTime with positive timezone offset
+==================
+
+SELECT Id FROM User WHERE Date1__c = 1999-01-01T23:01:01+01:00
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (date_time)))))
+
+==================
+DateTime with negative timezone offset and milliseconds
+==================
+
+SELECT Id FROM User WHERE Date1__c = 1999-01-01T23:01:01.000-08:00
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (date_time)))))
+
+==================
 Time value literal with Z timezone
 ==================
 
@@ -140,3 +180,198 @@ SELECT Id FROM Shift WHERE StartTime >= 09:00:00
         (value_comparison_operator)
         (time_literal)))))
 
+==================
+Standard date literals inventory
+==================
+
+SELECT Id FROM Opportunity WHERE CloseDate = TODAY OR CloseDate = TOMORROW OR CloseDate = THIS_WEEK OR CloseDate = NEXT_WEEK OR CloseDate = THIS_MONTH OR CloseDate = LAST_MONTH OR CloseDate = NEXT_MONTH OR CloseDate = THIS_QUARTER OR CloseDate = LAST_QUARTER OR CloseDate = NEXT_QUARTER OR CloseDate = THIS_YEAR OR CloseDate = LAST_YEAR OR CloseDate = NEXT_YEAR OR CloseDate = LAST_90_DAYS OR CloseDate = NEXT_90_DAYS OR CloseDate = THIS_FISCAL_QUARTER OR CloseDate = LAST_FISCAL_QUARTER OR CloseDate = NEXT_FISCAL_QUARTER OR CloseDate = THIS_FISCAL_YEAR OR CloseDate = LAST_FISCAL_YEAR OR CloseDate = NEXT_FISCAL_YEAR
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (or_expression
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal))))))
+
+==================
+Parameterized date literals inventory
+==================
+
+SELECT Id FROM Opportunity WHERE CloseDate > LAST_N_DAYS:90 AND CloseDate < NEXT_N_WEEKS:4 AND CloseDate > LAST_N_WEEKS:2 AND CloseDate < NEXT_N_MONTHS:6 AND CloseDate > LAST_N_MONTHS:3 AND CloseDate < NEXT_N_QUARTERS:2 AND CloseDate > LAST_N_QUARTERS:1 AND CloseDate < NEXT_N_YEARS:2 AND CloseDate > LAST_N_YEARS:1 AND CloseDate < NEXT_N_FISCAL_QUARTERS:2 AND CloseDate > LAST_N_FISCAL_QUARTERS:1 AND CloseDate < NEXT_N_FISCAL_YEARS:2 AND CloseDate > LAST_N_FISCAL_YEARS:1
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (and_expression
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))
+        (comparison_expression
+          (field_identifier (identifier))
+          (value_comparison_operator)
+          (date_literal_with_param
+            (date_literal)
+            (int)))))))

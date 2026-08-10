@@ -71,3 +71,57 @@ FIND 'Acme' RETURNING Account(Name ORDER BY Name ASC LIMIT 10)
       (order_item
         (field_path (identifier)))
       (integer))))
+
+====================================
+IN NAME, PHONE, and SIDEBAR FIELDS
+====================================
+FIND 'John*' IN NAME FIELDS RETURNING Contact(Name)
+FIND '555-1234' IN PHONE FIELDS RETURNING Contact(Phone)
+FIND 'Help' IN SIDEBAR FIELDS RETURNING FAQ__kav(Title)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))))
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))))
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))))
+
+====================================
+SOSL with UPDATE and OFFSET
+====================================
+FIND 'test' RETURNING Article__kav(Title) UPDATE TRACKING
+FIND 'test' RETURNING Article__kav(Title) UPDATE VIEWSTAT
+FIND 'test' RETURNING Account(Name) OFFSET 25
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))
+    update: (identifier))
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))
+    update: (identifier))
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))
+    offset: (integer)))

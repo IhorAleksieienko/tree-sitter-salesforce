@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] — 2026-08-10
 
+- **Test Parity & Regression Protection Suite** — Comprehensive test corpus expansion across Apex, SOQL, SOSL, and SFLOG grammars:
+  - **Apex Operators Corpus** (`apex/test/corpus/operators.txt`): Exhaustive test coverage for compound assignment (`+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`, `<<=`, `>>=`, `>>>=`), bitwise/shift operators (`&`, `|`, `^`, `~`, `<<`, `>>`, `>>>`), ternary conditionals, null-coalescing (`??`), and safe navigation (`?.`).
+  - **Apex DML & Exception Handling** (`apex/test/corpus/statements.txt`): Tests for DML `merge` with array elements, `upsert` with schema field references, multi-catch exception blocks, and standalone `try-finally`.
+  - **SOQL Exhaustive Date Literals** (`soql/test/corpus/date-literals.txt`): Comprehensive test suite for all platform date literal keywords (`TODAY`, `YESTERDAY`, `TOMORROW`, `LAST_N_DAYS:n`, `NEXT_N_WEEKS:n`, fiscal quarters/years) and ISO-8601 timezone offsets.
+  - **SOQL Clauses & Multi-Queries** (`soql/test/corpus/clauses.txt`, `basic-queries.txt`, `aggregate_queries.txt`): Tests for individual `USING SCOPE` keywords (`delegated`, `everything`, `mine`, `my_territory`, `team`), `FOR VIEW, REFERENCE`, `UPDATE TRACKING/VIEWSTAT`, deep 5-level dotted relationships, and multi-subqueries.
+  - **SOSL Search & Scope** (`sosl/test/corpus/scoped_searches.txt`): Tests for `IN ALL/NAME/EMAIL/PHONE/SIDEBAR FIELDS`, `UPDATE TRACKING/VIEWSTAT`, and `OFFSET`.
+  - **Code Navigation Tag Test Fixtures** (`apex/test/tags/classes.cls`): Tag definition assertion suite for classes, interfaces, enums, triggers, and methods.
 - **Salesforce Debug Log grammar (`sflog`)** (`sflog/grammar.js`) — Dedicated Tree-sitter parser for Salesforce execution debug logs (`.log`), parsing API version headers, category log filters, timestamped execution events (`USER_DEBUG`, `SOQL_EXECUTE_BEGIN`/`END`, `DML_BEGIN`/`END`, `METHOD_ENTRY`/`EXIT`, `CODE_UNIT_STARTED`/`FINISHED`, `USER_INFO`, `VARIABLE_SCOPE_BEGIN`, `VARIABLE_ASSIGNMENT`, `EXCEPTION_THROWN`, `FATAL_ERROR`), and cumulative governor limit summary tables.
 - **`sflog` multi-language bindings and subpath exports** — Added `tree-sitter-salesforce/sflog` subpath export in Node.js, `tss.sflog()` loader in Python bindings, native N-API and C-API bindings, and playground WASM support.
 - **Modern Node.js subpath exports** (`package.json`) — Support for direct granular imports (`tree-sitter-salesforce/apex`, `tree-sitter-salesforce/apex-anon`, `tree-sitter-salesforce/soql`, `tree-sitter-salesforce/sosl`, `tree-sitter-salesforce/formula`, `tree-sitter-salesforce/sflog`) in CommonJS and ESM with full TypeScript type declarations.

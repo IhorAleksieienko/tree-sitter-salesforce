@@ -342,5 +342,131 @@ SELECT Id FROM Contact WITH RecordVisibilityContext(maxDescribeValueLength=20, e
           (identifier)
           (boolean))))))
 
+==================
+USING SCOPE keywords
+==================
 
+SELECT Id FROM Account USING SCOPE mine
+SELECT Id FROM Account USING SCOPE delegated
+SELECT Id FROM Account USING SCOPE everything
+SELECT Id FROM Account USING SCOPE mine_and_my_groups
+SELECT Id FROM Account USING SCOPE my_territory
+SELECT Id FROM Account USING SCOPE my_team_territory
+SELECT Id FROM Account USING SCOPE team
 
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type))))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type))))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type))))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type))))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type))))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type))))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+FOR and UPDATE clauses
+==================
+
+SELECT Id FROM Account FOR VIEW, REFERENCE
+SELECT Id FROM QuestionArticle__kav UPDATE TRACKING
+SELECT Id FROM QuestionArticle__kav UPDATE VIEWSTAT
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (for_clause
+      (for_type)
+      (for_type)))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (update_clause
+      (update_type)))
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (update_clause
+      (update_type))))
+
+==================
+WITH DATA CATEGORY hierarchy operators
+==================
+
+SELECT Title FROM KnowledgeArticleVersion WITH DATA CATEGORY Location__c ABOVE USA__c AND Product__c BELOW (Phones__c, Laptops__c)
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (with_clause
+      (data_category_filter
+        group: (identifier)
+        category: (identifier))
+      (data_category_filter
+        group: (identifier)
+        category: (identifier)
+        category: (identifier)))))

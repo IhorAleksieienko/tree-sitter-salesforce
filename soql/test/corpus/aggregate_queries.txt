@@ -103,3 +103,56 @@ SELECT Name, GROUPING(StageName) grp FROM Opportunity GROUP BY ROLLUP(Name, Stag
         (identifier))
       (field_identifier
         (identifier)))))
+
+====================================
+Multi-aggregate aliases with complex HAVING
+====================================
+SELECT LeadSource, COUNT(Id) cnt, AVG(AnnualRevenue) avgRev FROM Lead GROUP BY LeadSource HAVING COUNT(Id) > 10 AND (AVG(AnnualRevenue) > 50000 OR MAX(AnnualRevenue) > 100000)
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (alias_expression
+        (function_expression
+          (identifier)
+          (field_identifier
+            (identifier)))
+        (identifier))
+      (alias_expression
+        (function_expression
+          (identifier)
+          (field_identifier
+            (identifier)))
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier))
+      (having_clause
+        (and_expression
+          (comparison_expression
+            (function_expression
+              (identifier)
+              (field_identifier
+                (identifier)))
+            (value_comparison_operator)
+            (int))
+          (or_expression
+            (comparison_expression
+              (function_expression
+                (identifier)
+                (field_identifier
+                  (identifier)))
+              (value_comparison_operator)
+              (int))
+            (comparison_expression
+              (function_expression
+                (identifier)
+                (field_identifier
+                  (identifier)))
+              (value_comparison_operator)
+              (int))))))))

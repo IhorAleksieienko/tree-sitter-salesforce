@@ -850,4 +850,193 @@ public class T {
                     name: (identifier)
                     arguments: (argument_list)))))))))))
 
+====================================
+DML merge operations
+====================================
 
+public class T {
+    public void doWork() {
+        merge accounts[0] accounts[1];
+        merge masterContact new List<Contact>{oldContact1, oldContact2};
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (dml_statement
+            (dml_type)
+            record: (array_access
+              array: (identifier)
+              index: (int))
+            options: (array_access
+              array: (identifier)
+              index: (int)))
+          (dml_statement
+            (dml_type)
+            record: (identifier)
+            options: (new_expression
+              type: (generic_type
+                (type_identifier
+                  (identifier))
+                (type_arguments
+                  (type_identifier
+                    (identifier))))
+              (array_initializer
+                (identifier)
+                (identifier)))))))))
+
+====================================
+DML upsert with schema field
+====================================
+
+public class T {
+    public void doWork() {
+        upsert a Account.External_Id__c;
+        upsert contacts.values() Schema.Contact.External_Id__c;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (dml_statement
+            (dml_type)
+            record: (identifier)
+            options: (field_access
+              object: (identifier)
+              field: (identifier)))
+          (dml_statement
+            (dml_type)
+            record: (method_invocation
+              object: (identifier)
+              name: (identifier)
+              arguments: (argument_list))
+            options: (field_access
+              object: (field_access
+                object: (identifier)
+                field: (identifier))
+              field: (identifier))))))))
+
+====================================
+Multi-catch and try-finally
+====================================
+
+public class T {
+    public void doWork() {
+        try {
+            doWork();
+        } catch (DMLException e) {
+            handleDml(e);
+        } catch (NullPointerException e) {
+            handleNpe(e);
+        } catch (Exception e) {
+            handleGeneral(e);
+        } finally {
+            cleanup();
+        }
+
+        try {
+            lock();
+        } finally {
+            unlock();
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (try_statement
+            body: (block
+              (expression_statement
+                (method_invocation
+                  name: (identifier)
+                  arguments: (argument_list))))
+            (catch_clause
+              (catch_formal_parameter
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list
+                      (identifier))))))
+            (catch_clause
+              (catch_formal_parameter
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list
+                      (identifier))))))
+            (catch_clause
+              (catch_formal_parameter
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list
+                      (identifier))))))
+            (finally_clause
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list))))))
+          (try_statement
+            body: (block
+              (expression_statement
+                (method_invocation
+                  name: (identifier)
+                  arguments: (argument_list))))
+            (finally_clause
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list)))))))))))
