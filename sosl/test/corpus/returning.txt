@@ -1,0 +1,59 @@
+====================================
+RETURNING with projection functions toLabel, convertCurrency, FORMAT
+====================================
+FIND 'Acme' RETURNING Account(Id, toLabel(Type), convertCurrency(AnnualRevenue), FORMAT(CreatedDate))
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (projection_function_call
+        (field_path (identifier)))
+      (projection_function_call
+        (field_path (identifier)))
+      (projection_function_call
+        (field_path (identifier))))))
+
+====================================
+RETURNING with projections and multiple objects
+====================================
+FIND {Cloud Computing*}
+IN ALL FIELDS
+RETURNING Account(Id, Name, toLabel(Industry), convertCurrency(AnnualRevenue)),
+          Contact(Id, FirstName, LastName, FORMAT(CreatedDate))
+WITH USER_MODE
+WITH NETWORK IN ('CommunityA', 'CommunityB')
+WITH SNIPPET (TARGET_LENGTH = 120)
+LIMIT 50
+---
+(source_file
+  (sosl_query
+    (sosl_brace_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier))
+      (projection_function_call
+        (field_path (identifier)))
+      (projection_function_call
+        (field_path (identifier))))
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier))
+      (field_path (identifier))
+      (projection_function_call
+        (field_path (identifier))))
+    (with_clause
+      (with_security_clause))
+    (with_clause
+      (with_network_clause
+        (sosl_string)
+        (sosl_string)))
+    (with_clause
+      (with_snippet_clause
+        (integer)))
+    (integer)))

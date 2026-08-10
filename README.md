@@ -18,8 +18,8 @@ and Anonymous Apex**.
 - 🔍 **SOQL parser** — Full query syntax including `TYPEOF`, `GROUP BY ROLLUP/CUBE`,
   date functions (`CALENDAR_MONTH`, `FISCAL_YEAR`), scalar functions (`FORMAT`, `convertCurrency`, `toLabel`, `GROUPING`), `convertTimezone()`, time literals, dynamic formula filtering (`FORMULA(...)`), `ALL ROWS` clause, bind variables, `USING SCOPE / LOOKUP ... BIND`, and all security
   clauses (`WITH USER_MODE / SYSTEM_MODE / DATA CATEGORY / RecordVisibilityContext`).
-- 🔎 **SOSL parser** — Full-text search language: `FIND … IN … RETURNING … WITH …`,
-  field scopes, per-object `WHERE` / `ORDER BY` / `LIMIT`, `WITH HIGHLIGHT`, `WITH SNIPPET`.
+- 🔎 **SOSL parser** — Full-text search language: `FIND {term} / 'term'`,
+  field scopes, per-object `WHERE` / `ORDER BY` / `LIMIT` / projections (`toLabel()`, `convertCurrency()`, `FORMAT()`), and modern `WITH` clauses (`USER_MODE`, `SYSTEM_MODE`, `METADATA`, `NETWORK IN`, `SNIPPET (TARGET_LENGTH=n)`).
 - 📐 **Formula Language parser** — Declarative formula expressions for Validation Rules,
   Formula Fields, and Flow criteria: 50+ built-in functions, field-path references, and
   global context variables (`$User`, `$Organization`, `$CustomMetadata`, `$Setup`).

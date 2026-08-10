@@ -1,0 +1,40 @@
+====================================
+FIND with curly braces search term
+====================================
+FIND {Universal Containers}
+---
+(source_file
+  (sosl_query
+    (sosl_brace_string)))
+
+====================================
+FIND with curly braces wildcard and boolean operators
+====================================
+FIND {Acme* OR "Tech Corp"}
+---
+(source_file
+  (sosl_query
+    (sosl_brace_string)))
+
+====================================
+FIND with curly braces question mark wildcard
+====================================
+FIND {test?}
+---
+(source_file
+  (sosl_query
+    (sosl_brace_string)))
+
+====================================
+FIND with curly braces and RETURNING
+====================================
+FIND {Cloud Computing*} IN ALL FIELDS RETURNING Account(Id, Name)
+---
+(source_file
+  (sosl_query
+    (sosl_brace_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier)))))

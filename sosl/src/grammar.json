@@ -93,20 +93,15 @@
           ]
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "with_clause",
-              "content": {
-                "type": "SYMBOL",
-                "name": "with_clause"
-              }
-            },
-            {
-              "type": "BLANK"
+          "type": "REPEAT",
+          "content": {
+            "type": "FIELD",
+            "name": "with_clause",
+            "content": {
+              "type": "SYMBOL",
+              "name": "with_clause"
             }
-          ]
+          }
         },
         {
           "type": "CHOICE",
@@ -203,6 +198,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "sosl_brace_string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "bind_variable"
         }
       ]
@@ -210,6 +209,29 @@
     "sosl_string": {
       "type": "PATTERN",
       "value": "'[^']*'"
+    },
+    "sosl_brace_string": {
+      "type": "TOKEN",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "PATTERN",
+              "value": "[^}]"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "}"
+          }
+        ]
+      }
     },
     "bind_variable": {
       "type": "SEQ",
@@ -323,7 +345,7 @@
                     "members": [
                       {
                         "type": "SYMBOL",
-                        "name": "field_path"
+                        "name": "_returning_field"
                       },
                       {
                         "type": "REPEAT",
@@ -336,7 +358,7 @@
                             },
                             {
                               "type": "SYMBOL",
-                              "name": "field_path"
+                              "name": "_returning_field"
                             }
                           ]
                         }
@@ -508,6 +530,57 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "_returning_field": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "field_path"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "projection_function_call"
+        }
+      ]
+    },
+    "projection_function_call": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "PATTERN",
+              "value": "[tT][oO][lL][aA][bB][eE][lL]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[cC][oO][nN][vV][eE][rR][tT][cC][uU][rR][rR][eE][nN][cC][yY]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[fF][oO][rR][mM][aA][tT]"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "field",
+          "content": {
+            "type": "SYMBOL",
+            "name": "field_path"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },
@@ -862,19 +935,113 @@
           "type": "CHOICE",
           "members": [
             {
+              "type": "SYMBOL",
+              "name": "with_security_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "with_metadata_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "with_network_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "with_snippet_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "with_division_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "with_data_category_clause"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "with_pricebook_clause"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[hH][iI][gG][hH][lL][iI][gG][hH][tT]"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[sS][pP][eE][lL][lL][__][cC][oO][rR][rR][eE][cC][tT][iI][oO][nN]"
+            }
+          ]
+        }
+      ]
+    },
+    "with_security_clause": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[uU][sS][eE][rR][__][mM][oO][dD][eE]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[sS][yY][sS][tT][eE][mM][__][mM][oO][dD][eE]"
+        }
+      ]
+    },
+    "with_metadata_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[mM][eE][tT][aA][dD][aA][tT][aA]"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "sosl_string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bind_variable"
+            }
+          ]
+        }
+      ]
+    },
+    "with_network_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[nN][eE][tT][wW][oO][rR][kK]"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
               "type": "SEQ",
               "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[dD][iI][vV][iI][sS][iI][oO][nN]"
-                },
                 {
                   "type": "STRING",
                   "value": "="
                 },
                 {
-                  "type": "SYMBOL",
-                  "name": "sosl_string"
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "sosl_string"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "bind_variable"
+                    }
+                  ]
                 }
               ]
             },
@@ -883,18 +1050,27 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "[dD][aA][tT][aA]"
+                  "value": "[iI][nN]"
                 },
                 {
-                  "type": "PATTERN",
-                  "value": "[cC][aA][tT][eE][gG][oO][rR][yY]"
+                  "type": "STRING",
+                  "value": "("
                 },
                 {
                   "type": "SEQ",
                   "members": [
                     {
-                      "type": "SYMBOL",
-                      "name": "data_category_filter"
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "sosl_string"
+                        },
+                        {
+                          "type": "SYMBOL",
+                          "name": "bind_variable"
+                        }
+                      ]
                     },
                     {
                       "type": "REPEAT",
@@ -906,34 +1082,53 @@
                             "value": ","
                           },
                           {
-                            "type": "SYMBOL",
-                            "name": "data_category_filter"
+                            "type": "CHOICE",
+                            "members": [
+                              {
+                                "type": "SYMBOL",
+                                "name": "sosl_string"
+                              },
+                              {
+                                "type": "SYMBOL",
+                                "name": "bind_variable"
+                              }
+                            ]
                           }
                         ]
                       }
                     }
                   ]
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
                 }
               ]
-            },
-            {
-              "type": "PATTERN",
-              "value": "[hH][iI][gG][hH][lL][iI][gG][hH][tT]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "[sS][nN][iI][pP][pP][eE][tT]"
-            },
-            {
-              "type": "PATTERN",
-              "value": "[sS][pP][eE][lL][lL][__][cC][oO][rR][rR][eE][cC][tT][iI][oO][nN]"
-            },
+            }
+          ]
+        }
+      ]
+    },
+    "with_snippet_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[sS][nN][iI][pP][pP][eE][tT]"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
             {
               "type": "SEQ",
               "members": [
                 {
+                  "type": "STRING",
+                  "value": "("
+                },
+                {
                   "type": "PATTERN",
-                  "value": "[nN][eE][tT][wW][oO][rR][kK]"
+                  "value": "[tT][aA][rR][gG][eE][tT][__][lL][eE][nN][gG][tT][hH]"
                 },
                 {
                   "type": "STRING",
@@ -941,26 +1136,106 @@
                 },
                 {
                   "type": "SYMBOL",
-                  "name": "sosl_string"
+                  "name": "integer"
+                },
+                {
+                  "type": "STRING",
+                  "value": ")"
                 }
               ]
             },
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "PATTERN",
-                  "value": "[pP][rR][iI][cC][eE][bB][oO][oO][kK][__][iI][dD]"
-                },
-                {
-                  "type": "STRING",
-                  "value": "="
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "sosl_string"
-                }
-              ]
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "with_division_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[dD][iI][vV][iI][sS][iI][oO][nN]"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "sosl_string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bind_variable"
+            }
+          ]
+        }
+      ]
+    },
+    "with_data_category_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[dD][aA][tT][aA]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[cC][aA][tT][eE][gG][oO][rR][yY]"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "data_category_filter"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "data_category_filter"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "with_pricebook_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[pP][rR][iI][cC][eE][bB][oO][oO][kK][__][iI][dD]"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "sosl_string"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "bind_variable"
             }
           ]
         }

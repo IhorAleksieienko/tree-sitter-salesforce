@@ -56,7 +56,7 @@ module.exports = grammar({
       field("search_query", $._search_term),
       optional(seq(ci("in"), field("scope", $.field_scope))),
       optional(seq(ci("returning"), field("returning", commaJoined1($.returning_clause)))),
-      optional(field("with_clause", $.with_clause)),
+      repeat(field("with_clause", $.with_clause)),
       optional(seq(ci("limit"), field("limit", $.integer))),
       optional(seq(ci("offset"), field("offset", $.integer))),
       optional(seq(ci("update"), field("update", choice(ci("tracking"), ci("viewstat")))))
@@ -64,15 +64,19 @@ module.exports = grammar({
 
     // ───────────────────────────────────────────────────────────────────────
     // SEARCH TERM
-    // Supports: 'simple', 'wild*card', 'phrase search', :bindVariable
+    // Supports: 'simple', 'wild*card', 'phrase search', {brace term}, :bindVariable
     // ───────────────────────────────────────────────────────────────────────
     _search_term: ($) => choice(
       $.sosl_string,
+      $.sosl_brace_string,
       $.bind_variable
     ),
 
     // SOSL strings allow * and ? wildcards inside single quotes
     sosl_string: ($) => /'[^']*'/,
+
+    // SOSL brace string allows * and ? wildcards, logical operators, and quotes inside braces
+    sosl_brace_string: ($) => token(seq("{", repeat(/[^}]/), "}")),
 
     bind_variable: ($) => seq(":", $.identifier),
 
@@ -89,13 +93,13 @@ module.exports = grammar({
 
     // ───────────────────────────────────────────────────────────────────────
     // RETURNING CLAUSE
-    // RETURNING Account(Id, Name WHERE Name != null ORDER BY Name LIMIT 10)
+    // RETURNING Account(Id, Name, toLabel(Type) WHERE Name != null ORDER BY Name LIMIT 10)
     // ───────────────────────────────────────────────────────────────────────
     returning_clause: ($) => seq(
       field("sobject", $.identifier),
       optional(seq(
         "(",
-        field("fields", commaJoined1($.field_path)),
+        field("fields", commaJoined1($._returning_field)),
         optional(seq(ci("using"), ci("listview"), "=", $.identifier)),
         optional(seq(ci("where"), field("condition", $.where_condition))),
         optional(seq(ci("order"), ci("by"), field("order", commaJoined1($.order_item)))),
@@ -103,6 +107,18 @@ module.exports = grammar({
         optional(seq(ci("offset"), field("offset", $.integer))),
         ")"
       ))
+    ),
+
+    _returning_field: ($) => choice(
+      $.field_path,
+      $.projection_function_call
+    ),
+
+    projection_function_call: ($) => seq(
+      choice(ci("toLabel"), ci("convertCurrency"), ci("FORMAT")),
+      "(",
+      field("field", $.field_path),
+      ")"
     ),
 
     // ───────────────────────────────────────────────────────────────────────
@@ -179,14 +195,58 @@ module.exports = grammar({
     with_clause: ($) => seq(
       ci("with"),
       choice(
-        seq(ci("division"), "=", $.sosl_string),
-        seq(ci("data"), ci("category"), commaJoined1($.data_category_filter)),
+        $.with_security_clause,
+        $.with_metadata_clause,
+        $.with_network_clause,
+        $.with_snippet_clause,
+        $.with_division_clause,
+        $.with_data_category_clause,
+        $.with_pricebook_clause,
         ci("highlight"),
-        ci("snippet"),
-        ci("spell_correction"),
-        seq(ci("network"), "=", $.sosl_string),
-        seq(ci("pricebook_id"), "=", $.sosl_string)
+        ci("spell_correction")
       )
+    ),
+
+    with_security_clause: ($) => choice(
+      ci("USER_MODE"),
+      ci("SYSTEM_MODE")
+    ),
+
+    with_metadata_clause: ($) => seq(
+      ci("METADATA"),
+      "=",
+      choice($.sosl_string, $.bind_variable)
+    ),
+
+    with_network_clause: ($) => seq(
+      ci("NETWORK"),
+      choice(
+        seq("=", choice($.sosl_string, $.bind_variable)),
+        seq(ci("IN"), "(", commaJoined1(choice($.sosl_string, $.bind_variable)), ")")
+      )
+    ),
+
+    with_snippet_clause: ($) => seq(
+      ci("SNIPPET"),
+      optional(seq("(", ci("TARGET_LENGTH"), "=", $.integer, ")"))
+    ),
+
+    with_division_clause: ($) => seq(
+      ci("DIVISION"),
+      "=",
+      choice($.sosl_string, $.bind_variable)
+    ),
+
+    with_data_category_clause: ($) => seq(
+      ci("DATA"),
+      ci("CATEGORY"),
+      commaJoined1($.data_category_filter)
+    ),
+
+    with_pricebook_clause: ($) => seq(
+      ci("PRICEBOOK_ID"),
+      "=",
+      choice($.sosl_string, $.bind_variable)
     ),
 
     data_category_filter: ($) => seq(

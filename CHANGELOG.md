@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **SOSL grammar** (`sosl/grammar.js`) — Full Salesforce Object Search Language support:
   `FIND … IN … RETURNING … WITH …`, field scopes, per-object WHERE/ORDER/LIMIT, WITH clauses.
+- **SOSL brace search delimiters** (`sosl_brace_string`) — Support for curly brace search terms (`FIND {term}`) with wildcards, logical operators, and exact phrase patterns.
+- **SOSL `RETURNING` projection functions** (`projection_function_call`) — Support for `toLabel()`, `convertCurrency()`, and `FORMAT()` inside `RETURNING` field lists.
+- **Modern SOSL `WITH` clauses** — Support for `WITH USER_MODE`/`WITH SYSTEM_MODE` (`with_security_clause`), `WITH METADATA` (`with_metadata_clause`), `WITH NETWORK IN (...)` list syntax (`with_network_clause`), `WITH SNIPPET (TARGET_LENGTH = n)` (`with_snippet_clause`), and `:bindVariable` support in `WITH DIVISION` (`with_division_clause`).
+
 - **Formula Language grammar** (`formula/grammar.js`) — Declarative formula expression parser
   for Validation Rules, Formula Fields, and Flow criteria. 50+ built-in functions, field-path
   references, global context variables (`$User`, `$CustomMetadata`).

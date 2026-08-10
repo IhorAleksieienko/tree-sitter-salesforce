@@ -1,0 +1,136 @@
+====================================
+WITH USER_MODE
+====================================
+FIND 'Acme' WITH USER_MODE
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_security_clause))))
+
+====================================
+WITH SYSTEM_MODE
+====================================
+FIND 'Acme' WITH SYSTEM_MODE
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_security_clause))))
+
+====================================
+WITH METADATA literal
+====================================
+FIND 'Acme' WITH METADATA = 'CustomSearch'
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_metadata_clause
+        (sosl_string)))))
+
+====================================
+WITH METADATA bind variable
+====================================
+FIND 'Acme' WITH METADATA = :metaVar
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_metadata_clause
+        (bind_variable
+          (identifier))))))
+
+====================================
+WITH NETWORK IN list
+====================================
+FIND 'Acme' WITH NETWORK IN ('Net1', 'Net2')
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_network_clause
+        (sosl_string)
+        (sosl_string)))))
+
+====================================
+WITH NETWORK single equals
+====================================
+FIND 'Acme' WITH NETWORK = 'Net1'
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_network_clause
+        (sosl_string)))))
+
+====================================
+WITH SNIPPET with TARGET_LENGTH
+====================================
+FIND 'Acme' WITH SNIPPET (TARGET_LENGTH = 200)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_snippet_clause
+        (integer)))))
+
+====================================
+WITH SNIPPET without arguments
+====================================
+FIND 'Acme' WITH SNIPPET
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_snippet_clause))))
+
+====================================
+WITH DIVISION bind variable
+====================================
+FIND 'Acme' WITH DIVISION = :divVar
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_division_clause
+        (bind_variable
+          (identifier))))))
+
+====================================
+WITH DIVISION string literal
+====================================
+FIND 'Acme' WITH DIVISION = 'Global'
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_division_clause
+        (sosl_string)))))
+
+====================================
+Multiple WITH clauses
+====================================
+FIND 'Acme' WITH USER_MODE WITH NETWORK IN ('Net1') WITH SNIPPET (TARGET_LENGTH = 100)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (with_clause
+      (with_security_clause))
+    (with_clause
+      (with_network_clause
+        (sosl_string)))
+    (with_clause
+      (with_snippet_clause
+        (integer)))))

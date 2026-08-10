@@ -15,16 +15,28 @@ simultaneously, unlike SOQL which queries a single object per statement.
 ## Basic Syntax
 
 ```text
-FIND 'search_term'
+FIND 'search_term' | {search_term} | :bindVar
   [IN field_scope]
   [RETURNING object_spec, ...]
-  [WITH clause]
+  [WITH clause ...]
   [LIMIT n]
   [OFFSET n]
   [UPDATE TRACKING | VIEWSTAT]
 ```
 
 ## Examples
+
+### Curly brace full-text search with projection functions
+
+```sosl
+FIND {Cloud Computing*} IN ALL FIELDS
+RETURNING Account(Id, Name, toLabel(Industry), convertCurrency(AnnualRevenue)),
+          Contact(Id, FirstName, LastName, FORMAT(CreatedDate))
+WITH USER_MODE
+WITH NETWORK IN ('CommunityA', 'CommunityB')
+WITH SNIPPET (TARGET_LENGTH = 120)
+LIMIT 50
+```
 
 ### Simple search across all fields
 
@@ -41,11 +53,11 @@ RETURNING Account(Id, Name),
 LIMIT 50
 ```
 
-### Per-object filtering and sorting
+### Per-object filtering, projection, and sorting
 
 ```sosl
 FIND 'San Jose' IN ALL FIELDS
-RETURNING Account(Id, Name WHERE BillingCountry = 'US' ORDER BY Name ASC LIMIT 10),
+RETURNING Account(Id, Name, toLabel(Type) WHERE BillingCountry = 'US' ORDER BY Name ASC LIMIT 10),
           Lead(Name, Company WHERE IsConverted = false)
 ```
 
@@ -55,13 +67,13 @@ RETURNING Account(Id, Name WHERE BillingCountry = 'US' ORDER BY Name ASC LIMIT 1
 FIND 'cloud computing' IN ALL FIELDS
 RETURNING KnowledgeArticleVersion(Id, Title)
 WITH HIGHLIGHT
-WITH SNIPPET
+WITH SNIPPET (TARGET_LENGTH = 150)
 ```
 
-### Bind variable in search term
+### Bind variable in search term and WITH clauses
 
 ```sosl
-FIND :searchQuery IN ALL FIELDS RETURNING Account(Name)
+FIND :searchQuery IN ALL FIELDS RETURNING Account(Name) WITH DIVISION = :divVar
 ```
 
 ## Field Scopes
@@ -79,14 +91,21 @@ FIND :searchQuery IN ALL FIELDS RETURNING Account(Name)
 ```text
 (source_file
   (sosl_query
-    (sosl_string)                    ; 'Acme*'
-    (field_scope)                    ; IN NAME FIELDS
+    (sosl_brace_string)              ; {Cloud Computing*}
+    (field_scope)                    ; IN ALL FIELDS
     (returning_clause                ; RETURNING Account(...)
       (identifier)                   ; Account
       (field_path)                   ; Id
       (field_path)                   ; Name
-      (where_condition))             ; WHERE ...
-    (with_clause)                    ; WITH HIGHLIGHT
+      (projection_function_call      ; toLabel(Industry)
+        (field_path)))
+      (projection_function_call      ; convertCurrency(AnnualRevenue)
+        (field_path)))
+    (with_clause                     ; WITH USER_MODE
+      (with_security_clause))
+    (with_clause                     ; WITH SNIPPET (TARGET_LENGTH = 120)
+      (with_snippet_clause
+        (integer)))
     (integer)))                      ; LIMIT 50
 ```
 

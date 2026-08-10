@@ -170,6 +170,22 @@
     }
   },
   {
+    "type": "projection_function_call",
+    "named": true,
+    "fields": {
+      "field": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "returning_clause",
     "named": true,
     "fields": {
@@ -193,6 +209,10 @@
           },
           {
             "type": "field_path",
+            "named": true
+          },
+          {
+            "type": "projection_function_call",
             "named": true
           }
         ]
@@ -310,13 +330,17 @@
             "named": true
           },
           {
+            "type": "sosl_brace_string",
+            "named": true
+          },
+          {
             "type": "sosl_string",
             "named": true
           }
         ]
       },
       "with_clause": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
@@ -414,15 +438,146 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
+      "types": [
+        {
+          "type": "with_data_category_clause",
+          "named": true
+        },
+        {
+          "type": "with_division_clause",
+          "named": true
+        },
+        {
+          "type": "with_metadata_clause",
+          "named": true
+        },
+        {
+          "type": "with_network_clause",
+          "named": true
+        },
+        {
+          "type": "with_pricebook_clause",
+          "named": true
+        },
+        {
+          "type": "with_security_clause",
+          "named": true
+        },
+        {
+          "type": "with_snippet_clause",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_data_category_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
       "types": [
         {
           "type": "data_category_filter",
           "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_division_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bind_variable",
+          "named": true
         },
         {
           "type": "sosl_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_metadata_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bind_variable",
+          "named": true
+        },
+        {
+          "type": "sosl_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_network_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "bind_variable",
+          "named": true
+        },
+        {
+          "type": "sosl_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_pricebook_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "bind_variable",
+          "named": true
+        },
+        {
+          "type": "sosl_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "with_security_clause",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "with_snippet_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "integer",
           "named": true
         }
       ]
@@ -490,6 +645,10 @@
   },
   {
     "type": "null_literal",
+    "named": true
+  },
+  {
+    "type": "sosl_brace_string",
     "named": true
   },
   {

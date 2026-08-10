@@ -76,19 +76,25 @@ organized by the API version that introduced each feature.
 | Feature | Parser Status | Notes |
 |---|---|---|
 | FIND 'term' | ✅ Implemented | Single-quoted string with wildcard support (`*`, `?`) |
+| FIND {term} | ✅ Implemented | Curly brace search terms supporting wildcards, logical operators, and exact phrases |
 | FIND :bindVar | ✅ Implemented | Bind variable search terms |
 | IN ALL / NAME / EMAIL / PHONE / SIDEBAR FIELDS | ✅ Implemented | All field scopes |
 | RETURNING SObject(fields) | ✅ Implemented | Per-object field projection |
+| RETURNING Projections (`toLabel()`, `convertCurrency()`, `FORMAT()`) | ✅ Implemented | Field projection functions inside RETURNING object specifications |
 | RETURNING with WHERE | ✅ Implemented | Per-object filter conditions |
 | RETURNING with ORDER BY / LIMIT / OFFSET | ✅ Implemented | Per-object sorting and pagination |
 | RETURNING with USING LISTVIEW | ✅ Implemented | List view filtering |
-| WITH HIGHLIGHT | ✅ Implemented | |
-| WITH SNIPPET | ✅ Implemented | |
-| WITH SPELL_CORRECTION | ✅ Implemented | |
-| WITH DATA CATEGORY … AT/ABOVE/BELOW | ✅ Implemented | |
-| WITH DIVISION / NETWORK / PRICEBOOK_ID | ✅ Implemented | Division, Experience Cloud, and B2B Commerce filters |
-| LIMIT / OFFSET (query-level) | ✅ Implemented | |
-| UPDATE TRACKING / VIEWSTAT | ✅ Implemented | |
+| WITH USER_MODE / WITH SYSTEM_MODE | ✅ Implemented | Modern security context execution modes |
+| WITH METADATA | ✅ Implemented | Metadata search scope filtering (`METADATA = '...'` or `:bindVar`) |
+| WITH NETWORK / NETWORK IN | ✅ Implemented | Experience Cloud network filtering with single equals or `IN ('...', ...)` list |
+| WITH SNIPPET / SNIPPET (TARGET_LENGTH = n) | ✅ Implemented | Search snippet extraction with optional target length parameter |
+| WITH DIVISION | ✅ Implemented | Division filtering supporting string literals and `:bindVar` |
+| WITH HIGHLIGHT | ✅ Implemented | Search hit highlighting |
+| WITH SPELL_CORRECTION | ✅ Implemented | Spell correction suggestions |
+| WITH DATA CATEGORY … AT/ABOVE/BELOW | ✅ Implemented | Knowledge data category filtering |
+| WITH PRICEBOOK_ID | ✅ Implemented | B2B Commerce pricebook filter supporting string literals and `:bindVar` |
+| LIMIT / OFFSET (query-level) | ✅ Implemented | Query-level result pagination |
+| UPDATE TRACKING / VIEWSTAT | ✅ Implemented | View and search statistic updates |
 
 ## Formula Language Features
 

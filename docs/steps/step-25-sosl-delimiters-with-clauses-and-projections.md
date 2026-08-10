@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Step 12 is COMPLETE.
 > - SOSL grammar is functional at `sosl/grammar.js`.
 > - All SOSL corpus tests pass.
@@ -173,6 +173,7 @@ Confirm all nodes parse without `(ERROR)`.
 
 ## Documentation Updates Required
 
-- [ ] `SALESFORCE_API.md`: Document SOSL brace syntax, modern `WITH` clauses, and projection functions.
-- [ ] `docs/11-understanding-sosl.md`: Update SOSL overview with `{term}`, `WITH USER_MODE`, and `RETURNING` projections.
-- [ ] `CHANGELOG.md`: Record addition of SOSL brace delimiters, modern `WITH` clauses, and return projections.
+- [x] `SALESFORCE_API.md`: Document SOSL brace syntax, modern `WITH` clauses, and projection functions.
+- [x] `docs/11-understanding-sosl.md`: Update SOSL overview with `{term}`, `WITH USER_MODE`, and `RETURNING` projections.
+- [x] `CHANGELOG.md`: Record addition of SOSL brace delimiters, modern `WITH` clauses, and return projections.
+

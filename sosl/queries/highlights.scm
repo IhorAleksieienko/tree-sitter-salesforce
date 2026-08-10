@@ -10,6 +10,13 @@
 
 ; Search string
 (sosl_string) @string
+(sosl_brace_string) @string
+
+; Projection function call
+(projection_function_call) @function.builtin
+
+; Security clause keywords
+(with_security_clause) @keyword
 
 ; Bind variable
 (bind_variable ":" @operator (identifier) @variable.other)
@@ -44,3 +51,5 @@
   ","
   "."
 ] @punctuation
+
+
