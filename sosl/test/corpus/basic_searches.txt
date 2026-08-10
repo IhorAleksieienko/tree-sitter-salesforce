@@ -1,0 +1,56 @@
+====================================
+Simple FIND with RETURNING
+====================================
+FIND 'San Jose' RETURNING Account(Name, BillingCity)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier)))))
+
+====================================
+FIND with bind variable
+====================================
+FIND :searchTerm RETURNING Contact(FirstName, LastName)
+---
+(source_file
+  (sosl_query
+    (bind_variable
+      (identifier))
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier)))))
+
+====================================
+FIND with LIMIT
+====================================
+FIND 'Acme*' RETURNING Account(Id, Name) LIMIT 20
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier)))
+    (integer)))
+
+====================================
+FIND with multiple RETURNING objects
+====================================
+FIND 'test' RETURNING Account(Id), Contact(Id, Email)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier)))))

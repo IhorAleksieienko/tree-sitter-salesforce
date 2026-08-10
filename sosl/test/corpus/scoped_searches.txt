@@ -1,0 +1,73 @@
+====================================
+IN ALL FIELDS
+====================================
+FIND 'search' IN ALL FIELDS RETURNING Lead(Name)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))))
+
+====================================
+IN EMAIL FIELDS
+====================================
+FIND 'user@example.com' IN EMAIL FIELDS RETURNING Contact(Email, Name)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier)))))
+
+====================================
+WITH HIGHLIGHT
+====================================
+FIND 'Acme' IN ALL FIELDS RETURNING Account(Name) WITH HIGHLIGHT
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))
+    (with_clause)))
+
+====================================
+RETURNING with WHERE condition
+====================================
+FIND 'test' RETURNING Account(Id, Name WHERE BillingCountry = 'US')
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (field_path (identifier))
+      (where_condition
+        (comparison
+          (field_path (identifier))
+          (comparison_operator)
+          (value (sosl_string)))))))
+
+====================================
+RETURNING with ORDER BY and LIMIT
+====================================
+FIND 'Acme' RETURNING Account(Name ORDER BY Name ASC LIMIT 10)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier))
+      (order_item
+        (field_path (identifier)))
+      (integer))))
