@@ -412,41 +412,41 @@ module.exports = grammar({
      *   WITH SECURITY_ENFORCED    (enforce field-level security)
      *   WITH USER_MODE            (run query as current user)
      *   WITH SYSTEM_MODE          (run query with full permissions)
+     *   WITH DATA CATEGORY Geography__c AT USA__c
      */
     soql_with_clause: ($) => seq(
       ci("WITH"),
-      alias($.soql_with_type, $.with_type)
+      choice(
+        alias($.soql_with_type, $.with_type),
+        $.with_user_id_type,
+        seq(
+          ci("DATA"),
+          ci("CATEGORY"),
+          $.data_category_filter,
+          repeat(seq(choice(ci("AND"), ","), $.data_category_filter))
+        )
+      )
     ),
 
     soql_with_type: ($) => choice(
       ci("Security_Enforced"),
       ci("User_Mode"),
       ci("System_Mode"),
-      $.with_data_cat_expression,
-      $.with_user_id_type
     ),
 
     with_user_id_type: ($) => seq(ci("UserId"), "=", $.string_literal),
 
     /**
-     * WITH DATA CATEGORY clause — filter knowledge articles by category.
+     * Data category filter for knowledge article queries.
      *
-     * Example:
-     *   WITH DATA CATEGORY Geography AT USA
+     * Format: group operator category
+     * Example: Geography__c AT USA__c
+     * Example: Product__c ABOVE (Phones__c, Computers__c)
      */
-    with_data_cat_expression: ($) => seq(
-      ci("DATA CATEGORY"),
-      joined(ci("AND"), $.with_data_cat_filter)
-    ),
-
-    with_data_cat_filter: ($) => seq(
-      $.identifier,
-      $.with_data_cat_filter_type,
-      choice($.identifier, seq("(", commaJoined1($.identifier), ")"))
-    ),
-
-    with_data_cat_filter_type: ($) => choice(
-      ci("AT"), ci("ABOVE"), ci("BELOW"), ci("ABOVE_OR_BELOW")
+    data_category_filter: ($) => seq(
+      field("group", $.identifier),
+      field("operator", choice(ci("AT"), ci("ABOVE"), ci("BELOW"), ci("ABOVE_OR_BELOW"))),
+      field("category", choice($.identifier, seq("(", commaJoined1($.identifier), ")")))
     ),
 
     // =========================================================================
@@ -455,18 +455,28 @@ module.exports = grammar({
 
     /**
      * GROUP BY clause — group results for aggregate functions.
+     * Supports standard grouping, ROLLUP, and CUBE.
      *
-     * Example:
+     * Examples:
      *   SELECT StageName, COUNT(Id) FROM Opportunity GROUP BY StageName
+     *   SELECT StageName, LeadSource, COUNT(Id) FROM Opportunity GROUP BY ROLLUP(StageName, LeadSource)
+     *   SELECT StageName, LeadSource, SUM(Amount) FROM Opportunity GROUP BY CUBE(StageName, LeadSource)
      */
     group_by_clause: ($) => seq(
-      ci("GROUP BY"),
-      $._group_by_expression,
+      ci("GROUP"),
+      ci("BY"),
+      choice(
+        commaJoined1($._group_by_field),
+        seq(ci("ROLLUP"), "(", commaJoined1($._group_by_field), ")"),
+        seq(ci("CUBE"), "(", commaJoined1($._group_by_field), ")"),
+      ),
       optional($.having_clause)
     ),
 
-    _group_by_expression: ($) => commaJoined1(
-      choice($.field_identifier, $.function_expression)
+    _group_by_field: ($) => choice(
+      $.field_identifier,
+      $.date_function,
+      $.function_expression
     ),
 
     /**
@@ -491,7 +501,8 @@ module.exports = grammar({
      *   ORDER BY CreatedDate DESC, Name ASC
      */
     order_by_clause: ($) => seq(
-      ci("ORDER BY"),
+      ci("ORDER"),
+      ci("BY"),
       commaJoined1($.order_expression)
     ),
 
@@ -575,10 +586,70 @@ module.exports = grammar({
     // =========================================================================
 
     /**
-     * A value expression — either a field reference or a function call.
+     * A value expression — a field reference, date function, scalar function, or general function call.
      * Used in SELECT, WHERE, ORDER BY, and GROUP BY clauses.
      */
-    _value_expression: ($) => choice($.function_expression, $.field_identifier),
+    _value_expression: ($) => choice(
+      $.date_function,
+      $.scalar_function,
+      $.function_expression,
+      $.field_identifier
+    ),
+
+    /**
+     * SOQL Date Functions — extract date/time components.
+     * Can appear in SELECT and GROUP BY clauses.
+     *
+     * Examples:
+     *   CALENDAR_MONTH(CloseDate)
+     *   FISCAL_YEAR(CloseDate)
+     *   DAY_ONLY(CreatedDate)
+     */
+    date_function: ($) => seq(
+      field("name", $.date_function_name),
+      "(",
+      field("argument", $.field_identifier),
+      ")"
+    ),
+
+    date_function_name: ($) => choice(
+      ci("CALENDAR_MONTH"),
+      ci("CALENDAR_QUARTER"),
+      ci("CALENDAR_YEAR"),
+      ci("DAY_IN_MONTH"),
+      ci("DAY_IN_WEEK"),
+      ci("DAY_IN_YEAR"),
+      ci("DAY_ONLY"),
+      ci("FISCAL_MONTH"),
+      ci("FISCAL_QUARTER"),
+      ci("FISCAL_YEAR"),
+      ci("HOUR_IN_DAY"),
+      ci("WEEK_IN_MONTH"),
+      ci("WEEK_IN_YEAR"),
+    ),
+
+    /**
+     * SOQL Scalar Functions — format or convert values.
+     *
+     * Examples:
+     *   FORMAT(Amount)
+     *   convertCurrency(Amount)
+     *   toLabel(StageName)
+     *   GROUPING(StageName)
+     */
+    scalar_function: ($) => seq(
+      field("name", $.scalar_function_name),
+      "(",
+      field("argument", choice($.field_identifier, $.function_expression, $.date_function)),
+      ")"
+    ),
+
+    scalar_function_name: ($) => choice(
+      ci("FORMAT"),
+      ci("convertCurrency"),
+      ci("toLabel"),
+      ci("GROUPING"),
+    ),
 
     /**
      * Function call expression — aggregate and other SOQL functions.
@@ -586,8 +657,6 @@ module.exports = grammar({
      * Examples:
      *   COUNT(Id)
      *   SUM(Amount)
-     *   CALENDAR_MONTH(CreatedDate)
-     *   FORMAT(Amount)
      */
     function_expression: ($) => seq(
       $._function_name,

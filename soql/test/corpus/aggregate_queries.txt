@@ -1,0 +1,105 @@
+====================================
+GROUP BY with aggregate and HAVING
+====================================
+SELECT StageName, COUNT(Id) total FROM Opportunity GROUP BY StageName HAVING COUNT(Id) > 5
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (alias_expression
+        (function_expression
+          (identifier)
+          (field_identifier
+            (identifier)))
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier))
+      (having_clause
+        (comparison_expression
+          (function_expression
+            (identifier)
+            (field_identifier
+              (identifier)))
+          (value_comparison_operator)
+          (int))))))
+
+====================================
+GROUP BY ROLLUP
+====================================
+SELECT StageName, LeadSource, COUNT(Id) FROM Opportunity GROUP BY ROLLUP(StageName, LeadSource)
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier))
+      (function_expression
+        (identifier)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))))
+
+====================================
+GROUP BY CUBE
+====================================
+SELECT StageName, LeadSource, SUM(Amount) FROM Opportunity GROUP BY CUBE(StageName, LeadSource)
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier))
+      (function_expression
+        (identifier)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))))
+
+====================================
+GROUPING() scalar function in SELECT
+====================================
+SELECT Name, GROUPING(StageName) grp FROM Opportunity GROUP BY ROLLUP(Name, StageName)
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier))
+      (alias_expression
+        (scalar_function
+          (scalar_function_name)
+          (field_identifier
+            (identifier)))
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (field_identifier
+        (identifier))
+      (field_identifier
+        (identifier)))))

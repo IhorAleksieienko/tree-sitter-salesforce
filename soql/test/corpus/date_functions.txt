@@ -1,0 +1,67 @@
+====================================
+CALENDAR_MONTH in GROUP BY
+====================================
+SELECT CALENDAR_MONTH(CloseDate) cm, SUM(Amount) FROM Opportunity GROUP BY CALENDAR_MONTH(CloseDate)
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (alias_expression
+        (date_function
+          (date_function_name)
+          (field_identifier
+            (identifier)))
+        (identifier))
+      (function_expression
+        (identifier)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (date_function
+        (date_function_name)
+        (field_identifier
+          (identifier))))))
+
+====================================
+DAY_ONLY in SELECT
+====================================
+SELECT DAY_ONLY(CreatedDate) FROM Account
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (date_function
+        (date_function_name)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))
+
+====================================
+FISCAL_YEAR in GROUP BY
+====================================
+SELECT FISCAL_YEAR(CloseDate), SUM(Amount) FROM Opportunity GROUP BY FISCAL_YEAR(CloseDate)
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (date_function
+        (date_function_name)
+        (field_identifier
+          (identifier)))
+      (function_expression
+        (identifier)
+        (field_identifier
+          (identifier))))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (group_by_clause
+      (date_function
+        (date_function_name)
+        (field_identifier
+          (identifier))))))

@@ -8,6 +8,10 @@
       "required": true,
       "types": [
         {
+          "type": "date_function",
+          "named": true
+        },
+        {
           "type": "field_identifier",
           "named": true
         },
@@ -17,6 +21,10 @@
         },
         {
           "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "scalar_function",
           "named": true
         }
       ]
@@ -130,6 +138,10 @@
           "named": true
         },
         {
+          "type": "date_function",
+          "named": true
+        },
+        {
           "type": "date_literal",
           "named": true
         },
@@ -159,6 +171,10 @@
         },
         {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "scalar_function",
           "named": true
         },
         {
@@ -195,6 +211,75 @@
         ]
       }
     }
+  },
+  {
+    "type": "data_category_filter",
+    "named": true,
+    "fields": {
+      "category": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "group": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "date_function",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "field_identifier",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "date_function_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "date_function_name",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "date_literal",
@@ -373,11 +458,19 @@
       "required": true,
       "types": [
         {
+          "type": "date_function",
+          "named": true
+        },
+        {
           "type": "field_identifier",
           "named": true
         },
         {
           "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "scalar_function",
           "named": true
         }
       ]
@@ -391,6 +484,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "date_function",
+          "named": true
+        },
         {
           "type": "field_identifier",
           "named": true
@@ -481,11 +578,6 @@
     }
   },
   {
-    "type": "null_literal",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "offset_clause",
     "named": true,
     "fields": {},
@@ -556,6 +648,10 @@
       "required": true,
       "types": [
         {
+          "type": "date_function",
+          "named": true
+        },
+        {
           "type": "field_identifier",
           "named": true
         },
@@ -570,12 +666,55 @@
         {
           "type": "order_null_direction",
           "named": true
+        },
+        {
+          "type": "scalar_function",
+          "named": true
         }
       ]
     }
   },
   {
     "type": "order_null_direction",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "scalar_function",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "date_function",
+            "named": true
+          },
+          {
+            "type": "field_identifier",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scalar_function_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "scalar_function_name",
     "named": true,
     "fields": {}
   },
@@ -596,6 +735,10 @@
           "named": true
         },
         {
+          "type": "date_function",
+          "named": true
+        },
+        {
           "type": "field_identifier",
           "named": true
         },
@@ -605,6 +748,10 @@
         },
         {
           "type": "function_expression",
+          "named": true
+        },
+        {
+          "type": "scalar_function",
           "named": true
         },
         {
@@ -950,65 +1097,15 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "with_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "with_data_cat_expression",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "with_data_cat_filter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "with_data_cat_filter",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
+          "type": "data_category_filter",
           "named": true
         },
         {
-          "type": "with_data_cat_filter_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "with_data_cat_filter_type",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "with_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "with_data_cat_expression",
+          "type": "with_type",
           "named": true
         },
         {
@@ -1017,6 +1114,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "with_type",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "with_user_id_type",
@@ -1090,302 +1192,6 @@
     "named": false
   },
   {
-    "type": "ABOVE",
-    "named": false
-  },
-  {
-    "type": "ABOVE_OR_BELOW",
-    "named": false
-  },
-  {
-    "type": "ALL",
-    "named": false
-  },
-  {
-    "type": "AND",
-    "named": false
-  },
-  {
-    "type": "AS",
-    "named": false
-  },
-  {
-    "type": "ASC",
-    "named": false
-  },
-  {
-    "type": "AT",
-    "named": false
-  },
-  {
-    "type": "BELOW",
-    "named": false
-  },
-  {
-    "type": "CUSTOM",
-    "named": false
-  },
-  {
-    "type": "DATA_CATEGORY",
-    "named": false
-  },
-  {
-    "type": "DESC",
-    "named": false
-  },
-  {
-    "type": "ELSE",
-    "named": false
-  },
-  {
-    "type": "END",
-    "named": false
-  },
-  {
-    "type": "EXCLUDES",
-    "named": false
-  },
-  {
-    "type": "FALSE",
-    "named": false
-  },
-  {
-    "type": "FIELDS",
-    "named": false
-  },
-  {
-    "type": "FOR",
-    "named": false
-  },
-  {
-    "type": "FROM",
-    "named": false
-  },
-  {
-    "type": "GROUP_BY",
-    "named": false
-  },
-  {
-    "type": "HAVING",
-    "named": false
-  },
-  {
-    "type": "IN",
-    "named": false
-  },
-  {
-    "type": "INCLUDES",
-    "named": false
-  },
-  {
-    "type": "LAST_90_DAYS",
-    "named": false
-  },
-  {
-    "type": "LAST_FISCAL_QUARTER",
-    "named": false
-  },
-  {
-    "type": "LAST_FISCAL_YEAR",
-    "named": false
-  },
-  {
-    "type": "LAST_MONTH",
-    "named": false
-  },
-  {
-    "type": "LAST_QUARTER",
-    "named": false
-  },
-  {
-    "type": "LAST_WEEK",
-    "named": false
-  },
-  {
-    "type": "LAST_YEAR",
-    "named": false
-  },
-  {
-    "type": "LIKE",
-    "named": false
-  },
-  {
-    "type": "LIMIT",
-    "named": false
-  },
-  {
-    "type": "NEXT_90_DAYS",
-    "named": false
-  },
-  {
-    "type": "NEXT_FISCAL_QUARTER",
-    "named": false
-  },
-  {
-    "type": "NEXT_FISCAL_YEAR",
-    "named": false
-  },
-  {
-    "type": "NEXT_MONTH",
-    "named": false
-  },
-  {
-    "type": "NEXT_QUARTER",
-    "named": false
-  },
-  {
-    "type": "NEXT_WEEK",
-    "named": false
-  },
-  {
-    "type": "NEXT_YEAR",
-    "named": false
-  },
-  {
-    "type": "NOT",
-    "named": false
-  },
-  {
-    "type": "NOT_IN",
-    "named": false
-  },
-  {
-    "type": "NULL",
-    "named": false
-  },
-  {
-    "type": "NULLS_FIRST",
-    "named": false
-  },
-  {
-    "type": "NULLS_LAST",
-    "named": false
-  },
-  {
-    "type": "OFFSET",
-    "named": false
-  },
-  {
-    "type": "OR",
-    "named": false
-  },
-  {
-    "type": "ORDER_BY",
-    "named": false
-  },
-  {
-    "type": "REFERENCE",
-    "named": false
-  },
-  {
-    "type": "SCOPE",
-    "named": false
-  },
-  {
-    "type": "SELECT",
-    "named": false
-  },
-  {
-    "type": "STANDARD",
-    "named": false
-  },
-  {
-    "type": "Security_Enforced",
-    "named": false
-  },
-  {
-    "type": "System_Mode",
-    "named": false
-  },
-  {
-    "type": "THEN",
-    "named": false
-  },
-  {
-    "type": "THIS_FISCAL_QUARTER",
-    "named": false
-  },
-  {
-    "type": "THIS_FISCAL_YEAR",
-    "named": false
-  },
-  {
-    "type": "THIS_MONTH",
-    "named": false
-  },
-  {
-    "type": "THIS_QUARTER",
-    "named": false
-  },
-  {
-    "type": "THIS_WEEK",
-    "named": false
-  },
-  {
-    "type": "THIS_YEAR",
-    "named": false
-  },
-  {
-    "type": "TODAY",
-    "named": false
-  },
-  {
-    "type": "TOMORROW",
-    "named": false
-  },
-  {
-    "type": "TRACKING",
-    "named": false
-  },
-  {
-    "type": "TRUE",
-    "named": false
-  },
-  {
-    "type": "TYPEOF",
-    "named": false
-  },
-  {
-    "type": "UPDATE",
-    "named": false
-  },
-  {
-    "type": "USING",
-    "named": false
-  },
-  {
-    "type": "UserId",
-    "named": false
-  },
-  {
-    "type": "User_Mode",
-    "named": false
-  },
-  {
-    "type": "VIEW",
-    "named": false
-  },
-  {
-    "type": "VIEWSTAT",
-    "named": false
-  },
-  {
-    "type": "WHEN",
-    "named": false
-  },
-  {
-    "type": "WHERE",
-    "named": false
-  },
-  {
-    "type": "WITH",
-    "named": false
-  },
-  {
-    "type": "YESTERDAY",
-    "named": false
-  },
-  {
     "type": "currency_literal",
     "named": true
   },
@@ -1402,14 +1208,6 @@
     "named": true
   },
   {
-    "type": "delegated",
-    "named": false
-  },
-  {
-    "type": "everything",
-    "named": false
-  },
-  {
     "type": "identifier",
     "named": true
   },
@@ -1418,27 +1216,11 @@
     "named": true
   },
   {
-    "type": "mine",
-    "named": false
-  },
-  {
-    "type": "mine_and_my_groups",
-    "named": false
-  },
-  {
-    "type": "my_team_territory",
-    "named": false
-  },
-  {
-    "type": "my_territory",
-    "named": false
+    "type": "null_literal",
+    "named": true
   },
   {
     "type": "string_literal",
     "named": true
-  },
-  {
-    "type": "team",
-    "named": false
   }
 ]

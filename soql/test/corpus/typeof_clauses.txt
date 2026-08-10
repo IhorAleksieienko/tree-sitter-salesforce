@@ -1,0 +1,25 @@
+====================================
+TYPEOF with WHEN and ELSE
+====================================
+SELECT TYPEOF Owner WHEN User THEN Name, Email WHEN Group THEN Name ELSE Id END FROM Case
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (type_of_clause
+        (identifier)
+        (when_expression
+          (identifier)
+          (field_list
+            (identifier)
+            (identifier)))
+        (when_expression
+          (identifier)
+          (field_list
+            (identifier)))
+        (else_expression
+          (field_list
+            (identifier)))))
+    (from_clause
+      (storage_identifier
+        (identifier)))))

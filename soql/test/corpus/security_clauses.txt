@@ -1,0 +1,49 @@
+====================================
+WITH USER_MODE
+====================================
+SELECT Id FROM Account WITH USER_MODE
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (with_clause
+      (with_type))))
+
+====================================
+WITH SYSTEM_MODE
+====================================
+SELECT Id FROM Account WITH SYSTEM_MODE
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (with_clause
+      (with_type))))
+
+====================================
+WITH DATA CATEGORY AT
+====================================
+SELECT Id FROM KnowledgeArticleVersion WITH DATA CATEGORY Geography__c AT USA__c
+---
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier
+        (identifier)))
+    (from_clause
+      (storage_identifier
+        (identifier)))
+    (with_clause
+      (data_category_filter
+        (identifier)
+        (identifier)))))
