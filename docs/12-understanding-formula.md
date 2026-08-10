@@ -54,24 +54,41 @@ Use `$` prefix to access platform-level context:
 | `$UserRole` | Running user's role | `$UserRole.DeveloperName` |
 | `$Organization` | Org settings | `$Organization.Name` |
 | `$Profile` | User's profile | `$Profile.Name` |
+| `$RecordType` | Record Type metadata | `$RecordType.DeveloperName` |
 | `$CustomMetadata` | CMDT records | `$CustomMetadata.Config__mdt.Default.Value__c` |
 | `$Setup` | Custom Settings | `$Setup.AppConfig__c.Discount__c` |
+| `$Permission` | Custom permissions | `$Permission.ManageUsers` |
 | `$GlobalConstant` | True / False / EmptyString | `$GlobalConstant.True` |
 | `$ObjectType` | Schema metadata | `$ObjectType.Account.Fields.Name` |
+
+In the AST, global variables produce a structured `global_variable` node with a `context: (global_context)` child and optional `field: (identifier)` children.
 
 ## Built-in Functions (Selected)
 
 | Category | Functions |
 |---|---|
-| Logical | `IF`, `IFS`, `CASE`, `AND`, `OR`, `NOT` |
+| Logical | `IF`, `IFS`, `CASE`, `AND`, `OR`, `NOT`, `XOR` |
 | Null/Blank | `ISBLANK`, `ISNULL`, `BLANKVALUE`, `NULLVALUE` |
-| Picklist | `ISPICKVAL`, `INCLUDES`, `EXCLUDES`, `TEXT` |
+| Picklist | `ISPICKVAL`, `ISPICKVALMULTISELECT`, `INCLUDES`, `EXCLUDES`, `TEXT` |
 | Field Change | `ISCHANGED`, `ISNEW`, `PRIORVALUE` |
-| Math | `ABS`, `CEILING`, `FLOOR`, `ROUND`, `SQRT`, `MOD`, `POWER` |
-| Text | `LEFT`, `RIGHT`, `MID`, `LEN`, `TRIM`, `SUBSTITUTE`, `REGEX`, `FIND` |
-| Date/Time | `DATE`, `TODAY`, `NOW`, `YEAR`, `MONTH`, `DAY`, `ADDMONTHS` |
+| Math | `ABS`, `CEILING`, `FLOOR`, `ROUND`, `MCEILING`, `MFLOOR`, `MAX`, `MIN`, `MOD`, `SQRT`, `EXP`, `LN`, `LOG`, `POWER` |
+| Geo-spatial | `GEOLOCATION`, `DISTANCE` |
+| Text | `LEFT`, `RIGHT`, `MID`, `LEN`, `TRIM`, `SUBSTITUTE`, `REGEX`, `FIND`, `BEGINS`, `CONTAINS`, `UPPER`, `LOWER`, `PROPER`, `LPAD`, `RPAD`, `REVERSE` |
+| Date/Time | `DATE`, `DATEVALUE`, `DATETIMEVALUE`, `TIMEVALUE`, `TODAY`, `NOW`, `TIMENOW`, `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`, `ADDMONTHS`, `WEEKDAY`, `ISOWEEK`, `ISOYEAR`, `UNIXTIMESTAMP` |
 | Lookup | `VLOOKUP` |
-| Format | `FORMAT`, `HYPERLINK`, `IMAGE` |
+| Format & Media | `FORMAT`, `HYPERLINK`, `IMAGE` (dedicated `image_expression` node) |
+
+## Dedicated `IMAGE` Expression
+
+Formulas use `IMAGE(url, alt [, height, width])` to render dynamic UI badges and images. The parser provides a dedicated `image_expression` node with named fields:
+- `image_url`
+- `alt_text`
+- `height` (optional)
+- `width` (optional)
+
+```formula
+IMAGE('/img/status.png', 'Status OK', 20, 20)
+```
 
 ## Examples
 
@@ -90,11 +107,14 @@ AND(
 FirstName & ' ' & LastName
 ```
 
-### Formula Field — nested IF
+### Formula Field — nested IF with Geo and IMAGE
 
 ```formula
-IF(Amount > 100000, 'Enterprise',
-  IF(Amount > 10000, 'Mid-Market', 'SMB'))
+IF(
+  DISTANCE(GEOLOCATION(BillingLatitude, BillingLongitude), GEOLOCATION(37.77, -122.42), 'mi') < 10.5,
+  IMAGE('/img/near.png', 'Nearby Customer', 16, 16),
+  IMAGE('/img/far.png', 'Distant Customer')
+)
 ```
 
 ### Flow Criteria — check running user role

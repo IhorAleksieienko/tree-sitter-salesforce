@@ -1,0 +1,76 @@
+====================================
+Scientific notation numbers
+====================================
+1.2e-5 + 4.56E+12
+---
+(source_file
+  (binary_expression
+    (number)
+    (number)))
+
+====================================
+Signed scientific notation comparison
+====================================
+Amount > 3.0E+8 && Rate <= 2.5e-10
+---
+(source_file
+  (binary_expression
+    (binary_expression
+      (field_reference
+        (identifier))
+      (number))
+    (binary_expression
+      (field_reference
+        (identifier))
+      (number))))
+
+====================================
+Integer exponent notation
+====================================
+1e3 * 2E4
+---
+(source_file
+  (binary_expression
+    (number)
+    (number)))
+
+====================================
+Negative scientific number
+====================================
+-1.25e-3
+---
+(source_file
+  (unary_expression
+    operand: (number)))
+
+====================================
+String literals single and double quoted
+====================================
+'Hello World' & "Test String"
+---
+(source_file
+  (binary_expression
+    (string_literal)
+    (string_literal)))
+
+====================================
+Boolean and null literals
+====================================
+TRUE && false || null
+---
+(source_file
+  (binary_expression
+    (binary_expression
+      (boolean_literal)
+      (boolean_literal))
+    (null_literal)))
+
+====================================
+Date literals today and now
+====================================
+TODAY - NOW
+---
+(source_file
+  (binary_expression
+    (date_literal)
+    (date_literal)))

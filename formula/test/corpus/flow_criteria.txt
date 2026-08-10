@@ -5,8 +5,9 @@ $GlobalConstant.True
 ---
 (source_file
   (global_variable
-    (identifier)
+    (global_context)
     (identifier)))
+
 
 ====================================
 ISCHANGED field check

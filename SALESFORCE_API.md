@@ -105,9 +105,13 @@ organized by the API version that introduced each feature.
 | Boolean logic (`&&`, `\|\|`, `!`) | ✅ Implemented | |
 | String concatenation (`&`) | ✅ Implemented | Distinct from bitwise AND (not present in Formula Language) |
 | Field path references (`Object.Parent.Field`) | ✅ Implemented | |
-| Global context variables (`$User`, `$Organization`, `$UserRole`) | ✅ Implemented | |
+| Global context variables (`$User`, `$Organization`, `$UserRole`, `$RecordType`, `$Setup`, `$Permission`, etc.) | ✅ Implemented | Structured `global_context` and chained `field` identifiers |
 | Custom Metadata variables (`$CustomMetadata.Type__mdt.Record.Field`) | ✅ Implemented | |
 | Custom Settings variables (`$Setup.Setting__c.Field__c`) | ✅ Implemented | |
+| Geo-spatial functions (`GEOLOCATION`, `DISTANCE`) | ✅ Implemented | Full support in `function_call` |
+| Date and time functions (`TIMENOW`, `ISOWEEK`, `ISOYEAR`, `UNIXTIMESTAMP`, `TODAY`, `NOW`, etc.) | ✅ Implemented | Comprehensive date/time functions |
+| Dedicated `IMAGE` Expression node (`image_expression`) | ✅ Implemented | Exposes named fields: `image_url`, `alt_text`, `height`, `width` |
+| Scientific notation numeric literals (`1.2e-5`, `3.0E+8`) | ✅ Implemented | Tokenized in `number` literal regex |
 | 50+ built-in functions (`IF`, `ISBLANK`, `REGEX`, `VLOOKUP`, etc.) | ✅ Implemented | See grammar for full list |
 | Nested function calls | ✅ Implemented | Arbitrary depth |
 

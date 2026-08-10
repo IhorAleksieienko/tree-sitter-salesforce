@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Step 15 is COMPLETE.
 > - Formula grammar is functional at `formula/grammar.js`.
 > - All Formula corpus tests pass.
@@ -168,6 +168,6 @@ Confirm zero `(ERROR)` nodes.
 
 ## Documentation Updates Required
 
-- [ ] `SALESFORCE_API.md`: Document Formula geo functions, date/time functions, global namespaces, and `IMAGE` node.
-- [ ] `docs/12-understanding-formula.md`: Update function reference and global variable sections.
-- [ ] `CHANGELOG.md`: Record addition of Formula geo/date functions, structured global contexts, and `image_expression`.
+- [x] `SALESFORCE_API.md`: Document Formula geo functions, date/time functions, global namespaces, and `IMAGE` node.
+- [x] `docs/12-understanding-formula.md`: Update function reference and global variable sections.
+- [x] `CHANGELOG.md`: Record addition of Formula geo/date functions, structured global contexts, and `image_expression`.

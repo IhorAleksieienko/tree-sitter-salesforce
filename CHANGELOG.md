@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Formula Language grammar** (`formula/grammar.js`) — Declarative formula expression parser
   for Validation Rules, Formula Fields, and Flow criteria. 50+ built-in functions, field-path
   references, global context variables (`$User`, `$CustomMetadata`).
+- **Formula Geo-spatial & Date functions** — Added support for `GEOLOCATION`, `DISTANCE`, `TIMENOW`, `ISOWEEK`, `ISOYEAR`, and `UNIXTIMESTAMP` in `function_name`.
+- **Structured Formula global variables** (`global_context`) — Explicit AST modeling for platform global namespaces (`$User`, `$Profile`, `$Organization`, `$RecordType`, `$Setup`, `$Permission`, `$CustomMetadata`, `$Label`, etc.) with `context` and `field` nodes.
+- **Dedicated `IMAGE` expression node** (`image_expression`) — Dedicated node for `IMAGE(url, alt [, height, width])` exposing `image_url`, `alt_text`, `height`, and `width` named fields.
+- **Scientific notation in Formula numbers** — Expanded `number` literal token regex to parse scientific notation decimals (`1.2e-5`, `3.0E+8`).
 - **Anonymous Apex grammar** (`apex-anon/grammar.js`) — Top-level statement parsing for
   Developer Console and `sf apex run` scripts.
 - **`sosl_expression` node** in `apex/grammar.js` — Allows Apex `[FIND …]` blocks to be

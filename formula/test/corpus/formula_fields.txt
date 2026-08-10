@@ -55,7 +55,7 @@ $User.ProfileId
 ---
 (source_file
   (global_variable
-    (identifier)
+    (global_context)
     (identifier)))
 
 ====================================
@@ -65,7 +65,8 @@ $CustomMetadata.Config__mdt.Default.Value__c
 ---
 (source_file
   (global_variable
-    (identifier)
+    (global_context)
     (identifier)
     (identifier)
     (identifier)))
+

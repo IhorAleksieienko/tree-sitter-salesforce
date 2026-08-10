@@ -1,0 +1,128 @@
+====================================
+Geo functions GEOLOCATION and DISTANCE
+====================================
+DISTANCE(GEOLOCATION(37.7749, -122.4194), Location__c, 'km')
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (function_call
+      name: (function_name)
+      arguments: (number)
+      arguments: (unary_expression
+        operand: (number)))
+    arguments: (field_reference
+      (identifier))
+    arguments: (string_literal)))
+
+====================================
+Temporal functions TIMENOW, ISOWEEK, ISOYEAR, UNIXTIMESTAMP
+====================================
+TIMENOW() + 3600
+---
+(source_file
+  (binary_expression
+    (function_call
+      name: (function_name))
+    (number)))
+
+====================================
+ISOWEEK and ISOYEAR functions
+====================================
+ISOWEEK(TODAY()) = 52 && ISOYEAR(TODAY()) = 2026
+---
+(source_file
+  (binary_expression
+    (binary_expression
+      (function_call
+        name: (function_name)
+        arguments: (function_call
+          name: (function_name)))
+      (number))
+    (binary_expression
+      (function_call
+        name: (function_name)
+        arguments: (function_call
+          name: (function_name)))
+      (number))))
+
+====================================
+UNIXTIMESTAMP function
+====================================
+UNIXTIMESTAMP(NOW())
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (function_call
+      name: (function_name))))
+
+====================================
+IMAGE expression with 4 arguments
+====================================
+IMAGE('/img/status.png', 'Status OK', 20, 20)
+---
+(source_file
+  (image_expression
+    image_url: (string_literal)
+    alt_text: (string_literal)
+    height: (number)
+    width: (number)))
+
+====================================
+IMAGE expression with 3 arguments
+====================================
+IMAGE('/img/badge.png', 'Badge', 50)
+---
+(source_file
+  (image_expression
+    image_url: (string_literal)
+    alt_text: (string_literal)
+    height: (number)))
+
+====================================
+IMAGE expression with 2 arguments
+====================================
+IMAGE('/img/icon.png', 'Icon')
+---
+(source_file
+  (image_expression
+    image_url: (string_literal)
+    alt_text: (string_literal)))
+
+====================================
+Nested IF with DISTANCE, GEOLOCATION, and IMAGE
+====================================
+IF(
+  DISTANCE(GEOLOCATION(BillingLatitude, BillingLongitude), GEOLOCATION(37.77, -122.42), 'mi') < 10.5,
+  IMAGE('/img/near.png', 'Nearby Customer', 16, 16),
+  IMAGE('/img/far.png', 'Distant Customer')
+)
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (binary_expression
+      (function_call
+        name: (function_name)
+        arguments: (function_call
+          name: (function_name)
+          arguments: (field_reference
+            (identifier))
+          arguments: (field_reference
+            (identifier)))
+        arguments: (function_call
+          name: (function_name)
+          arguments: (number)
+          arguments: (unary_expression
+            operand: (number)))
+        arguments: (string_literal))
+      (number))
+    arguments: (image_expression
+      image_url: (string_literal)
+      alt_text: (string_literal)
+      height: (number)
+      width: (number))
+    arguments: (image_expression
+      image_url: (string_literal)
+      alt_text: (string_literal))))

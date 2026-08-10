@@ -1,0 +1,68 @@
+====================================
+RecordType global variable
+====================================
+$RecordType.DeveloperName = 'Enterprise_Account'
+---
+(source_file
+  (binary_expression
+    (global_variable
+      context: (global_context)
+      field: (identifier))
+    (string_literal)))
+
+====================================
+Setup Custom Setting global variable
+====================================
+$Setup.FeatureToggle__c.EnableBeta__c
+---
+(source_file
+  (global_variable
+    context: (global_context)
+    field: (identifier)
+    field: (identifier)))
+
+====================================
+Permission global variable
+====================================
+$Permission.ViewAllData
+---
+(source_file
+  (global_variable
+    context: (global_context)
+    field: (identifier)))
+
+====================================
+User and Custom Metadata globals
+====================================
+$User.ProfileId == $Profile.Id && $CustomMetadata.Config__mdt.Default.Value__c
+---
+(source_file
+  (binary_expression
+    (binary_expression
+      (global_variable
+        context: (global_context)
+        field: (identifier))
+      (global_variable
+        context: (global_context)
+        field: (identifier)))
+    (global_variable
+      context: (global_context)
+      field: (identifier)
+      field: (identifier)
+      field: (identifier))))
+
+====================================
+Label and Organization globals
+====================================
+$Label.Custom_Greeting & ' - ' & $Organization.Name
+---
+(source_file
+  (binary_expression
+    (binary_expression
+      (global_variable
+        context: (global_context)
+        field: (identifier))
+      (string_literal))
+    (global_variable
+      context: (global_context)
+      field: (identifier))))

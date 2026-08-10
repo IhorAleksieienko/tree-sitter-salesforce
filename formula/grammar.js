@@ -63,6 +63,7 @@ module.exports = grammar({
     // EXPRESSION — all possible formula values
     // ─────────────────────────────────────────────────────────────────────────
     _expression: ($) => choice(
+      $.image_expression,
       $.function_call,
       $.global_variable,
       $.field_reference,
@@ -74,6 +75,27 @@ module.exports = grammar({
       $.boolean_literal,
       $.null_literal,
       $.date_literal,
+    ),
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // IMAGE EXPRESSION
+    // IMAGE(image_url, alternate_text [, height, width])
+    // ─────────────────────────────────────────────────────────────────────────
+    image_expression: ($) => seq(
+      ci("IMAGE"),
+      "(",
+      field("image_url", $._expression),
+      ",",
+      field("alt_text", $._expression),
+      optional(seq(
+        ",",
+        field("height", $._expression),
+        optional(seq(
+          ",",
+          field("width", $._expression)
+        ))
+      )),
+      ")"
     ),
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -106,12 +128,14 @@ module.exports = grammar({
       ci("LEFT"), ci("RIGHT"), ci("MID"), ci("LEN"), ci("TRIM"),
       ci("SUBSTITUTE"), ci("FIND"), ci("CONTAINS"), ci("BEGINS"),
       ci("UPPER"), ci("LOWER"), ci("PROPER"),
+      // ── Geo-spatial functions ─────────────────────────────────────────────
+      ci("GEOLOCATION"), ci("DISTANCE"),
       ci("RPAD"), ci("LPAD"), ci("REVERSE"),
       // ── Date and time functions ────────────────────────────────────────────
       ci("DATE"), ci("DATEVALUE"), ci("DATETIMEVALUE"), ci("TIMEVALUE"),
-      ci("TODAY"), ci("NOW"), ci("YEAR"), ci("MONTH"), ci("DAY"),
+      ci("TODAY"), ci("NOW"), ci("TIMENOW"), ci("YEAR"), ci("MONTH"), ci("DAY"),
       ci("HOUR"), ci("MINUTE"), ci("SECOND"),
-      ci("ADDMONTHS"), ci("WEEKDAY"),
+      ci("ADDMONTHS"), ci("WEEKDAY"), ci("ISOWEEK"), ci("ISOYEAR"), ci("UNIXTIMESTAMP"),
       // ── Conversion functions ──────────────────────────────────────────────
       ci("TEXT"), ci("VALUE"), ci("DATEVALUE"), ci("DATETIMEVALUE"),
       // ── Lookup functions ──────────────────────────────────────────────────
@@ -120,8 +144,8 @@ module.exports = grammar({
       ci("FORMAT"),
       // ── Regex ─────────────────────────────────────────────────────────────
       ci("REGEX"),
-      // ── Hyperlink and image (text formula fields) ─────────────────────────
-      ci("HYPERLINK"), ci("IMAGE"),
+      // ── Hyperlink (text formula fields) ───────────────────────────────────
+      ci("HYPERLINK"),
       // Fallback: any identifier (custom functions, future functions)
       $.identifier,
     ),
@@ -170,15 +194,36 @@ module.exports = grammar({
     )),
 
     // ─────────────────────────────────────────────────────────────────────────
-    // GLOBAL CONTEXT VARIABLES — $User, $Organization, $CustomMetadata
+    // GLOBAL CONTEXT VARIABLES — $User, $Organization, $CustomMetadata, $Setup
     // $User.ProfileId
     // $CustomMetadata.Config__mdt.Default.Value__c
     // ─────────────────────────────────────────────────────────────────────────
     global_variable: ($) => prec.left(PREC.FIELD_PATH, seq(
       "$",
-      $.identifier,                     // $User, $Organization, $UserRole, etc.
-      repeat(seq(".", $.identifier))    // .ProfileId, .Config__mdt.Record.Field__c
+      field("context", $.global_context),
+      repeat(seq(".", field("field", $.identifier)))
     )),
+
+    global_context: ($) => choice(
+      ci("User"),
+      ci("Profile"),
+      ci("Organization"),
+      ci("RecordType"),
+      ci("Setup"),
+      ci("Permission"),
+      ci("CustomMetadata"),
+      ci("System"),
+      ci("Label"),
+      ci("Api"),
+      ci("Page"),
+      ci("Action"),
+      ci("UserRole"),
+      ci("GlobalConstant"),
+      ci("ObjectType"),
+      ci("Resource"),
+      ci("Site"),
+      $.identifier,
+    ),
 
     // ─────────────────────────────────────────────────────────────────────────
     // LITERALS
@@ -187,7 +232,7 @@ module.exports = grammar({
       /'([^'\\]|\\.)*'/,
       /"([^"\\]|\\.)*"/
     ),
-    number: ($) => /[0-9]+(\.[0-9]+)?/,
+    number: ($) => token(/[0-9]+(\.[0-9]+)?([eE][+-]?[0-9]+)?/),
     boolean_literal: ($) => choice(ci("true"), ci("false")),
     null_literal: ($) => ci("null"),
     date_literal: ($) => choice(ci("today"), ci("now")),
