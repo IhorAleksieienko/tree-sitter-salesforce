@@ -66,6 +66,8 @@ You are an expert **Parser Architect, Grammar Engineer, and Compiler Specialist*
   };
   ```
 - **GLR Minimization**: Keep `conflicts: $ => [...]` strictly minimal. Document every entry explaining why LR(1) requires GLR state branching.
+- **Disjoint Hybrid Body Invariant**: When defining hybrid containers that combine procedural statements with member declarations (e.g., `trigger_body`, top-level script bodies), NEVER combine broad choices containing rules with identical token sequences (e.g. `block` vs `instance_initializer` or `local_variable_declaration` vs `field_declaration`). Instead, explicitly enumerate disjoint member rules (`method_declaration`, `class_declaration`, `static_initializer`, etc.) alongside `statement`.
+
 
 ### 3. Multi-Tier Language Injections (`injections.scm`)
 - **Tier 1 (Static Inline Queries)**: Direct injection into balanced query brackets:
