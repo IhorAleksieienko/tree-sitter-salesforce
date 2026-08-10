@@ -1,0 +1,207 @@
+====================================
+Simple debug statement
+====================================
+System.debug('Hello, World!');
+---
+(source_file
+  (expression_statement
+    (method_invocation
+      object: (identifier)
+      name: (identifier)
+      arguments: (argument_list
+        (string_literal)))))
+
+====================================
+Variable declaration and DML
+====================================
+Account a = new Account(Name = 'Test');
+insert a;
+---
+(source_file
+  (local_variable_declaration
+    type: (type_identifier
+      (identifier))
+    (variable_declarator
+      name: (identifier)
+      value: (new_expression
+        type: (type_identifier
+          (identifier))
+        arguments: (argument_list
+          (assignment_expression
+            left: (identifier)
+            right: (string_literal))))))
+  (dml_statement
+    (dml_type)
+    (identifier)))
+
+====================================
+For loop with SOQL query
+====================================
+for (Account a : [SELECT Id FROM Account]) {
+    System.debug(a.Id);
+}
+---
+(source_file
+  (enhanced_for_statement
+    type: (type_identifier
+      (identifier))
+    name: (identifier)
+    value: (soql_expression)
+    body: (block
+      (expression_statement
+        (method_invocation
+          object: (identifier)
+          name: (identifier)
+          arguments: (argument_list
+            (field_access
+              object: (identifier)
+              field: (identifier))))))))
+
+====================================
+Try-catch block
+====================================
+try {
+    Database.insert(new Account(Name = 'T'), false);
+} catch (DmlException e) {
+    System.debug(e.getMessage());
+}
+---
+(source_file
+  (try_statement
+    body: (block
+      (expression_statement
+        (method_invocation
+          object: (identifier)
+          name: (identifier)
+          arguments: (argument_list
+            (new_expression
+              type: (type_identifier
+                (identifier))
+              arguments: (argument_list
+                (assignment_expression
+                  left: (identifier)
+                  right: (string_literal))))
+            (boolean)))))
+    (catch_clause
+      (catch_formal_parameter
+        type: (type_identifier
+          (identifier))
+        name: (identifier))
+      body: (block
+        (expression_statement
+          (method_invocation
+            object: (identifier)
+            name: (identifier)
+            arguments: (argument_list
+              (method_invocation
+                object: (identifier)
+                name: (identifier)
+                arguments: (argument_list)))))))))
+
+====================================
+Switch on string
+====================================
+String env = 'prod';
+switch on env {
+    when 'prod' { System.debug('production'); }
+    when else   { System.debug('other'); }
+}
+---
+(source_file
+  (local_variable_declaration
+    type: (type_identifier
+      (identifier))
+    (variable_declarator
+      name: (identifier)
+      value: (string_literal)))
+  (switch_statement
+    condition: (identifier)
+    (when_clause
+      (string_literal)
+      body: (block
+        (expression_statement
+          (method_invocation
+            object: (identifier)
+            name: (identifier)
+            arguments: (argument_list
+              (string_literal))))))
+    (when_else_clause
+      body: (block
+        (expression_statement
+          (method_invocation
+            object: (identifier)
+            name: (identifier)
+            arguments: (argument_list
+              (string_literal))))))))
+
+====================================
+SOSL search in anonymous script
+====================================
+List<List<SObject>> results = [FIND 'Acme*' IN ALL FIELDS RETURNING Account(Id, Name)];
+System.debug(results.size());
+---
+(source_file
+  (local_variable_declaration
+    type: (generic_type
+      (type_identifier
+        (identifier))
+      (type_arguments
+        (generic_type
+          (type_identifier
+            (identifier))
+          (type_arguments
+            (type_identifier
+              (identifier))))))
+    (variable_declarator
+      name: (identifier)
+      value: (sosl_expression)))
+  (expression_statement
+    (method_invocation
+      object: (identifier)
+      name: (identifier)
+      arguments: (argument_list
+        (method_invocation
+          object: (identifier)
+          name: (identifier)
+          arguments: (argument_list))))))
+
+====================================
+Switch with multiple SObject type patterns in anonymous script
+====================================
+switch on obj {
+    when Account a, Contact c {
+        System.debug('Account or Contact');
+    }
+    when else {
+        System.debug('other');
+    }
+}
+---
+(source_file
+  (switch_statement
+    condition: (identifier)
+    (when_clause
+      (when_type_pattern
+        type: (type_identifier
+          (identifier))
+        name: (identifier))
+      (when_type_pattern
+        type: (type_identifier
+          (identifier))
+        name: (identifier))
+      body: (block
+        (expression_statement
+          (method_invocation
+            object: (identifier)
+            name: (identifier)
+            arguments: (argument_list
+              (string_literal))))))
+    (when_else_clause
+      body: (block
+        (expression_statement
+          (method_invocation
+            object: (identifier)
+            name: (identifier)
+            arguments: (argument_list
+              (string_literal))))))))
+
