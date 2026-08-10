@@ -10,6 +10,7 @@ To contribute to or run the `tree-sitter-salesforce` parser locally, you need to
    - **macOS**: Install Xcode Command Line Tools (`xcode-select --install`).
    - **Linux**: Install `gcc` or `clang`, and `make`.
 3. **Python (Optional)**: Used by some developers if testing Python bindings locally.
+4. **Emscripten (Optional)**: Used for compiling WebAssembly binaries (`tree-sitter build --wasm`).
 
 ## Setup Steps
 
@@ -29,16 +30,25 @@ npm install
 ### 3. Generate the Parser
 If you modify `grammar.js`, you must regenerate the C code.
 ```bash
-npx tree-sitter generate
+npm run build
 ```
 
 ### 4. Run Tests
 Ensure everything is working correctly by running the corpus tests.
 ```bash
-npx tree-sitter test
+npm test
+```
+
+### 5. Launch the WebAssembly Playground
+Test and inspect parse trees visually in the browser (zero dependencies):
+```bash
+npm run serve:playground
 ```
 
 ## Useful Commands
-- `npm run build`: Typical alias to regenerate and rebuild.
-- `npx tree-sitter parse <file>`: Parse a specific `.cls` or `.trigger` file to see the AST output in your terminal.
+- `npm run build`: Regenerate C parser code for all five grammars.
+- `npm run test:all`: Run the test corpus across Apex, Anonymous Apex, SOQL, SOSL, and Formula.
+- `npm run build:playground`: Compile WASM binaries and prepare assets for `docs/playground/`.
+- `npm run serve:playground`: Start the zero-dependency local static server for `docs/playground/`.
+- `npx tree-sitter parse <file>`: Parse a specific file to see the AST output in your terminal.
 - `npx tree-sitter parse --stat <file>`: See performance statistics for parsing a file.

@@ -2,16 +2,16 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE (Node Subpaths, Types & WASM Playground completed; Rust crate skipped per user instruction).
 > **Prerequisites**: Steps 10–17, 19–26 are COMPLETE.
 > - All grammars (`apex`, `apex-anon`, `soql`, `sosl`, `formula`) have generated C code (`src/parser.c`).
 > - Node.js and Python bindings are operational.
 >
 > **Design Flag ℹ️**:
 > This step introduces:
-> 1. Native Rust bindings (`Cargo.toml`, `bindings/rust/`) compiling all 5 grammars into a single unified `tree-sitter-salesforce` crate.
-> 2. Package manifest modernization with subpath exports in `package.json` (`require("tree-sitter-salesforce/apex")`).
-> 3. An interactive client-side WebAssembly playground in `docs/playground/` for live in-browser AST visualization.
+> 1. Package manifest modernization with subpath exports in `package.json` (`require("tree-sitter-salesforce/apex")`) and TypeScript declarations.
+> 2. An interactive client-side WebAssembly playground in `docs/playground/` for live in-browser AST visualization.
+> 3. Comprehensive user guide for the playground in `docs/14-wasm-playground.md`.
 
 ---
 
@@ -157,8 +157,7 @@ Open `http://localhost:3000` in a browser. Select "Apex", type `public class Tes
 
 ---
 
-## Documentation Updates Required
-
-- [ ] `README.md`: Add Rust installation snippet (`cargo add tree-sitter-salesforce`), subpath import examples, and link to WASM playground.
-- [ ] `docs/01-project-setup.md`: Document Rust build prerequisites and WASM build workflow.
-- [ ] `CHANGELOG.md`: Record addition of Rust bindings, subpath exports, and WASM interactive playground.
+- [x] `README.md`: Add subpath import examples, link to WASM playground, and playground guide.
+- [x] `docs/01-project-setup.md`: Document build prerequisites and WASM playground workflow.
+- [x] `docs/14-wasm-playground.md`: Comprehensive guide for the WebAssembly playground.
+- [x] `CHANGELOG.md`: Record addition of subpath exports, type definitions, and WASM interactive playground.

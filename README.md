@@ -84,39 +84,35 @@ print(tree.root_node.sexp())
 npm install tree-sitter tree-sitter-salesforce
 ```
 
+#### Standard Import:
 ```javascript
 const Parser = require('tree-sitter');
 const { apex, apexAnon, soql, sosl, formula } = require('tree-sitter-salesforce');
 
 const parser = new Parser();
-
-// Apex
 parser.setLanguage(apex);
-const apexTree = parser.parse(`public class T { }`);
-console.log(apexTree.rootNode.toString());
-
-// Anonymous Apex
-parser.setLanguage(apexAnon);
-const anonTree = parser.parse(`Account a = new Account(Name = 'T'); insert a;`);
-console.log(anonTree.rootNode.toString());
-
-// SOQL
-parser.setLanguage(soql);
-const soqlTree = parser.parse(`SELECT Id FROM Account WHERE Name = 'Acme'`);
-console.log(soqlTree.rootNode.toString());
-
-// SOSL
-parser.setLanguage(sosl);
-const soslTree = parser.parse(`FIND 'Acme*' IN ALL FIELDS RETURNING Account(Name)`);
-console.log(soslTree.rootNode.toString());
-
-// Formula Language
-parser.setLanguage(formula);
-const formulaTree = parser.parse(`IF(ISBLANK(Email__c), 'No Email', Email__c)`);
-console.log(formulaTree.rootNode.toString());
+const tree = parser.parse(`public class AccountService { }`);
+console.log(tree.rootNode.toString());
 ```
 
-### WebAssembly (Browser / VSCode Web)
+#### Granular Subpath Exports:
+```javascript
+// Direct submodule imports in CommonJS or ESM:
+const apex = require('tree-sitter-salesforce/apex');
+const soql = require('tree-sitter-salesforce/soql');
+const sosl = require('tree-sitter-salesforce/sosl');
+const formula = require('tree-sitter-salesforce/formula');
+const apexAnon = require('tree-sitter-salesforce/apex-anon');
+
+// In TypeScript / ESM:
+// import apex from 'tree-sitter-salesforce/apex';
+```
+
+### WebAssembly (Browser / VSCode Web) & Interactive Playground
+
+Test syntax trees live directly in your browser using our zero-install interactive playground:
+- 🌐 **[Launch Interactive Playground](docs/playground/index.html)**
+- 📖 **[Playground User Guide](docs/14-wasm-playground.md)**
 
 ```sh
 npm install web-tree-sitter tree-sitter-salesforce
@@ -185,6 +181,7 @@ Targets **API v67 (Summer '25)**. See [SALESFORCE_API.md](SALESFORCE_API.md).
 - [Getting Started Tutorial](docs/09-getting-started-tutorial.md)
 - [Adding a New Language](docs/05-adding-new-language.md)
 - [Testing Guide](docs/06-testing-guide.md)
+- [WebAssembly Playground Guide](docs/14-wasm-playground.md)
 - [Release Process](docs/10-release-process.md)
 - [Architecture](ARCHITECTURE.md)
 

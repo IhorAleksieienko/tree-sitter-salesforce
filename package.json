@@ -37,16 +37,60 @@
   "devDependencies": {
     "tree-sitter-cli": "^0.25.0"
   },
-  "main": "bindings/node",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./index.js"
+    },
+    "./apex": {
+      "types": "./apex/index.d.ts",
+      "import": "./apex/index.js",
+      "require": "./apex/index.js"
+    },
+    "./apex-anon": {
+      "types": "./apex-anon/index.d.ts",
+      "import": "./apex-anon/index.js",
+      "require": "./apex-anon/index.js"
+    },
+    "./soql": {
+      "types": "./soql/index.d.ts",
+      "import": "./soql/index.js",
+      "require": "./soql/index.js"
+    },
+    "./sosl": {
+      "types": "./sosl/index.d.ts",
+      "import": "./sosl/index.js",
+      "require": "./sosl/index.js"
+    },
+    "./formula": {
+      "types": "./formula/index.d.ts",
+      "import": "./formula/index.js",
+      "require": "./formula/index.js"
+    },
+    "./web": {
+      "import": "./bindings/web/index.js",
+      "require": "./bindings/web/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "npm run generate:all",
     "generate:all": "node scripts/generate-all.js",
     "build:wasm": "node scripts/build-wasm.js",
+    "build:playground": "node scripts/build-wasm-playground.js",
+    "serve:playground": "node scripts/serve-playground.js",
     "test:all": "node scripts/test-all.js",
     "test": "node scripts/test-all.js",
     "install": "node -e \"try { require('child_process').execSync('node-gyp-build', { stdio: 'inherit' }); } catch (e) {}\""
   },
   "files": [
+    "index.js",
+    "index.d.ts",
+    "*/index.js",
+    "*/index.d.ts",
     "*/queries/*",
     "*/src/grammar.json",
     "*/src/node-types.json",
@@ -56,6 +100,7 @@
     "bindings/node/*.ts",
     "bindings/node/binding.cc",
     "bindings/web/*",
+    "docs/playground/*",
     "binding.gyp",
     "prebuilds/**"
   ]

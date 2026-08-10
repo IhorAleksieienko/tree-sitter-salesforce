@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree-sitter Salesforce — Interactive WASM Playground</title>
+  <meta name="description" content="Interactive browser playground for Salesforce Tree-sitter parsers: Apex, Anonymous Apex, SOQL, SOSL, and Formula Language.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+          <path d="m13 13-3 3-3-3" stroke="#38bdf8"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 class="brand-title">Tree-Sitter Salesforce</h1>
+        <span class="brand-badge">Playground • API v67.0</span>
+      </div>
+    </div>
+
+    <!-- Language Selector Tabs -->
+    <nav class="language-nav" id="languageNav" aria-label="Grammar Selection">
+      <button class="lang-tab active" data-lang="apex">Apex</button>
+      <button class="lang-tab" data-lang="apex_anon">Anonymous Apex</button>
+      <button class="lang-tab" data-lang="soql">SOQL</button>
+      <button class="lang-tab" data-lang="sosl">SOSL</button>
+      <button class="lang-tab" data-lang="formula">Formula</button>
+    </nav>
+
+    <!-- Toolbar Actions -->
+    <div class="header-actions">
+      <div class="sample-select-wrapper">
+        <label for="sampleSelect" class="sr-only">Select Sample</label>
+        <select id="sampleSelect" class="select-dropdown" title="Choose a preloaded code sample">
+          <!-- Populated dynamically based on language -->
+        </select>
+      </div>
+
+      <button id="btnFormat" class="btn btn-secondary" title="Format / Reset Sample">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21h5v-5"/></svg>
+        Reset
+      </button>
+
+      <button id="btnCopy" class="btn btn-secondary" title="Copy Output to Clipboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        Copy
+      </button>
+
+      <a href="https://github.com/IhorAleksieienko/tree-sitter-salesforce" target="_blank" rel="noopener noreferrer" class="btn btn-icon" title="GitHub Repository">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Status Notification Banner -->
+  <div id="statusBanner" class="status-banner info">
+    <span id="statusIcon" class="status-indicator-dot"></span>
+    <span id="statusMessage">Initializing WebAssembly runtime...</span>
+  </div>
+
+  <!-- Main Split Container -->
+  <main class="main-container">
+    <!-- Left Pane: Code Editor -->
+    <section class="pane editor-pane">
+      <div class="pane-header">
+        <div class="pane-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span>Source Code</span>
+        </div>
+        <div class="pane-meta">
+          <span id="editorStats">0 lines • 0 chars</span>
+        </div>
+      </div>
+      <div class="editor-wrapper">
+        <div class="line-numbers" id="lineNumbers" aria-hidden="true">1</div>
+        <textarea id="codeEditor" class="code-editor" spellcheck="false" placeholder="Type or paste Salesforce code here..."></textarea>
+      </div>
+      <div class="pane-footer">
+        <span id="cursorPos">Ln 1, Col 1</span>
+        <span id="langDisplay">Language: Apex</span>
+      </div>
+    </section>
+
+    <!-- Resizer Divider -->
+    <div class="resizer" id="resizer" title="Drag to resize panels"></div>
+
+    <!-- Right Pane: AST Visualizer -->
+    <section class="pane ast-pane">
+      <div class="pane-header">
+        <div class="pane-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Parse Tree (CST / AST)</span>
+        </div>
+
+        <!-- View Mode Tabs -->
+        <div class="view-mode-tabs" role="tablist">
+          <button class="view-tab active" data-view="tree" role="tab" aria-selected="true">Tree View</button>
+          <button class="view-tab" data-view="sexp" role="tab" aria-selected="false">S-Expression</button>
+          <button class="view-tab" data-view="json" role="tab" aria-selected="false">JSON</button>
+        </div>
+      </div>
+
+      <!-- AST Filter & Toolbar -->
+      <div class="ast-toolbar">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="treeFilter" placeholder="Filter nodes (e.g. where_clause, method)...">
+        </div>
+        <div class="tree-controls">
+          <button id="btnExpandAll" class="btn btn-xs" title="Expand All Nodes">Expand All</button>
+          <button id="btnCollapseAll" class="btn btn-xs" title="Collapse All Nodes">Collapse All</button>
+          <label class="toggle-label" title="Show anonymous tokens (punctuation, keywords)">
+            <input type="checkbox" id="toggleAnonymous">
+            <span>Show Tokens</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Tree Content Views -->
+      <div class="ast-content-wrapper">
+        <!-- Interactive CST Tree View -->
+        <div id="treeViewContainer" class="ast-view-panel active">
+          <div id="treeRoot" class="cst-tree"></div>
+        </div>
+
+        <!-- S-Expression View -->
+        <div id="sexpViewContainer" class="ast-view-panel">
+          <pre id="sexpOutput" class="code-output"><code>(program)</code></pre>
+        </div>
+
+        <!-- JSON AST View -->
+        <div id="jsonViewContainer" class="ast-view-panel">
+          <pre id="jsonOutput" class="code-output"><code>{}</code></pre>
+        </div>
+      </div>
+
+      <!-- AST Performance Metrics Footer -->
+      <div class="pane-footer ast-footer">
+        <div class="metrics-group">
+          <span class="metric-badge" id="metricTime">⚡ 0.0 ms</span>
+          <span class="metric-badge" id="metricNodes">🌿 0 nodes</span>
+          <span class="metric-badge" id="metricDepth">📐 Depth: 0</span>
+        </div>
+        <div id="metricStatus" class="status-tag success">✓ Valid AST</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Load web-tree-sitter -->
+  <script src="https://cdn.jsdelivr.net/npm/web-tree-sitter@0.22.6/tree-sitter.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

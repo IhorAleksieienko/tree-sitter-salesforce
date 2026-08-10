@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] — 2026-08-10
 
-### Added
+- **Modern Node.js subpath exports** (`package.json`) — Support for direct granular imports (`tree-sitter-salesforce/apex`, `tree-sitter-salesforce/apex-anon`, `tree-sitter-salesforce/soql`, `tree-sitter-salesforce/sosl`, `tree-sitter-salesforce/formula`) in CommonJS and ESM with full TypeScript type declarations.
+- **Interactive WebAssembly Playground** (`docs/playground/`) — Browser-based CST visualizer featuring live multi-grammar switching, real-time node filtering, S-Expression/JSON views, and preloaded Summer '25 sample snippets.
+- **WebAssembly Playground Guide** (`docs/14-wasm-playground.md`) — Comprehensive guide for local playground execution, WASM compilation, and syntax debugging.
+- **Playground build helper script** (`scripts/build-wasm-playground.js`) — Automated compilation and distribution pipeline for playground WASM assets.
 
 - **SOSL grammar** (`sosl/grammar.js`) — Full Salesforce Object Search Language support:
   `FIND … IN … RETURNING … WITH …`, field scopes, per-object WHERE/ORDER/LIMIT, WITH clauses.
