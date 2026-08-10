@@ -330,3 +330,86 @@ public class T {
                 arguments: (argument_list))
               name: (identifier)
               arguments: (argument_list))))))))
+
+==================
+Map literal expressions
+==================
+
+public class T {
+    public void doWork() {
+        m = new Map<Id, String>{ acc.Id => 'Active', contact.Id => 'Inactive' };
+        m2 = new Map<String, String>{ 'k1' => 'v1', 'k2' => 'v2', };
+        m3 = new Map<String, Object>{};
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))
+                    (type_identifier
+                      (identifier))))
+                initializer: (map_initializer
+                  (map_key_initializer
+                    key: (field_access
+                      object: (identifier)
+                      field: (identifier))
+                    value: (string_literal))
+                  (map_key_initializer
+                    key: (field_access
+                      object: (identifier)
+                      field: (identifier))
+                    value: (string_literal))))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))
+                    (type_identifier
+                      (identifier))))
+                initializer: (map_initializer
+                  (map_key_initializer
+                    key: (string_literal)
+                    value: (string_literal))
+                  (map_key_initializer
+                    key: (string_literal)
+                    value: (string_literal))))))
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))
+                    (type_identifier
+                      (identifier))))
+                (array_initializer)))))))))

@@ -876,6 +876,47 @@
     }
   },
   {
+    "type": "map_initializer",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "map_key_initializer",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map_key_initializer",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "method_invocation",
     "named": true,
     "fields": {
@@ -945,6 +986,16 @@
         "types": [
           {
             "type": "argument_list",
+            "named": true
+          }
+        ]
+      },
+      "initializer": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "map_initializer",
             "named": true
           }
         ]
@@ -1531,6 +1582,10 @@
   },
   {
     "type": "===",
+    "named": false
+  },
+  {
+    "type": "=>",
     "named": false
   },
   {

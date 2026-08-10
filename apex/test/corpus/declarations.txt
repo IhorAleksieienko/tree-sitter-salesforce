@@ -267,3 +267,149 @@ public inherited sharing class SecureService {
       (modifier))
     name: (identifier)
     body: (class_body)))
+
+==================
+Interface with method declarations
+==================
+
+public interface IProcessable {
+    void process(Account record);
+    Boolean isValid(Account record);
+}
+
+---
+
+(source_file
+  (interface_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (interface_body
+      (method_declaration
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier))))
+      (method_declaration
+        type: (type_identifier
+          (identifier))
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier)))))))
+
+==================
+Interface with constants and inner types
+==================
+
+public interface IConstants {
+    String DEFAULT_STATUS = 'Active';
+    enum Status { OPEN, CLOSED }
+    class Config {}
+}
+
+---
+
+(source_file
+  (interface_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (interface_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (string_literal)))
+      (enum_declaration
+        name: (identifier)
+        body: (enum_body
+          (enum_constant
+            (identifier))
+          (enum_constant
+            (identifier))))
+      (class_declaration
+        name: (identifier)
+        body: (class_body)))))
+
+==================
+Class extending generic superclass
+==================
+
+public class AccountService extends BaseService<Account> {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (superclass
+      (generic_type
+        (type_identifier
+          (identifier))
+        (type_arguments
+          (type_identifier
+            (identifier)))))
+    body: (class_body)))
+
+==================
+Class implementing generic and scoped interfaces
+==================
+
+public class AccountBatch implements Database.Batchable<sObject>, IProcessable<Account> {
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (interfaces
+      (generic_type
+        (type_identifier
+          (scoped_type_identifier
+            (identifier)
+            (identifier)))
+        (type_arguments
+          (type_identifier
+            (identifier))))
+      (generic_type
+        (type_identifier
+          (identifier))
+        (type_arguments
+          (type_identifier
+            (identifier)))))
+    body: (class_body)))
+
+==================
+Interface extending generic interface
+==================
+
+public interface IAccountRepo extends IRepository<Account> {
+}
+
+---
+
+(source_file
+  (interface_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (generic_type
+      (type_identifier
+        (identifier))
+      (type_arguments
+        (type_identifier
+          (identifier))))
+    body: (interface_body)))

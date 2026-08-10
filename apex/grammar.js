@@ -202,6 +202,7 @@ module.exports = grammar({
       optional($.modifiers),
       ci("class"),
       field("name", $.identifier),
+      optional(field("type_parameters", $.type_parameters)),
       optional($.superclass),
       optional($.interfaces),
       field("body", $.class_body)
@@ -211,13 +212,13 @@ module.exports = grammar({
      * Superclass clause — extends keyword.
      * Example: extends TriggerHandler
      */
-    superclass: ($) => seq(ci("extends"), $.type_identifier),
+    superclass: ($) => seq(ci("extends"), $._type),
 
     /**
      * Implements clause — one or more interface names.
-     * Example: implements Queueable, Database.Batchable
+     * Example: implements Queueable, Database.Batchable<sObject>
      */
-    interfaces: ($) => seq(ci("implements"), commaJoined1($.type_identifier)),
+    interfaces: ($) => seq(ci("implements"), commaJoined1($._type)),
 
     /**
      * Class body — contains field declarations, methods, inner classes, etc.
@@ -245,6 +246,7 @@ module.exports = grammar({
     // --- Method, Constructor, Property ---
     method_declaration: ($) => seq(
       optional($.modifiers),
+      optional(field("type_parameters", $.type_parameters)),
       field("type", $._type),
       field("name", $.identifier),
       field("parameters", $.formal_parameters),
@@ -292,11 +294,23 @@ module.exports = grammar({
       optional($.modifiers),
       ci("interface"),
       field("name", $.identifier),
-      optional(seq(ci("extends"), commaJoined1($.type_identifier))),
+      optional(field("type_parameters", $.type_parameters)),
+      optional(seq(ci("extends"), commaJoined1($._type))),
       field("body", $.interface_body)
     ),
 
-    interface_body: ($) => seq("{", repeat(choice($.field_declaration, ";")), "}"),
+    interface_body: ($) => seq(
+      "{",
+      repeat(choice(
+        $.field_declaration,
+        $.method_declaration,
+        $.class_declaration,
+        $.interface_declaration,
+        $.enum_declaration,
+        ";",
+      )),
+      "}"
+    ),
 
     // --- Enum Declaration ---
 
@@ -486,6 +500,15 @@ module.exports = grammar({
       "<", commaJoined1($._type), ">"
     ),
 
+    type_parameters: ($) => seq(
+      "<", commaJoined1($.type_parameter), ">"
+    ),
+
+    type_parameter: ($) => seq(
+      field("name", $.identifier),
+      optional(seq(ci("extends"), field("bound", $._type)))
+    ),
+
     /**
      * Array type — Apex supports Java-style array syntax.
      *
@@ -649,13 +672,27 @@ module.exports = grammar({
       field("type", $._type),
       choice(
         field("arguments", $.argument_list),
-        $.array_initializer
+        $.array_initializer,
+        field("initializer", $.map_initializer),
       )
     )),
 
     argument_list: ($) => seq("(", optional(commaJoined1($.expression)), ")"),
     
     array_initializer: ($) => seq("{", optional(commaJoined1($.expression)), "}"),
+
+    map_initializer: ($) => seq(
+      "{",
+      commaJoined1($.map_key_initializer),
+      optional(","),
+      "}"
+    ),
+
+    map_key_initializer: ($) => seq(
+      field("key", $.expression),
+      "=>",
+      field("value", $.expression)
+    ),
 
     method_invocation: ($) => prec.left(PREC.OBJ_ACCESS, seq(
       optional(seq(field("object", $.expression), choice(".", "?."))),

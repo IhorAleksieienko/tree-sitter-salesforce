@@ -1076,8 +1076,8 @@ npx markdown-link-check ARCHITECTURE.md
 
 ## Final State After This Step
 
-The repository will be in the fully documented state described in the
-[ENTERPRISE_PARSER_BLUEPRINT.md](../ENTERPRISE_PARSER_BLUEPRINT.md). All four grammars
+The repository will be in the fully documented state described in
+[ARCHITECTURE.md](../../ARCHITECTURE.md). All four grammars
 (Apex, SOQL, SOSL, Formula) plus the Anonymous Apex variant are implemented, tested,
 published, and documented. The project is ready for consumption by `sf-rag-engine` and
 any other tooling that needs deterministic Salesforce language parsing.

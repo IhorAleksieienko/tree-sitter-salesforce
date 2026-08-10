@@ -56,6 +56,30 @@ public String Name {
 ```
 These are parsed using `property_declaration`, distinguishing them from standard Java fields or methods.
 
+### Interfaces and Generic Inheritance
+Apex interfaces declare method signatures, constant fields, and inner types. Classes and interfaces can inherit from generic base types:
+```apex
+public interface IProcessable<T> extends IBase<T> {
+    void process(T record);
+    Boolean isValid(T record);
+}
+
+public class AccountBatch implements Database.Batchable<sObject>, IProcessable<Account> {
+    // ...
+}
+```
+The parser produces `generic_type` and `scoped_type_identifier` nodes directly under `superclass` and `interfaces`.
+
+### Map Literals
+Apex supports map instantiation with key-value pairs using the `=>` operator:
+```apex
+Map<String, String> m = new Map<String, String>{
+    'key1' => 'val1',
+    'key2' => 'val2',
+};
+```
+These expressions are parsed into `map_initializer` nodes containing `map_key_initializer` child nodes with `key` and `value` fields.
+
 ### Switch and When Pattern Matching
 Apex provides polymorphic `switch on` statements that support:
 1. **Literal and Enum Values**: `when 'value1', 'value2' { ... }`, `when 1, 2, 3 { ... }`, `when Season.WINTER { ... }`, and `when null { ... }`.

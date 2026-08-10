@@ -97,7 +97,7 @@ organized by the API version that introduced each feature.
 | 50+ built-in functions (`IF`, `ISBLANK`, `REGEX`, `VLOOKUP`, etc.) | ✅ Implemented | See grammar for full list |
 | Nested function calls | ✅ Implemented | Arbitrary depth |
 
-## Apex Enhancements (Steps 10–14)
+## Apex Enhancements (Steps 10–19)
 
 | Feature | API Version | Parser Status | Notes |
 |---|---|---|---|
@@ -109,6 +109,9 @@ organized by the API version that introduced each feature.
 | `GROUP BY ROLLUP(…)` / `GROUP BY CUBE(…)` | v18+ | ✅ Implemented | |
 | SOQL date functions (`CALENDAR_MONTH`, `FISCAL_YEAR`, etc.) | v18+ | ✅ Implemented | |
 | `WITH DATA CATEGORY … AT/ABOVE/BELOW` | v18+ | ✅ Implemented | |
+| Interface Method/Constant/Type Declarations | v7+ | ✅ Implemented | Methods, fields, inner enums/classes/interfaces |
+| Generic `extends` and `implements` Inheritance | v7+ | ✅ Implemented | `generic_type` & scoped types in inheritance clauses |
+| Map Literal Initializers (`new Map<K,V>{k => v}`) | v7+ | ✅ Implemented | `map_initializer` and `map_key_initializer` nodes |
 
 ## Backward Compatibility
 

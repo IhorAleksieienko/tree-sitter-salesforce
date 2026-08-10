@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **SOQL date functions** (`CALENDAR_MONTH`, `FISCAL_YEAR`, etc.) in `soql/grammar.js`.
 - **`WITH DATA CATEGORY`** clause in `soql/grammar.js`.
 - **Python loaders**: `tss.apex_anon()`, `tss.sosl()`, `tss.formula()`.
+- **Map literal initializer syntax** (`map_initializer`, `map_key_initializer`) — Supports `new Map<K,V>{ key => value, ... }` with trailing comma support.
+- **Interface member declarations** — Interface bodies now support method signatures, constants, inner classes, interfaces, and enums.
+- **Generic inheritance clauses** — `extends` and `implements` clauses support `generic_type` (e.g. `extends BaseService<Account>`, `implements Database.Batchable<sObject>`) and `type_parameters` in class/interface/method declarations.
+- **Operator highlighting** for `=>` fat-arrow token in `apex/queries/highlights.scm`.
 - **CI/CD workflow** — GitHub Actions build matrix (Windows / Linux / macOS / WASM).
 - **WASM binaries** for all five grammars in `bindings/web/`.
 

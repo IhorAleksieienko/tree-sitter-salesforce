@@ -13,8 +13,8 @@
 
 ## Goal
 
-Expand `soql/grammar.js` to cover SOQL constructs that are documented in the
-[ENTERPRISE_PARSER_BLUEPRINT.md](file:///d:/Git/tree-sitter-salesforce/docs/ENTERPRISE_PARSER_BLUEPRINT.md)
+Expand `soql/grammar.js` to cover SOQL constructs that are documented in
+[ARCHITECTURE.md](file:///d:/Git/tree-sitter-salesforce/ARCHITECTURE.md)
 but are not yet implemented: SOQL date functions (`CALENDAR_MONTH()`, `FISCAL_YEAR()`, etc.),
 `GROUP BY ROLLUP/CUBE`, scalar functions (`FORMAT()`, `convertCurrency()`), and ensure all
 test corpus files reflect the complete API v67 feature matrix.

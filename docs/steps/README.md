@@ -1,8 +1,7 @@
-# Implementation Steps — Index
+# Implementation Steps — Master Index
 
-This directory contains implementation step stories for the `tree-sitter-salesforce` project.
-Each file is a self-contained checkpoint document that any agent (or human contributor) can
-pick up and execute independently, as long as the stated prerequisites have been met.
+This directory contains self-contained implementation step stories for the `tree-sitter-salesforce` project.
+Each file is a checkpoint document that any agent (or human contributor) can pick up and execute independently, as long as the stated prerequisites have been met.
 
 ---
 
@@ -10,24 +9,23 @@ pick up and execute independently, as long as the stated prerequisites have been
 
 These steps built the initial Apex and SOQL parsers, bindings, and documentation.
 
-| Step | File | Summary |
-|---|---|---|
-| 01 | [step-01-environment-setup.md](step-01-environment-setup.md) | Dev environment, Node.js, tree-sitter CLI |
-| 02 | [step-02-common-utilities.md](step-02-common-utilities.md) | Shared grammar helpers (`common.js`) |
-| 03 | [step-03-soql-parser.md](step-03-soql-parser.md) | Complete SOQL grammar |
-| 04 | [step-04-apex-core.md](step-04-apex-core.md) | Apex core: declarations, types, expressions |
-| 05 | [step-05-apex-statements.md](step-05-apex-statements.md) | Apex statements: loops, DML, switch |
-| 06 | [step-06-apex-advanced.md](step-06-apex-advanced.md) | Apex advanced: annotations, async, generics |
-| 07 | [step-07-injection-and-queries.md](step-07-injection-and-queries.md) | Language injection, highlights, tags |
-| 08 | [step-08-bindings.md](step-08-bindings.md) | Node.js and Python bindings |
-| 09 | [step-09-documentation.md](step-09-documentation.md) | Documentation and guides |
+| Step | File | Summary | Status |
+|---|---|---|---|
+| 01 | [step-01-environment-setup.md](step-01-environment-setup.md) | Dev environment, Node.js, tree-sitter CLI | ✅ Complete |
+| 02 | [step-02-common-utilities.md](step-02-common-utilities.md) | Shared grammar helpers (`common.js`) | ✅ Complete |
+| 03 | [step-03-soql-parser.md](step-03-soql-parser.md) | Complete SOQL grammar | ✅ Complete |
+| 04 | [step-04-apex-core.md](step-04-apex-core.md) | Apex core: declarations, types, expressions | ✅ Complete |
+| 05 | [step-05-apex-statements.md](step-05-apex-statements.md) | Apex statements: loops, DML, switch | ✅ Complete |
+| 06 | [step-06-apex-advanced.md](step-06-apex-advanced.md) | Apex advanced: annotations, async, generics | ✅ Complete |
+| 07 | [step-07-injection-and-queries.md](step-07-injection-and-queries.md) | Language injection, highlights, tags | ✅ Complete |
+| 08 | [step-08-bindings.md](step-08-bindings.md) | Node.js and Python bindings | ✅ Complete |
+| 09 | [step-09-documentation.md](step-09-documentation.md) | Documentation and guides | ✅ Complete |
 
 ---
 
-## Steps 10–17: Enterprise Parser Blueprint
+## Steps 10–18: Enterprise Parser Blueprint
 
-These steps implement the [ENTERPRISE_PARSER_BLUEPRINT.md](../ENTERPRISE_PARSER_BLUEPRINT.md),
-extending the project with SOSL, Formula Language, Anonymous Apex, and production-grade distribution.
+These steps implement the architecture and blueprints consolidated in [ARCHITECTURE.md](../../ARCHITECTURE.md), extending the project with SOSL, Formula Language, Anonymous Apex, and multi-language distribution.
 
 | Step | File | Blueprint Phase | Risk | Status |
 |---|---|---|---|---|
@@ -41,91 +39,81 @@ extending the project with SOSL, Formula Language, Anonymous Apex, and productio
 | 17 | [step-17-cicd-distribution.md](step-17-cicd-distribution.md) | Phase 4.1 / 4.3–4.4 | Low | 🔲 Not started |
 | 18 | [step-18-documentation-update.md](step-18-documentation-update.md) | Cross-cutting | Low | 🔲 Not started |
 
+---
+
+## Steps 19–29: Gap Analysis & Ecosystem Parity Roadmap
+
+These steps implement all fixes, syntax extensions, multi-ecosystem bindings, and downstream semantic ingestion pipelines specified in [gap-analysis.md](../gap-analysis.md).
+
+| Step | File | Gap Analysis Area | Priority | Status |
+|---|---|---|---|---|
+| 19 | [step-19-apex-interface-generics-maps.md](step-19-apex-interface-generics-maps.md) | Apex Interface methods, generic `implements`/`extends`, Map literals (`key => val`) | **P0** | ✅ Complete |
+| 20 | [step-20-apex-initializers-and-trigger-helpers.md](step-20-apex-initializers-and-trigger-helpers.md) | Apex `static { ... }`, instance `{ ... }`, Trigger helper declarations | **P1** | 🔲 Not started |
+| 21 | [step-21-apex-constructor-chaining-runas-dml-security.md](step-21-apex-constructor-chaining-runas-dml-security.md) | Apex `this(...)`/`super(...)`, `System.runAs(...)`, DML `as user`/`as system` | **P1** | 🔲 Not started |
+| 22 | [step-22-apex-syntax-extended-literals.md](step-22-apex-syntax-extended-literals.md) | Switch case-insensitivity, Summer '26 `'''...'''`, `new String[10]`, `100L`, `1.2e-5`, `Type.class` | **P1/P2** | 🔲 Not started |
+| 23 | [step-23-soql-formula-and-all-rows.md](step-23-soql-formula-and-all-rows.md) | SOQL Summer '26 `FORMULA(...)` in `WHERE`, SOQL `ALL ROWS` clause | **P1** | 🔲 Not started |
+| 24 | [step-24-soql-using-lookup-record-visibility-and-time.md](step-24-soql-using-lookup-record-visibility-and-time.md) | SOQL `USING LOOKUP … BIND`, `WITH RecordVisibilityContext(...)`, `TimeLiteral` & `convertTimezone()` | **P2** | 🔲 Not started |
+| 25 | [step-25-sosl-delimiters-with-clauses-and-projections.md](step-25-sosl-delimiters-with-clauses-and-projections.md) | SOSL `{brace}` search terms, modern `WITH` clauses (`USER_MODE`, `METADATA`), `RETURNING` projections | **P1/P2** | 🔲 Not started |
+| 26 | [step-26-formula-functions-globals-and-image-node.md](step-26-formula-functions-globals-and-image-node.md) | Formula Geo/Date functions (`GEOLOCATION`, `TIMENOW`), `$RecordType`/`$Setup` globals, `IMAGE()` node, scientific decimals | **P1/P2** | 🔲 Not started |
+| 27 | [step-27-rust-bindings-subpath-exports-wasm-playground.md](step-27-rust-bindings-subpath-exports-wasm-playground.md) | Rust crate (`Cargo.toml`), modern `package.json` subpath exports, WASM browser playground | **P2** | 🔲 Not started |
+| 28 | [step-28-salesforce-debug-log-grammar-sflog.md](step-28-salesforce-debug-log-grammar-sflog.md) | Dedicated `sflog` Tree-sitter grammar for Salesforce execution logs & governor limits | **P2** | 🔲 Not started |
+| 29 | [step-29-downstream-semantic-ingestion-sf-rag-engine.md](step-29-downstream-semantic-ingestion-sf-rag-engine.md) | Downstream XML metadata ingestor, LWC JS/TS controller analyzer, LWC HTML template analyzer (`sf-rag-engine`) | **P1/P2** | 🔲 Not started |
+
 **Status key**: ✅ Complete | 🔧 In Progress | 🔲 Not Started | ❌ Blocked
 
 ---
 
-## Execution Order & Dependencies
+## Full Execution Order & Dependency Graph
 
 ```
+[Phase 1 & 2 Grammars]
 Step 10 (soql_expression fix)
-    │
-    ├──▶ Step 11 (SOQL expansion)
+    ├──▶ Step 11 (SOQL expansion) ────────▶ Step 23 (SOQL FORMULA + ALL ROWS) ──▶ Step 24 (SOQL LOOKUP/Time)
     │        │
-    │        └──▶ Step 12 (SOSL grammar) ──┐
-    │                                       │
-    ├──▶ Step 13 (Anonymous Apex) ─────────┤
-    │                                       │
-    └──▶ Step 14 (when clause patterns) ───┤
-                                           │
-                                    Step 15 (Formula grammar)
-                                           │
-                                    Step 16 (Python bindings)  ← requires 10–15 all done
-                                           │
-                                    Step 17 (CI/CD + WASM)     ← requires 10–16 all done
-                                           │
-                                    Step 18 (Documentation)    ← requires 10–17 all done
+    │        └──▶ Step 12 (SOSL grammar) ──▶ Step 25 (SOSL Delimiters & Modern WITH)
+    │
+    ├──▶ Step 13 (Anonymous Apex)
+    │
+    ├──▶ Step 14 (when clause patterns)
+    │        │
+    │        └──▶ Step 19 (Apex P0: Interfaces, Generics, Maps)
+    │                 │
+    │                 ├──▶ Step 20 (Apex P1: Initializers & Trigger Helpers)
+    │                 ├──▶ Step 21 (Apex P1: Constructor Chaining, runAs, DML Security)
+    │                 └──▶ Step 22 (Apex P1/P2: Switch ci, Multi-line Strings, Sized Arrays, Literals)
+    │
+    └──▶ Step 15 (Formula grammar) ───────▶ Step 26 (Formula Functions, Globals, IMAGE Node)
+                                                  │
+                                          [Bindings & Tooling]
+                                          Step 16 (Python bindings)
+                                                  │
+                                          Step 27 (Rust bindings, Subpaths, WASM Playground)
+                                                  │
+                                          Step 28 (sflog grammar)
+                                                  │
+                                          Step 17 (CI/CD + Distribution)
+                                                  │
+                                          [Semantic Layer & Final Docs]
+                                          Step 29 (sf-rag-engine Semantic Ingestion)
+                                                  │
+                                          Step 18 (Master Documentation Update)
 ```
-
-**Rule**: Steps 10–15 can be parallelised once Step 10 is complete. Steps 16 and 17 must
-wait for all grammar steps to finish. Step 18 (documentation) should be the last step,
-but individual sub-tasks (e.g., new language docs) can be drafted in parallel with their
-corresponding grammar steps.
 
 ---
 
 ## How Each Step File Is Structured
 
-Every step story contains:
+Every step story in this directory follows a strict checkpoint architecture:
 
 | Section | Purpose |
 |---|---|
-| **Agent Checkpoint** (header callout) | State of the world when this step begins; prerequisites |
-| **Design Flags** | Known risks, breaking changes, or architectural decisions requiring extra care |
-| **Goal** | One-paragraph statement of what this step achieves |
-| **Background** | Why this change is needed; what the current code looks like |
-| **Architecture Decision Record (ADR)** | (Where applicable) Table of options considered and rationale for the choice made |
-| **Affected Files** | Table of every file that will be created or modified |
-| **Sub-Tasks** | Step-by-step instructions with exact code to write |
-| **How to Test** | Numbered test commands to run after completing each sub-task |
-| **Success Criteria** | Table of pass/fail conditions — an agent can verify each mechanically |
-| **Regression Risk** | What could break in *other* parts of the system and how to detect it |
-| **API Contract Impact** | Whether node types, field names, or exports change (matters for `sf-rag-engine`) |
-| **Documentation Updates** | Checklist of docs to update before the step is considered truly complete |
-
----
-
-## Key Design Decisions (Summary)
-
-These are the non-obvious choices baked into the step designs:
-
-### Step 10 — `soql_expression` fix
-The naive regex `seq("[", /[^\]]*/, "]")` is replaced with a recursive `_soql_content`
-rule that allows nested brackets. The private helper rule is inlined and does not appear
-in the public AST. Both `soql_expression` and a new `sosl_expression` are added together
-in this step to prepare the injection hook for Step 12.
-
-### Step 13 — Anonymous Apex (High Risk ⚠️)
-The blueprint's suggested `choice(repeat1($.declaration), repeat1($.statement))` at the
-root rule is **rejected** — it creates unresolvable GLR conflicts. Instead, a separate
-`apex-anon/grammar.js` grammar is created with `source_file: $ => repeat1($.statement)`.
-This eliminates conflicts by keeping the two modes in separate grammar files and lets
-consumers (editors, tools) select the appropriate grammar by file context.
-
-### Step 14 — `when` clause patterns
-The existing `seq($._type, $.identifier)` single-type pattern is replaced with
-`commaJoined1($.when_type_pattern)`. The `when_type_pattern` rule uses `prec(1, ...)` to
-take priority over the `commaJoined1($.expression)` alternative, ensuring `Account a`
-is always parsed as a type pattern, not two identifier expressions.
-
-### Step 15 — Formula Language
-The overloaded `&` operator (string concatenation in Formula Language, bitwise AND in Apex)
-gets its own precedence level `PREC.CONCAT` placed between `PREC.COMPARE` and `PREC.ADD_SUB`.
-This matches Salesforce's documented operator precedence table.
-
-### Step 16 — Python Bindings (High Risk ⚠️)
-The deprecated `Language(path, name)` constructor (removed in tree-sitter 0.24) is
-replaced with per-grammar `_binding_*.pyd` C extension modules using the `PyCapsule` API.
-The function signatures `apex()`, `soql()` etc. remain identical at the Python level —
-only the implementation changes. The `sf-rag-engine` project must be regression-tested
-after this change before publishing.
+| **Agent Checkpoint** (header callout) | State of the world when this step begins; exact prerequisites and risk flags |
+| **Goal** | Concise statement of what this step achieves |
+| **Background & Current State** | Exact lines and grammar definitions explaining why the change is required |
+| **Technical Design** | Grammar rules, AST node structures, precedence/GLR considerations, and what to touch (without code snippet dumps) |
+| **Affected Files** | Table of every file to create or modify |
+| **Sub-Tasks** | Numbered task breakdown for incremental implementation |
+| **How to Test** | Numbered CLI commands, test corpus creation, and verification steps |
+| **Success Criteria** | Mechanically verifiable pass/fail condition table |
+| **Regression Risk & API Contract Impact** | Conflict checks, CST stability, and downstream impact |
+| **Documentation Updates** | Checklist of documentation to update before marking the step complete |
