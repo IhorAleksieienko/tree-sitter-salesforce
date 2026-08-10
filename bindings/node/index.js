@@ -19,16 +19,25 @@
  *   const soqlTree = parser.parse('SELECT Id FROM Account');
  */
 
-// node-gyp-build automatically finds the correct prebuilt binary for
-// the current platform (windows/mac/linux) and architecture (x64/arm64).
-// If no prebuilt is found, it falls back to building from source.
-const binding = require("node-gyp-build")(__dirname + "/../..");
+let binding;
+try {
+  binding = require("node-gyp-build")(__dirname + "/../..");
+} catch {
+  binding = require("../../build/Release/tree_sitter_salesforce_binding.node");
+}
 
 // Export each parser.
 // Usage: require('tree-sitter-salesforce').apex
 module.exports = {
   /** Apex language parser */
   apex: binding.apex(),
+  /** Anonymous Apex language parser */
+  apexAnon: binding.apexAnon(),
+  apex_anon: binding.apexAnon(),
   /** SOQL language parser */
   soql: binding.soql(),
+  /** SOSL language parser */
+  sosl: binding.sosl(),
+  /** Formula language parser */
+  formula: binding.formula(),
 };

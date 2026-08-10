@@ -24,8 +24,14 @@
 extern "C" {
   // Defined in apex/src/parser.c
   const void *tree_sitter_apex();
+  // Defined in apex-anon/src/parser.c
+  const void *tree_sitter_apex_anon();
   // Defined in soql/src/parser.c
   const void *tree_sitter_soql();
+  // Defined in sosl/src/parser.c
+  const void *tree_sitter_sosl();
+  // Defined in formula/src/parser.c
+  const void *tree_sitter_formula();
 }
 
 /**
@@ -50,6 +56,19 @@ Napi::Value ApexLanguage(const Napi::CallbackInfo &info) {
 }
 
 /**
+ * Returns the Anonymous Apex parser's Language pointer as a JavaScript external value.
+ */
+Napi::Value ApexAnonLanguage(const Napi::CallbackInfo &info) {
+  auto env = info.Env();
+  auto language = Napi::External<void>::New(env,
+    const_cast<void *>(tree_sitter_apex_anon()));
+  auto languageObject = Napi::Object::New(env);
+  languageObject.Set("name", Napi::String::New(env, "apex_anon"));
+  languageObject.Set("language", language);
+  return languageObject;
+}
+
+/**
  * Returns the SOQL parser's Language pointer as a JavaScript external value.
  */
 Napi::Value SoqlLanguage(const Napi::CallbackInfo &info) {
@@ -63,13 +82,43 @@ Napi::Value SoqlLanguage(const Napi::CallbackInfo &info) {
 }
 
 /**
+ * Returns the SOSL parser's Language pointer as a JavaScript external value.
+ */
+Napi::Value SoslLanguage(const Napi::CallbackInfo &info) {
+  auto env = info.Env();
+  auto language = Napi::External<void>::New(env,
+    const_cast<void *>(tree_sitter_sosl()));
+  auto languageObject = Napi::Object::New(env);
+  languageObject.Set("name", Napi::String::New(env, "sosl"));
+  languageObject.Set("language", language);
+  return languageObject;
+}
+
+/**
+ * Returns the Formula parser's Language pointer as a JavaScript external value.
+ */
+Napi::Value FormulaLanguage(const Napi::CallbackInfo &info) {
+  auto env = info.Env();
+  auto language = Napi::External<void>::New(env,
+    const_cast<void *>(tree_sitter_formula()));
+  auto languageObject = Napi::Object::New(env);
+  languageObject.Set("name", Napi::String::New(env, "formula"));
+  languageObject.Set("language", language);
+  return languageObject;
+}
+
+/**
  * Module initialization — registers all parser functions.
  * When Node.js loads this native module, this function is called once.
  */
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
   // Export each parser as a property of the module
   exports.Set("apex", Napi::Function::New(env, ApexLanguage));
+  exports.Set("apexAnon", Napi::Function::New(env, ApexAnonLanguage));
+  exports.Set("apex_anon", Napi::Function::New(env, ApexAnonLanguage));
   exports.Set("soql", Napi::Function::New(env, SoqlLanguage));
+  exports.Set("sosl", Napi::Function::New(env, SoslLanguage));
+  exports.Set("formula", Napi::Function::New(env, FormulaLanguage));
   return exports;
 }
 

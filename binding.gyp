@@ -7,12 +7,18 @@
       ],
       "include_dirs": [
         "apex/src",
-        "soql/src"
+        "apex-anon/src",
+        "soql/src",
+        "sosl/src",
+        "formula/src"
       ],
       "sources": [
         "bindings/node/binding.cc",
         "apex/src/parser.c",
-        "soql/src/parser.c"
+        "apex-anon/src/parser.c",
+        "soql/src/parser.c",
+        "sosl/src/parser.c",
+        "formula/src/parser.c"
       ],
       "conditions": [
         ["OS!='win'", {

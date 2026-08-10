@@ -2,7 +2,7 @@
   "metadata": {
     "version": "0.1.0",
     "license": "MIT",
-    "description": "Tree-sitter grammars for Salesforce's Apex and SOQL languages",
+    "description": "Tree-sitter grammars for Salesforce's Apex, Anonymous Apex, SOQL, SOSL, and Formula languages",
     "authors": [
       {
         "name": "Ihor A."
@@ -18,7 +18,7 @@
       "camelcase": "Apex",
       "scope": "source.apex",
       "path": "apex",
-      "file-types": ["cls", "trigger", "apex"],
+      "file-types": ["cls", "trigger"],
       "highlights": [
         "apex/queries/highlights.scm"
       ],
@@ -33,6 +33,19 @@
       ]
     },
     {
+      "name": "apex_anon",
+      "camelcase": "ApexAnon",
+      "scope": "source.apex.anon",
+      "path": "apex-anon",
+      "file-types": ["apex"],
+      "highlights": [
+        "apex-anon/queries/highlights.scm"
+      ],
+      "injections": [
+        "apex-anon/queries/injections.scm"
+      ]
+    },
+    {
       "name": "soql",
       "camelcase": "Soql",
       "scope": "source.soql",
@@ -41,6 +54,26 @@
       "highlights": [
         "soql/queries/highlights-distinct.scm",
         "soql/queries/highlights.scm"
+      ]
+    },
+    {
+      "name": "sosl",
+      "camelcase": "Sosl",
+      "scope": "source.sosl",
+      "path": "sosl",
+      "file-types": ["sosl"],
+      "highlights": [
+        "sosl/queries/highlights.scm"
+      ]
+    },
+    {
+      "name": "formula",
+      "camelcase": "Formula",
+      "scope": "source.formula",
+      "path": "formula",
+      "file-types": ["formula"],
+      "highlights": [
+        "formula/queries/highlights.scm"
       ]
     }
   ],

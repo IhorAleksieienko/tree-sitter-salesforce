@@ -17,6 +17,8 @@
     "salesforce",
     "apex",
     "soql",
+    "sosl",
+    "formula",
     "incremental",
     "parsing"
   ],
@@ -38,12 +40,18 @@
   "main": "bindings/node",
   "scripts": {
     "build": "npm run build-generate",
-    "build-generate": "npm run build-soql && npm run build-apex",
+    "build-generate": "npm run build-soql && npm run build-apex && npm run build-apex-anon && npm run build-sosl && npm run build-formula",
     "build-apex": "cd apex && npx tree-sitter generate",
+    "build-apex-anon": "cd apex-anon && npx tree-sitter generate",
     "build-soql": "cd soql && npx tree-sitter generate",
-    "test": "npx tree-sitter test",
-    "test-apex": "npx tree-sitter test apex",
-    "test-soql": "npx tree-sitter test soql",
+    "build-sosl": "cd sosl && npx tree-sitter generate",
+    "build-formula": "cd formula && npx tree-sitter generate",
+    "test": "npm run test-apex && npm run test-apex-anon && npm run test-soql && npm run test-sosl && npm run test-formula",
+    "test-apex": "cd apex && npx tree-sitter test",
+    "test-apex-anon": "cd apex-anon && npx tree-sitter test",
+    "test-soql": "cd soql && npx tree-sitter test",
+    "test-sosl": "cd sosl && npx tree-sitter test",
+    "test-formula": "cd formula && npx tree-sitter test",
     "install": "node-gyp-build"
   },
   "files": [
