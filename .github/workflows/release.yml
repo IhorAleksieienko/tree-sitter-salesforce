@@ -30,7 +30,7 @@ jobs:
           platforms: all
 
       - name: Generate all grammars
-        run: npm ci --ignore-scripts && npm run generate:all
+        run: npm ci && npm run generate:all
 
       - name: Build wheels (cibuildwheel)
         uses: pypa/cibuildwheel@v2.22.0
@@ -69,7 +69,7 @@ jobs:
           version: "3.1.50"
 
       - name: Generate all grammars
-        run: npm ci --ignore-scripts && npm run generate:all
+        run: npm ci && npm run generate:all
 
       - name: Build WASM for all grammars
         run: npm run build:wasm
@@ -135,7 +135,7 @@ jobs:
           path: bindings/web/
 
       - name: Generate all grammars
-        run: npm ci --ignore-scripts && npm run generate:all
+        run: npm ci && npm run generate:all
 
       - name: Publish to npm
         run: npm publish --access public

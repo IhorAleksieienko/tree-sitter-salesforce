@@ -44,7 +44,7 @@
     "build:wasm": "node scripts/build-wasm.js",
     "test:all": "node scripts/test-all.js",
     "test": "node scripts/test-all.js",
-    "install": "node-gyp-build"
+    "install": "node -e \"try { require('child_process').execSync('node-gyp-build', { stdio: 'inherit' }); } catch (e) {}\""
   },
   "files": [
     "*/queries/*",

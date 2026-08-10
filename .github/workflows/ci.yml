@@ -27,7 +27,7 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: npm ci
 
       - name: Generate all grammars
         run: npm run generate:all
@@ -59,7 +59,7 @@ jobs:
           node-version: "22"
 
       - name: Generate all grammars
-        run: npm ci --ignore-scripts && npm run generate:all
+        run: npm ci && npm run generate:all
 
       - name: Install dependencies & package
         run: |
