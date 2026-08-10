@@ -573,6 +573,10 @@
           "named": true
         },
         {
+          "type": "instance_initializer",
+          "named": true
+        },
+        {
           "type": "interface_declaration",
           "named": true
         },
@@ -582,6 +586,10 @@
         },
         {
           "type": "property_declaration",
+          "named": true
+        },
+        {
+          "type": "static_initializer",
           "named": true
         }
       ]
@@ -1138,6 +1146,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "instance_initializer",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -1702,6 +1725,22 @@
     }
   },
   {
+    "type": "static_initializer",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "superclass",
     "named": true,
     "fields": {},
@@ -1806,7 +1845,31 @@
       "required": false,
       "types": [
         {
+          "type": "class_declaration",
+          "named": true
+        },
+        {
+          "type": "enum_declaration",
+          "named": true
+        },
+        {
+          "type": "interface_declaration",
+          "named": true
+        },
+        {
+          "type": "method_declaration",
+          "named": true
+        },
+        {
+          "type": "property_declaration",
+          "named": true
+        },
+        {
           "type": "statement",
+          "named": true
+        },
+        {
+          "type": "static_initializer",
           "named": true
         }
       ]

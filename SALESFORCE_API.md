@@ -97,7 +97,7 @@ organized by the API version that introduced each feature.
 | 50+ built-in functions (`IF`, `ISBLANK`, `REGEX`, `VLOOKUP`, etc.) | ✅ Implemented | See grammar for full list |
 | Nested function calls | ✅ Implemented | Arbitrary depth |
 
-## Apex Enhancements (Steps 10–19)
+## Apex Enhancements (Steps 10–20)
 
 | Feature | API Version | Parser Status | Notes |
 |---|---|---|---|
@@ -112,6 +112,8 @@ organized by the API version that introduced each feature.
 | Interface Method/Constant/Type Declarations | v7+ | ✅ Implemented | Methods, fields, inner enums/classes/interfaces |
 | Generic `extends` and `implements` Inheritance | v7+ | ✅ Implemented | `generic_type` & scoped types in inheritance clauses |
 | Map Literal Initializers (`new Map<K,V>{k => v}`) | v7+ | ✅ Implemented | `map_initializer` and `map_key_initializer` nodes |
+| Static and Instance Initializers | v7+ | ✅ Implemented | `static_initializer` and `instance_initializer` blocks in classes |
+| Trigger Helper Member Declarations | v7+ | ✅ Implemented | Helper methods, fields, and inner types directly within `trigger_body` |
 
 ## Backward Compatibility
 

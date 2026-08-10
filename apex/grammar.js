@@ -240,8 +240,12 @@ module.exports = grammar({
       $.class_declaration,      // Inner classes
       $.interface_declaration,  // Inner interfaces
       $.enum_declaration,       // Inner enums
+      $.static_initializer,
+      alias($.block, $.instance_initializer),
       ";",  // Empty statement (allowed in class body)
     ),
+
+    static_initializer: ($) => seq(ci("static"), field("body", $.block)),
 
     // --- Method, Constructor, Property ---
     method_declaration: ($) => seq(
@@ -377,7 +381,21 @@ module.exports = grammar({
       choice(ci("insert"), ci("update"), ci("delete"), ci("undelete"))
     ),
 
-    trigger_body: ($) => seq("{", repeat($.statement), "}"),
+    trigger_body: ($) => seq(
+      "{",
+      repeat(
+        choice(
+          $.statement,
+          $.method_declaration,
+          $.class_declaration,
+          $.interface_declaration,
+          $.enum_declaration,
+          $.static_initializer,
+          $.property_declaration,
+        )
+      ),
+      "}"
+    ),
 
     // =========================================================================
     // MODIFIERS

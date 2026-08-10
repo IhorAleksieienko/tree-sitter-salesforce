@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Step 19 is COMPLETE.
 > - Apex grammar has baseline P0 fixes applied.
 > - All corpus tests pass in `apex/`.
@@ -174,6 +174,7 @@ Confirm that neither file produces `(ERROR)` nodes.
 
 ## Documentation Updates Required
 
-- [ ] `SALESFORCE_API.md`: Document support for static/instance initializer blocks and trigger helper declarations.
-- [ ] `docs/03-understanding-apex.md`: Add example of static initialization and trigger helper member declarations.
-- [ ] `CHANGELOG.md`: Record addition of `static_initializer`, `instance_initializer`, and trigger member support.
+- [x] `SALESFORCE_API.md`: Document support for static/instance initializer blocks and trigger helper declarations.
+- [x] `docs/03-understanding-apex.md`: Add example of static initialization and trigger helper member declarations.
+- [x] `CHANGELOG.md`: Record addition of `static_initializer`, `instance_initializer`, and trigger member support.
+

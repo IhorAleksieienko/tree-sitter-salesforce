@@ -80,13 +80,44 @@ Map<String, String> m = new Map<String, String>{
 ```
 These expressions are parsed into `map_initializer` nodes containing `map_key_initializer` child nodes with `key` and `value` fields.
 
-### Switch and When Pattern Matching
-Apex provides polymorphic `switch on` statements that support:
-1. **Literal and Enum Values**: `when 'value1', 'value2' { ... }`, `when 1, 2, 3 { ... }`, `when Season.WINTER { ... }`, and `when null { ... }`.
-2. **Single SObject Type Matching**: `when Account a { ... }` binds variable `a` as type `Account`.
-3. **Multi-SObject Type Matching**: `when Account a, Contact c { ... }` allows branching on multiple SObject types within a single clause while binding each typed variable name.
+### Static and Instance Initializers
+Apex classes support static initialization blocks (`static { ... }`) that run once when the class is loaded, as well as instance initialization blocks (`{ ... }`) that run whenever an instance is created:
 
-The parser models type patterns with dedicated `when_type_pattern` AST nodes containing `type` and `name` fields.
+```apex
+public class ServiceManager {
+    private static Map<String, Object> cache;
+    private List<String> history;
+
+    static {
+        cache = new Map<String, Object>();
+    }
+
+    {
+        history = new List<String>();
+    }
+}
+```
+In the AST:
+- `static { ... }` produces a `static_initializer` node with a `body: (block)` field.
+- Bare `{ ... }` blocks directly within class bodies produce `instance_initializer` nodes.
+
+### Trigger Member Declarations
+Apex triggers can contain helper methods, static fields/constants, and inner types alongside standard procedural statements:
+
+```apex
+trigger AccountTrigger on Account (before insert, after insert) {
+    public static final String PREFIX = 'ACC-';
+
+    private void enrich(Account acc) {
+        acc.AccountNumber = PREFIX + acc.Name;
+    }
+
+    for (Account a : Trigger.new) {
+        enrich(a);
+    }
+}
+```
+The `trigger_body` rule accepts both procedural `statement` nodes and member declarations (such as `method_declaration` and `local_variable_declaration`), enabling full AST indexing of trigger-local helper symbols.
 
 ## Multi-SObject `when` Clause Patterns
 

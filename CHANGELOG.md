@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Map literal initializer syntax** (`map_initializer`, `map_key_initializer`) — Supports `new Map<K,V>{ key => value, ... }` with trailing comma support.
 - **Interface member declarations** — Interface bodies now support method signatures, constants, inner classes, interfaces, and enums.
 - **Generic inheritance clauses** — `extends` and `implements` clauses support `generic_type` (e.g. `extends BaseService<Account>`, `implements Database.Batchable<sObject>`) and `type_parameters` in class/interface/method declarations.
+- **Static and instance initializers** (`static_initializer`, `instance_initializer`) — Support for `static { ... }` and bare `{ ... }` blocks in class bodies.
+- **Trigger helper member declarations** — Allow helper methods, constants, fields, and inner types directly within `trigger_body`.
 - **Operator highlighting** for `=>` fat-arrow token in `apex/queries/highlights.scm`.
 - **CI/CD workflow** — GitHub Actions build matrix (Windows / Linux / macOS / WASM).
 - **WASM binaries** for all five grammars in `bindings/web/`.

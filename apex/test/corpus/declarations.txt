@@ -413,3 +413,210 @@ public interface IAccountRepo extends IRepository<Account> {
         (type_identifier
           (identifier))))
     body: (interface_body)))
+
+==================
+Class with static initializer block
+==================
+
+public class ServiceManager {
+    private static Map<String, Object> cache;
+
+    static {
+        cache = new Map<String, Object>();
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        (modifiers
+          (modifier)
+          (modifier))
+        type: (generic_type
+          (type_identifier
+            (identifier))
+          (type_arguments
+            (type_identifier
+              (identifier))
+            (type_identifier
+              (identifier))))
+        (variable_declarator
+          name: (identifier)))
+      (static_initializer
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (identifier)
+              right: (new_expression
+                type: (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))
+                    (type_identifier
+                      (identifier))))
+                arguments: (argument_list)))))))))
+
+==================
+Class with instance initializer block
+==================
+
+public class ServiceManager {
+    private List<String> history;
+
+    {
+        history = new List<String>();
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        (modifiers
+          (modifier))
+        type: (generic_type
+          (type_identifier
+            (identifier))
+          (type_arguments
+            (type_identifier
+              (identifier))))
+        (variable_declarator
+          name: (identifier)))
+      (instance_initializer
+        (expression_statement
+          (assignment_expression
+            left: (identifier)
+            right: (new_expression
+              type: (generic_type
+                (type_identifier
+                  (identifier))
+                (type_arguments
+                  (type_identifier
+                    (identifier))))
+              arguments: (argument_list))))))))
+
+==================
+Class with static and instance initializers intermixed
+==================
+
+public class Config {
+    static {
+        initDefaults();
+    }
+
+    {
+        resetCounters();
+    }
+
+    public Config() {}
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (static_initializer
+        body: (block
+          (expression_statement
+            (method_invocation
+              name: (identifier)
+              arguments: (argument_list)))))
+      (instance_initializer
+        (expression_statement
+          (method_invocation
+            name: (identifier)
+            arguments: (argument_list))))
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block)))))
+
+==================
+Trigger with helper fields and methods
+==================
+
+trigger AccountTrigger on Account (before insert, after insert) {
+    public static final String PREFIX = 'ACC-';
+
+    private void enrich(Account acc) {
+        acc.AccountNumber = PREFIX + acc.Name;
+    }
+
+    for (Account a : Trigger.new) {
+        enrich(a);
+    }
+}
+
+---
+
+(source_file
+  (trigger_declaration
+    name: (identifier)
+    object: (identifier)
+    (trigger_event)
+    (trigger_event)
+    body: (trigger_body
+      (local_variable_declaration
+        (modifiers
+          (modifier)
+          (modifier)
+          (modifier))
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (string_literal)))
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier)))
+        body: (block
+          (expression_statement
+            (assignment_expression
+              left: (field_access
+                object: (identifier)
+                field: (identifier))
+              right: (binary_expression
+                left: (identifier)
+                right: (field_access
+                  object: (identifier)
+                  field: (identifier)))))))
+      (enhanced_for_statement
+        type: (type_identifier
+          (identifier))
+        name: (identifier)
+        value: (field_access
+          object: (identifier)
+          field: (identifier))
+        body: (block
+          (expression_statement
+            (method_invocation
+              name: (identifier)
+              arguments: (argument_list
+                (identifier)))))))))
+
