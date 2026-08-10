@@ -30,6 +30,10 @@
         "named": true
       },
       {
+        "type": "array_creation_expression",
+        "named": true
+      },
+      {
         "type": "assignment_expression",
         "named": true
       },
@@ -43,6 +47,10 @@
       },
       {
         "type": "cast_expression",
+        "named": true
+      },
+      {
+        "type": "class_literal",
         "named": true
       },
       {
@@ -66,7 +74,15 @@
         "named": true
       },
       {
+        "type": "long_literal",
+        "named": true
+      },
+      {
         "type": "method_invocation",
+        "named": true
+      },
+      {
+        "type": "multi_line_string_literal",
         "named": true
       },
       {
@@ -83,6 +99,10 @@
       },
       {
         "type": "parenthesized_expression",
+        "named": true
+      },
+      {
+        "type": "scientific_decimal",
         "named": true
       },
       {
@@ -248,7 +268,19 @@
           "named": true
         },
         {
+          "type": "long_literal",
+          "named": true
+        },
+        {
+          "type": "multi_line_string_literal",
+          "named": true
+        },
+        {
           "type": "null_literal",
+          "named": true
+        },
+        {
+          "type": "scientific_decimal",
           "named": true
         },
         {
@@ -319,6 +351,32 @@
         "types": [
           {
             "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "array_creation_expression",
+    "named": true,
+    "fields": {
+      "size": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
             "named": true
           }
         ]
@@ -535,6 +593,22 @@
     }
   },
   {
+    "type": "class_literal",
+    "named": true,
+    "fields": {
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "continue_statement",
     "named": true,
     "fields": {}
@@ -690,6 +764,10 @@
             "named": true
           },
           {
+            "type": "class_literal",
+            "named": true
+          },
+          {
             "type": "decimal",
             "named": true
           },
@@ -702,11 +780,23 @@
             "named": true
           },
           {
+            "type": "long_literal",
+            "named": true
+          },
+          {
+            "type": "multi_line_string_literal",
+            "named": true
+          },
+          {
             "type": "null_literal",
             "named": true
           },
           {
             "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "scientific_decimal",
             "named": true
           },
           {
@@ -757,6 +847,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "array_creation_expression",
+          "named": true
+        },
         {
           "type": "assignment_expression",
           "named": true
@@ -1805,7 +1899,19 @@
     "named": true
   },
   {
+    "type": "long_literal",
+    "named": true
+  },
+  {
+    "type": "multi_line_string_literal",
+    "named": true
+  },
+  {
     "type": "null_literal",
+    "named": true
+  },
+  {
+    "type": "scientific_decimal",
     "named": true
   },
   {

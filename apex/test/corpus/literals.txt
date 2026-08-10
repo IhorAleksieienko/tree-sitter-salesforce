@@ -96,3 +96,87 @@ public class T {
         (variable_declarator
           name: (identifier)
           value: (null_literal))))))
+
+==================
+Long literal
+==================
+
+public class T {
+    Long a = 10000000000L;
+    Long b = 42l;
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (long_literal)))
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (long_literal))))))
+
+==================
+Scientific decimal literal
+==================
+
+public class T {
+    Double a = 1.234e-4;
+    Double b = 5.0E+10;
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (scientific_decimal)))
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (scientific_decimal))))))
+
+==================
+Multi-line string literal
+==================
+
+public class T {
+    String s = '''line 1
+line 2''';
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (field_declaration
+        type: (type_identifier
+          (identifier))
+        (variable_declarator
+          name: (identifier)
+          value: (multi_line_string_literal))))))

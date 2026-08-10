@@ -715,4 +715,139 @@ public class T {
             record: (identifier)
             options: (identifier)))))))
 
+====================================
+Case-insensitive Switch statement
+====================================
+
+public class T {
+    public void doWork() {
+        SWITCH ON status {
+            when 'a' {
+                doSomething();
+            }
+            WHEN ELSE {
+                doDefault();
+            }
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_statement
+            condition: (identifier)
+            (when_clause
+              (string_literal)
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list)))))
+            (when_else_clause
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list)))))))))))
+
+====================================
+Switch with signed number patterns
+====================================
+
+public class T {
+    public void doWork() {
+        switch on num {
+            when -1, +2, 0 {
+                doSomething();
+            }
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_statement
+            condition: (identifier)
+            (when_clause
+              (unary_expression
+                (int))
+              (unary_expression
+                (int))
+              (int)
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list)))))))))))
+
+====================================
+Switch with enum patterns
+====================================
+
+public class T {
+    public void doWork() {
+        switch on state {
+            when Stage.OPEN, Stage.CLOSED {
+                doSomething();
+            }
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_statement
+            condition: (identifier)
+            (when_clause
+              (field_access
+                object: (identifier)
+                field: (identifier))
+              (field_access
+                object: (identifier)
+                field: (identifier))
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    name: (identifier)
+                    arguments: (argument_list)))))))))))
+
 

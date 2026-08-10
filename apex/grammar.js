@@ -136,12 +136,12 @@ module.exports = grammar({
   // ---------------------------------------------------------------------------
   conflicts: ($) => [
     [$.type_identifier, $.expression],
-    [$.scoped_type_identifier, $.expression],
     [$.type_identifier, $.scoped_type_identifier],
     [$._type, $.generic_type],
     [$.scoped_type_identifier],
     [$.expression, $.explicit_constructor_invocation],
-    [$.scoped_type_identifier, $.expression, $.explicit_constructor_invocation],
+    [$.type_identifier, $.scoped_type_identifier, $.expression],
+    [$.type_identifier, $.scoped_type_identifier, $.expression, $.explicit_constructor_invocation],
     [$.type_identifier, $.type_parameter],
   ],
 
@@ -599,6 +599,7 @@ module.exports = grammar({
       $.cast_expression,
       $.instanceof_expression,
       $.new_expression,
+      $.array_creation_expression,
       $.method_invocation,
       $.field_access,
       $.array_access,
@@ -693,6 +694,14 @@ module.exports = grammar({
         $.array_initializer,
         field("initializer", $.map_initializer),
       )
+    )),
+
+    array_creation_expression: ($) => prec.right(PREC.OBJ_INST, seq(
+      ci("new"),
+      field("type", $._type),
+      "[",
+      field("size", $.expression),
+      "]"
     )),
 
     argument_list: ($) => seq("(", optional(commaJoined1($.expression)), ")"),
@@ -795,10 +804,17 @@ module.exports = grammar({
     primary_expression: ($) => choice(
       $.identifier,
       $._literal,
+      $.class_literal,
       $.this,
       $.super,
       $.parenthesized_expression,
     ),
+
+    class_literal: ($) => prec(PREC.OBJ_ACCESS + 1, prec.dynamic(1, seq(
+      field("type", $._type),
+      ".",
+      ci("class")
+    ))),
 
     this: ($) => ci("this"),
     super: ($) => ci("super"),
@@ -811,13 +827,21 @@ module.exports = grammar({
 
     _literal: ($) => choice(
       $.int,
+      $.long_literal,
       $.decimal,
+      $.scientific_decimal,
       $.string_literal,
+      $.multi_line_string_literal,
       $.boolean,
       $.null_literal,
     ),
 
+    multi_line_string_literal: ($) => token(
+      seq("'''", repeat(choice(/[^'\\]/, /'[^'\\]/, /''[^'\\]/, /\\./)), "'''")
+    ),
     string_literal: ($) => /'(\\[nNrRtTbBfFuU"'_%\\]|[^\\'])*'/,
+    long_literal: ($) => token(seq(/[0-9]+(_[0-9]+)*/, choice("L", "l"))),
+    scientific_decimal: ($) => token(/[0-9]+(\.[0-9]+)?[eE][+-]?[0-9]+/),
     int: ($) => token(/[0-9]+(_[0-9]+)*/),
     decimal: ($) => /\d+\.\d+/,
     boolean: ($) => choice(ci("true"), ci("false")),
@@ -910,7 +934,7 @@ module.exports = grammar({
     ),
 
     switch_statement: ($) => seq(
-      ci("switch on"), field("condition", $.expression), "{",
+      ci("switch"), ci("on"), field("condition", $.expression), "{",
       repeat($.when_clause),
       optional($.when_else_clause),
       "}"
@@ -964,7 +988,7 @@ module.exports = grammar({
     )),
 
     when_else_clause: ($) => seq(
-      ci("when else"), field("body", $.block)
+      ci("when"), ci("else"), field("body", $.block)
     ),
 
     try_statement: ($) => seq(
@@ -1006,7 +1030,8 @@ module.exports = grammar({
         $.assignment_expression,
         $.update_expression,
         $.method_invocation,
-        $.new_expression
+        $.new_expression,
+        $.array_creation_expression,
       ),
       ";"
     ),

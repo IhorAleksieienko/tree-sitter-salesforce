@@ -150,19 +150,23 @@ trigger AccountTrigger on Account (before insert, after insert) {
 ```
 The `trigger_body` rule accepts both procedural `statement` nodes and member declarations (such as `method_declaration` and `local_variable_declaration`), enabling full AST indexing of trigger-local helper symbols.
 
-## Multi-SObject `when` Clause Patterns
+## Multi-SObject `when` Clause Patterns & Switch Enhancements
 
-Salesforce Apex allows a `switch on` statement to match multiple SObject types in a single
-`when` clause:
+Salesforce Apex allows a `switch on` statement to match multiple SObject types, literal values (including signed numbers), and enum constants in a single or multiple `when` clauses. In addition, `switch on` and `when else` keywords are fully case-insensitive (`SWITCH ON`, `Switch On`, `WHEN ELSE`):
 
 ```apex
-switch on genericSObject {
+SWITCH ON genericSObject {
     when Account a, Contact c {
         // Both Account and Contact are bound here
         System.debug(a?.Name ?? c?.Name);
     }
-    when Opportunity o { }
-    when else { }
+    when -1, +2, 0 {
+        // Signed numeric patterns
+    }
+    when Stage.OPEN, Stage.CLOSED {
+        // Qualified enum patterns
+    }
+    WHEN ELSE { }
 }
 ```
 
@@ -175,6 +179,43 @@ In the AST, each comma-separated type pattern becomes a `when_type_pattern` node
   (when_type_pattern type: (type_identifier) name: (identifier))  ; Contact c
   body: (block …))
 ```
+
+### Multi-Line String Literals (Summer '26)
+Apex supports raw multi-line string literals enclosed in triple single quotes (`'''...'''`):
+
+```apex
+String query = '''
+    SELECT Id, Name
+    FROM Account
+    WHERE Active__c = 'Yes'
+''';
+```
+These produce `multi_line_string_literal` AST nodes.
+
+### Array Dimension Instantiation
+Apex supports array allocations with explicit dimension sizing:
+
+```apex
+String[] items = new String[10];
+Account[] batch = new Account[batchSize];
+```
+These produce `array_creation_expression` AST nodes containing `type: (type_identifier ...)` and `size: (expression ...)` fields.
+
+### Extended Literals & Class Literals
+Apex supports typed literals for Long integers, scientific notation floating points, and class reflection tokens:
+
+```apex
+Long bigNum = 9223372036854775807L;
+Double sci = 1.25e-8;
+Type t = Account.class;
+Type v = void.class;
+Type b = Database.Batchable.class;
+```
+
+In the AST:
+- `100L` / `42l` produces a `long_literal` node.
+- `1.25e-8` / `5.0E+10` produces a `scientific_decimal` node.
+- `Account.class` / `void.class` produces a `class_literal` node with a `type` field.
 
 ## Anonymous Apex vs. Class-Based Apex
 

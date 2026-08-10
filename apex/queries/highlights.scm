@@ -65,8 +65,11 @@
 
 ; Literals
 (string_literal) @string
+(multi_line_string_literal) @string
 (int) @number
+(long_literal) @number
 (decimal) @number
+(scientific_decimal) @number
 
 ; Comments
 (line_comment) @comment

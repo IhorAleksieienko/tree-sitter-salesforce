@@ -33,6 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Explicit constructor chaining** (`explicit_constructor_invocation`) — Support for `this(...)`, `super(...)`, and outer-qualified `Outer.super(...)` constructor invocations.
 - **`System.runAs(...)` test statement** (`run_as_statement`) — Dedicated construct for unit test context blocks with `user` and `body` fields.
 - **Modern DML security modes** (`dml_security_mode`) — Support for `as user` and `as system` access levels across all DML statement forms (`insert`, `update`, `upsert`, `delete`, `undelete`, `merge`).
+- **Case-insensitive switch keywords** — `switch on` and `when else` keywords match case-insensitively (`SWITCH ON`, `WHEN ELSE`, `Switch On`).
+- **Summer '26 multi-line raw string literals** (`multi_line_string_literal`) — Triple single-quoted text block literals (`'''...'''`).
+- **Array dimension sizing** (`array_creation_expression`) — Explicit dimension size allocations (`new String[10]`, `new Account[batchSize]`).
+- **Extended literals** — Support for Long integers (`long_literal`: `100L`, `100l`), scientific decimals (`scientific_decimal`: `1.2e-5`), and class reflection tokens (`class_literal`: `Account.class`, `void.class`, `Database.Batchable.class`).
+- **Highlighting queries** for `multi_line_string_literal`, `long_literal`, and `scientific_decimal`.
 - **Operator highlighting** for `=>` fat-arrow token in `apex/queries/highlights.scm`.
 - **CI/CD workflow** — GitHub Actions build matrix (Windows / Linux / macOS / WASM).
 - **WASM binaries** for all five grammars in `bindings/web/`.

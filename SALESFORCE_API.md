@@ -98,7 +98,7 @@ organized by the API version that introduced each feature.
 | 50+ built-in functions (`IF`, `ISBLANK`, `REGEX`, `VLOOKUP`, etc.) | ✅ Implemented | See grammar for full list |
 | Nested function calls | ✅ Implemented | Arbitrary depth |
 
-## Apex Enhancements (Steps 10–21)
+## Apex Enhancements (Steps 10–22)
 
 | Feature | API Version | Parser Status | Notes |
 |---|---|---|---|
@@ -118,6 +118,12 @@ organized by the API version that introduced each feature.
 | Explicit Constructor Chaining (`this(…)` / `super(…)`) | v7+ | ✅ Implemented | `explicit_constructor_invocation` node with type_arguments & qualifier |
 | `System.runAs(…)` Testing Statements | v7+ | ✅ Implemented | `run_as_statement` node with `user` and `body` fields |
 | Modern DML Security Modes (`as user` / `as system`) | v54+ | ✅ Implemented | `access_level` on `dml_statement` (`user` / `system`) |
+| Case-Insensitive Switch Keywords (`switch on` / `when else`) | v43+ | ✅ Implemented | Fully case-insensitive multi-word keyword matching |
+| Multi-Line String Literals (`'''...'''`) | Summer '26 | ✅ Implemented | `multi_line_string_literal` text block support |
+| Array Dimension Sizing (`new String[size]`) | v7+ | ✅ Implemented | `array_creation_expression` with `type` and `size` fields |
+| Long Literals (`100L`, `100l`) | v7+ | ✅ Implemented | `long_literal` node |
+| Scientific Notation Decimals (`1.2e-5`) | v7+ | ✅ Implemented | `scientific_decimal` node |
+| Class Reflection Literals (`Account.class`, `void.class`) | v7+ | ✅ Implemented | `class_literal` node with `type` field |
 
 ## Backward Compatibility
 
