@@ -40,10 +40,10 @@ def _check_tree_sitter_version() -> None:
 
     if v_str:
         digits = [int(x) for x in v_str.split(".")[:2] if x.isdigit()]
-        if digits and tuple(digits) < (0, 22):
+        if digits and tuple(digits) < (0, 24):
             raise ImportError(
-                f"tree-sitter-salesforce 0.2.0+ requires tree-sitter>=0.22.0. "
-                f"Found: {v_str}. Run: pip install 'tree-sitter>=0.22.0'"
+                f"tree-sitter-salesforce 0.2.0+ requires tree-sitter>=0.24.0. "
+                f"Found: {v_str}. Run: pip install 'tree-sitter>=0.24.0'"
             )
 
 

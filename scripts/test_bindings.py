@@ -25,8 +25,8 @@ except Exception:
 
 if _v_str:
     _digits = [int(x) for x in _v_str.split(".")[:2] if x.isdigit()]
-    if _digits and tuple(_digits) < (0, 22):
-        raise AssertionError(f"tree-sitter >= 0.22 required, found {_v_str}")
+    if _digits and tuple(_digits) < (0, 24):
+        raise AssertionError(f"tree-sitter >= 0.24.0 required for ABI 15, found {_v_str}")
 
 import tree_sitter_salesforce as tss
 from tree_sitter import Parser

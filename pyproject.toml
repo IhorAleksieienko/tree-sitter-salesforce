@@ -3,17 +3,17 @@ name = "tree-sitter-salesforce"
 version = "0.2.0"
 description = "Salesforce Apex, SOQL, SOSL, and Formula grammars for tree-sitter"
 license = {text = "MIT"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "tree-sitter>=0.22.0",
+    "tree-sitter>=0.24.0",
 ]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Compilers",
     "Topic :: Text Processing :: Linguistic",
     "Typing :: Typed",

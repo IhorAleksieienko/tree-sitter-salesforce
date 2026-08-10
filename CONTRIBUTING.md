@@ -41,7 +41,7 @@ See [docs/05-adding-new-language.md](docs/05-adding-new-language.md) for full de
 
 ## CI/CD & Automated Releases
 
-- **Pull Requests & Commits**: Every push to `main`/`develop` and PR against `main` runs `.github/workflows/ci.yml` across Ubuntu, macOS, and Windows runners (testing all grammars and Python versions 3.9–3.12).
+- **Pull Requests & Commits**: Every push to `main`/`develop` and PR against `main` runs `.github/workflows/ci.yml` across Ubuntu, macOS, and Windows runners (testing all grammars and Python versions 3.10–3.13).
 - **Releases**: Pushing a version tag `v*.*.*` automatically triggers `.github/workflows/release.yml`, building multi-platform wheels via `cibuildwheel` (including Linux `aarch64` via QEMU), compiling WebAssembly modules via Emscripten, and publishing to PyPI and npm.
 - See [docs/10-release-process.md](docs/10-release-process.md) for the complete release process.
 

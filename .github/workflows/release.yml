@@ -35,8 +35,8 @@ jobs:
       - name: Build wheels (cibuildwheel)
         uses: pypa/cibuildwheel@v2.22.0
         env:
-          # Build for Python 3.9, 3.10, 3.11, 3.12
-          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
+          # Build for Python 3.10, 3.11, 3.12, 3.13
+          CIBW_BUILD: "cp310-* cp311-* cp312-* cp313-*"
           # Skip 32-bit Windows and musl Linux
           CIBW_SKIP: "*-win32 *-musllinux*"
           # ARM64 and x86_64 on macOS
