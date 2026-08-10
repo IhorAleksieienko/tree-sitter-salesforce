@@ -81,17 +81,40 @@ SOQL provides specialized scalar functions wrapping field expressions in the `SE
 - `convertCurrency(amountField)`: Converts currency values to the user's corporate currency.
 - `toLabel(picklistField)`: Returns translated picklist values for multilingual orgs.
 - `GROUPING(field)`: Distinguishes between aggregate subtotal rows and regular data rows in ROLLUP/CUBE queries.
+- `convertTimezone(datetimeField)`: Converts datetime values to the current user's timezone (supports standalone, in SELECT, and within date functions like `HOUR_IN_DAY(...)`).
 
-### WITH DATA CATEGORY
+### USING Scope and Lookup Clauses
 
+SOQL queries can limit the record scope or apply lookup bindings using the `USING` clause:
 ```soql
-SELECT Id, Title
-FROM KnowledgeArticleVersion
-WITH DATA CATEGORY Geography__c AT USA__c
+-- Scope-based filtering
+SELECT Id, Name FROM Account USING SCOPE Mine
+
+-- Search filter lookup binding
+SELECT Id FROM ServiceApp USING LOOKUP AppId IN ('v1', 'v2') BIND AppId = :boundVar
 ```
 
-Supported operators: `AT`, `ABOVE`, `BELOW`, `ABOVE_OR_BELOW`.
-Multiple category filters are comma-separated.
+### WITH Clauses
+
+SOQL supports several security, context, and categorization modes in the `WITH` clause:
+- `WITH USER_MODE` / `WITH SYSTEM_MODE`: Runtime permission enforcement.
+- `WITH SECURITY_ENFORCED`: Field- and object-level security checking.
+- `WITH RecordVisibilityContext(key=value, ...)`: Configures record visibility parameters (e.g. `maxDescribeValueLength=100`, `enforceVisibility=true`).
+- `WITH DATA CATEGORY`: Knowledge article filtering with `AT`, `ABOVE`, `BELOW`, `ABOVE_OR_BELOW`.
+
+```soql
+SELECT Id FROM Contact WITH RecordVisibilityContext(maxDescribeValueLength=20)
+SELECT Id, Title FROM KnowledgeArticleVersion WITH DATA CATEGORY Geography__c AT USA__c
+```
+
+### Temporal Literals & Time Fields
+
+Salesforce Time fields are queried using ISO time literals:
+```soql
+SELECT Id FROM ShiftSchedule WHERE StartTime = 08:30:00.000Z
+SELECT Id FROM Lead WHERE StartTime > 08:30:00.000+05:00
+SELECT Id FROM Shift WHERE StartTime >= 09:00:00
+```
 
 ### Bind Variables
 When embedded in Apex, SOQL queries can reference Apex variables using a colon prefix (`:varName`).

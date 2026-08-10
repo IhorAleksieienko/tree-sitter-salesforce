@@ -236,4 +236,111 @@ SELECT Id, Name, IsDeleted FROM Opportunity WHERE FORMULA('Amount * 1.1') > 5000
       (int))
     (all_rows_clause)))
 
+==================
+USING SCOPE clause
+==================
+
+SELECT Id, Name FROM Account USING SCOPE Mine
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier))
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+USING LOOKUP with bind variable
+==================
+
+SELECT Id FROM ServiceApp USING LOOKUP AppId IN ('v1', 'v2') BIND AppId = :boundVar
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_lookup_clause
+        (identifier)
+        (string_literal)
+        (string_literal)
+        (identifier)
+        (bind_variable
+          (identifier))))))
+
+==================
+USING LOOKUP with field expression
+==================
+
+SELECT Id FROM ServiceApp USING LOOKUP AppId IN ('v1') BIND AppId = TargetField
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_lookup_clause
+        (identifier)
+        (string_literal)
+        (identifier)
+        (field_identifier (identifier))))))
+
+==================
+WITH RecordVisibilityContext single parameter
+==================
+
+SELECT Id FROM Contact WITH RecordVisibilityContext(maxDescribeValueLength=100)
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (with_clause
+      (record_visibility_context_clause
+        (record_visibility_parameter
+          (identifier)
+          (int))))))
+
+==================
+WITH RecordVisibilityContext multiple parameters
+==================
+
+SELECT Id FROM Contact WITH RecordVisibilityContext(maxDescribeValueLength=20, enforceVisibility=true)
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (with_clause
+      (record_visibility_context_clause
+        (record_visibility_parameter
+          (identifier)
+          (int))
+        (record_visibility_parameter
+          (identifier)
+          (boolean))))))
+
+
 

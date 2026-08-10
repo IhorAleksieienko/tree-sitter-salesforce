@@ -2,7 +2,8 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
+> **Completed At**: 2026-08-10T17:06:00Z
 > **Prerequisites**: Step 23 is COMPLETE.
 > - SOQL grammar includes `FORMULA` and `ALL ROWS` support.
 > - All corpus tests pass in `soql/`.
@@ -157,6 +158,7 @@ Confirm all nodes parse without `(ERROR)`.
 
 ## Documentation Updates Required
 
-- [ ] `SALESFORCE_API.md`: Document support for `USING LOOKUP`, `WITH RecordVisibilityContext`, and Time literals.
-- [ ] `docs/04-understanding-soql.md`: Update Clauses and Date Functions sections with time literals and lookup scoping.
-- [ ] `CHANGELOG.md`: Record addition of SOQL `USING LOOKUP`, `RecordVisibilityContext`, and Time literals.
+- [x] `SALESFORCE_API.md`: Document support for `USING LOOKUP`, `WITH RecordVisibilityContext`, and Time literals.
+- [x] `docs/04-understanding-soql.md`: Update Clauses and Date Functions sections with time literals and lookup scoping.
+- [x] `CHANGELOG.md`: Record addition of SOQL `USING LOOKUP`, `RecordVisibilityContext`, and Time literals.
+

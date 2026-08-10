@@ -8,6 +8,8 @@
 ; Function Names
 (date_function_name) @function.builtin
 (scalar_function_name) @function.builtin
+(convert_timezone_call) @function.builtin
+(formula_expression) @function.builtin
 (function_expression function_name: (identifier) @function)
 
 ; Clause Types & Modifiers
@@ -21,6 +23,9 @@
   (with_type)
 ] @keyword
 
+; RecordVisibilityContext
+(record_visibility_parameter key: (identifier) @property)
+
 ; SObject & Types
 (storage_identifier (identifier) @type)
 (date_literal) @constant.builtin
@@ -28,6 +33,9 @@
 ; Field Properties
 (field_identifier (identifier) @property)
 (field_identifier (dotted_identifier (identifier) @property))
+
+; Bind Variables
+(bind_variable ":" @operator (identifier) @variable.other)
 
 ; Identifiers (default)
 (identifier) @variable
@@ -40,6 +48,7 @@
 (decimal) @number
 (date) @number
 (date_time) @number
+(time_literal) @number
 (currency_literal) @number
 
 ; Operators

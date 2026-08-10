@@ -214,3 +214,46 @@ SELECT Id FROM Account WHERE FORMULA('BillingState') = 'CA'
         (value_comparison_operator)
         (string_literal)))))
 
+==================
+WHERE with bind variable
+==================
+
+SELECT Id FROM Account WHERE Name = :accountName
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (bind_variable
+          (identifier))))))
+
+==================
+WHERE with IN bind variable
+==================
+
+SELECT Id FROM Account WHERE Id IN :idList
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (set_comparison_operator)
+        (bind_variable
+          (identifier))))))
+
+

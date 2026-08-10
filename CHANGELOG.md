@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **SOQL `GROUP BY ROLLUP/CUBE`** in `soql/grammar.js`.
 - **SOQL date functions** (`CALENDAR_MONTH`, `FISCAL_YEAR`, etc.) in `soql/grammar.js`.
 - **`WITH DATA CATEGORY`** clause in `soql/grammar.js`.
+- **SOQL `USING LOOKUP ... BIND`** search filter clause (`using_lookup_clause`) in `soql/grammar.js`.
+- **SOQL `WITH RecordVisibilityContext`** multi-parameter security clause (`record_visibility_context_clause`, `record_visibility_parameter`) in `soql/grammar.js`.
+- **SOQL Time literals** (`time_literal`: `HH:mm:ss[.SSS][Z|+-HH:mm]`) and bind variables (`bind_variable`: `:varName`) in `soql/grammar.js`.
+- **SOQL `convertTimezone()` function** (`convert_timezone_call`) supporting standalone, SELECT expressions, and nested date functions.
 - **SOQL dynamic formula filtering** (`formula_expression`: `FORMULA('...')`) in `WHERE` and `HAVING` clauses.
 - **SOQL `ALL ROWS` clause** (`all_rows_clause`) for soft-deleted and archived records.
 - **Python loaders**: `tss.apex_anon()`, `tss.sosl()`, `tss.formula()`.

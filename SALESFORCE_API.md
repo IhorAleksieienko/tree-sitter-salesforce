@@ -63,6 +63,11 @@ organized by the API version that introduced each feature.
 | WITH USER_MODE / WITH SYSTEM_MODE | ✅ Implemented | |
 | WITH SECURITY_ENFORCED | ✅ Implemented | |
 | WITH DATA CATEGORY Filtering | ✅ Implemented | Supports AT, ABOVE, BELOW, ABOVE_OR_BELOW category selectors |
+| WITH RecordVisibilityContext Filtering | ✅ Implemented | Multi-parameter security context (`RecordVisibilityContext(key=val, ...)`) |
+| USING SCOPE Filtering | ✅ Implemented | Predefined scope filters (`Mine`, `Team`, `Delegated`, etc.) |
+| USING LOOKUP ... BIND Search Filtering | ✅ Implemented | Search filter lookup scoping with field binding and bind variables |
+| Time Literals (`HH:mm:ss[.SSS][Z\|+-HH:mm]`) | ✅ Implemented | Specialized time literals (e.g., `08:30:00.000Z`, `09:00:00`) |
+| convertTimezone Date Function | ✅ Implemented | Timezone conversion in SELECT, WHERE, and nested date functions |
 | FORMULA('...') Dynamic Formula Filtering (Summer '26) | ✅ Implemented | Evaluates dynamic formula expressions in `WHERE` and `HAVING` clauses |
 | ALL ROWS Clause | ✅ Implemented | Terminal clause querying soft-deleted Recycle Bin records and archived Task/Event activities |
 

@@ -79,3 +79,64 @@ SELECT Id FROM Account WHERE CreatedDate > 2024-01-15T10:30:00Z
         (field_identifier (identifier))
         (value_comparison_operator)
         (date_time)))))
+
+==================
+Time value literal with Z timezone
+==================
+
+SELECT Id FROM ShiftSchedule WHERE StartTime = 08:30:00.000Z
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (time_literal)))))
+
+==================
+Time value literal with offset timezone
+==================
+
+SELECT Id FROM Lead WHERE StartTime > 08:30:00.000+05:00
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (time_literal)))))
+
+==================
+Time value literal without milliseconds
+==================
+
+SELECT Id FROM Shift WHERE StartTime >= 09:00:00
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (time_literal)))))
+

@@ -283,10 +283,11 @@ module.exports = grammar({
      * Examples:
      *   USING SCOPE Mine              (filter to current user's records)
      *   USING SCOPE Team              (filter to current user's team)
+     *   USING LOOKUP ShiftId IN ('S1', 'S2') BIND ShiftId = :targetShift
      */
     using_clause: ($) => seq(
       ci("USING"),
-      $.using_scope_clause
+      choice($.using_scope_clause, $.using_lookup_clause)
     ),
 
     using_scope_clause: ($) => seq(ci("SCOPE"), $.using_scope_type),
@@ -299,6 +300,25 @@ module.exports = grammar({
       ci("my_territory"),
       ci("my_team_territory"),
       ci("team")
+    ),
+
+    /**
+     * Search filter lookup variant of USING clause.
+     *
+     * Example:
+     *   USING LOOKUP AppId IN ('v1', 'v2') BIND AppId = :boundVar
+     */
+    using_lookup_clause: ($) => seq(
+      ci("LOOKUP"),
+      field("field", $.identifier),
+      ci("IN"),
+      "(",
+      commaJoined1($.string_literal),
+      ")",
+      ci("BIND"),
+      field("target", $.identifier),
+      "=",
+      choice($.bind_variable, $._value_expression)
     ),
 
     // =========================================================================
@@ -386,11 +406,11 @@ module.exports = grammar({
     ),
 
     /**
-     * Set comparison: field IN/NOT IN (list or subquery)
+     * Set comparison: field IN/NOT IN (list or subquery or bind variable)
      */
     _set_comparison: ($) => seq(
       $.set_comparison_operator,
-      choice($.subquery, $.comparable_list)
+      choice($.subquery, $.comparable_list, $.bind_variable)
     ),
 
     /**
@@ -415,6 +435,7 @@ module.exports = grammar({
      *   WITH USER_MODE            (run query as current user)
      *   WITH SYSTEM_MODE          (run query with full permissions)
      *   WITH DATA CATEGORY Geography__c AT USA__c
+     *   WITH RecordVisibilityContext(maxDescribeValueLength=100)
      */
     soql_with_clause: ($) => seq(
       ci("WITH"),
@@ -426,7 +447,8 @@ module.exports = grammar({
           ci("CATEGORY"),
           $.data_category_filter,
           repeat(seq(choice(ci("AND"), ","), $.data_category_filter))
-        )
+        ),
+        $.record_visibility_context_clause
       )
     ),
 
@@ -437,6 +459,26 @@ module.exports = grammar({
     ),
 
     with_user_id_type: ($) => seq(ci("UserId"), "=", $.string_literal),
+
+    /**
+     * RecordVisibilityContext in WITH clause.
+     *
+     * Examples:
+     *   WITH RecordVisibilityContext(maxDescribeValueLength=100)
+     *   WITH RecordVisibilityContext(maxDescribeValueLength=20, enforceVisibility=true)
+     */
+    record_visibility_context_clause: ($) => seq(
+      ci("RecordVisibilityContext"),
+      "(",
+      commaJoined1($.record_visibility_parameter),
+      ")"
+    ),
+
+    record_visibility_parameter: ($) => seq(
+      field("key", $.identifier),
+      "=",
+      field("value", choice($.int, $.decimal, $.string_literal, $.boolean))
+    ),
 
     /**
      * Data category filter for knowledge article queries.
@@ -597,12 +639,13 @@ module.exports = grammar({
     // =========================================================================
 
     /**
-     * A value expression — a field reference, date function, scalar function, formula expression, or general function call.
+     * A value expression — a field reference, date function, scalar function, timezone conversion, formula expression, or general function call.
      * Used in SELECT, WHERE, ORDER BY, and GROUP BY clauses.
      */
     _value_expression: ($) => choice(
       $.date_function,
       $.scalar_function,
+      $.convert_timezone_call,
       $.function_expression,
       $.formula_expression,
       $.field_identifier
@@ -616,11 +659,12 @@ module.exports = grammar({
      *   CALENDAR_MONTH(CloseDate)
      *   FISCAL_YEAR(CloseDate)
      *   DAY_ONLY(CreatedDate)
+     *   HOUR_IN_DAY(convertTimezone(CreatedDate))
      */
     date_function: ($) => seq(
       field("name", $.date_function_name),
       "(",
-      field("argument", $.field_identifier),
+      field("argument", choice($.field_identifier, $.convert_timezone_call)),
       ")"
     ),
 
@@ -652,7 +696,7 @@ module.exports = grammar({
     scalar_function: ($) => seq(
       field("name", $.scalar_function_name),
       "(",
-      field("argument", choice($.field_identifier, $.function_expression, $.date_function)),
+      field("argument", choice($.field_identifier, $.function_expression, $.date_function, $.convert_timezone_call)),
       ")"
     ),
 
@@ -661,6 +705,20 @@ module.exports = grammar({
       ci("convertCurrency"),
       ci("toLabel"),
       ci("GROUPING"),
+    ),
+
+    /**
+     * convertTimezone() function — converts datetime to user's timezone.
+     *
+     * Examples:
+     *   convertTimezone(CreatedDate)
+     *   convertTimezone(Account.CreatedDate)
+     */
+    convert_timezone_call: ($) => seq(
+      ci("convertTimezone"),
+      "(",
+      field("field", $.field_identifier),
+      ")"
     ),
 
     /**
@@ -771,11 +829,13 @@ module.exports = grammar({
       $.string_literal,
       $.date,
       $.date_time,
+      $.time_literal,
       $.boolean,
       $.date_literal,
       $.date_literal_with_param,
       $.currency_literal,
-      $.null_literal
+      $.null_literal,
+      $.bind_variable
     ),
 
     /**
@@ -815,6 +875,20 @@ module.exports = grammar({
      */
     date_time: ($) =>
       /[1-4][0-9]{3}-(?:0[1-9]|1[0-2])-(?:[0-2][1-9]|[1-2]0|3[0-1])T([0-1]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d\d?\d?)?(?:Z|[+-][0-1]\d:[0-5]\d)/,
+
+    /**
+     * Time literal — HH:mm:ss[.SSS][Z|+-HH:mm] format.
+     * Example: 08:30:00.000Z
+     * Example: 17:00:00
+     */
+    time_literal: ($) =>
+      token(/[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{3})?([zZ]|[+-][0-9]{2}:[0-9]{2})?/),
+
+    /**
+     * Bind variable — :varName used in SOQL queries embedded in Apex or dynamic lookup.
+     * Example: :boundVar
+     */
+    bind_variable: ($) => seq(":", $.identifier),
 
     /** Currency literal — 3-letter code + number (e.g., USD100.50) */
     currency_literal: ($) => /\w{3}\d+(\.\d+)?/,
