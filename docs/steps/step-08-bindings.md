@@ -5,6 +5,11 @@
 > - Query files (highlights, injections, locals, tags) are all in place
 > - SOQL injection into Apex works end-to-end
 > - `tree-sitter highlight` works for both languages
+>
+> > [!NOTE]
+> > **Python Bindings Update**: The Python bindings introduced here have been superseded by
+> > [Step 16: Python Bindings Modernization](step-16-python-bindings.md), which migrates to
+> > `tree-sitter >= 0.22.0` PyCapsule C extensions and covers all five grammars (Apex, Anonymous Apex, SOQL, SOSL, Formula).
 
 ## Context
 

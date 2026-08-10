@@ -55,6 +55,14 @@ public String Name {
 ```
 These are parsed using `property_declaration`, distinguishing them from standard Java fields or methods.
 
+### Switch and When Pattern Matching
+Apex provides polymorphic `switch on` statements that support:
+1. **Literal and Enum Values**: `when 'value1', 'value2' { ... }`, `when 1, 2, 3 { ... }`, `when Season.WINTER { ... }`, and `when null { ... }`.
+2. **Single SObject Type Matching**: `when Account a { ... }` binds variable `a` as type `Account`.
+3. **Multi-SObject Type Matching**: `when Account a, Contact c { ... }` allows branching on multiple SObject types within a single clause while binding each typed variable name.
+
+The parser models type patterns with dedicated `when_type_pattern` AST nodes containing `type` and `name` fields.
+
 ## Parsing Challenges
 - **Ambiguities:** Because Apex is case-insensitive, distinguishing between a variable named `Select` and the start of a SOQL query or method call can sometimes produce grammar conflicts. We use the `conflicts` array in `grammar.js` to instruct Tree-Sitter to use GLR (Generalized LR) parsing to explore multiple branches dynamically.
 - **Dynamic SOQL:** Queries constructed via `Database.query(myString)` are evaluated at runtime. Our parser recognizes the method invocation pattern and tags it, but it cannot parse the concatenated string as valid SOQL.
