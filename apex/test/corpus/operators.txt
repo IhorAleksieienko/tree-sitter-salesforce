@@ -332,7 +332,7 @@ public class T {
             (variable_declarator
               name: (identifier)
               value: (unary_expression
-                (identifier))))))))))
+                (identifier)))))))))
 
 ==================
 Relational and equality operators
@@ -438,4 +438,4 @@ public class T {
               name: (identifier)
               value: (binary_expression
                 left: (identifier)
-                right: (identifier))))))))))
+                right: (identifier)))))))))

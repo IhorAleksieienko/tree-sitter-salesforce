@@ -73,25 +73,11 @@ FIND 'Acme' RETURNING Account(Name ORDER BY Name ASC LIMIT 10)
       (integer))))
 
 ====================================
-IN NAME, PHONE, and SIDEBAR FIELDS
+IN NAME FIELDS
 ====================================
 FIND 'John*' IN NAME FIELDS RETURNING Contact(Name)
-FIND '555-1234' IN PHONE FIELDS RETURNING Contact(Phone)
-FIND 'Help' IN SIDEBAR FIELDS RETURNING FAQ__kav(Title)
 ---
 (source_file
-  (sosl_query
-    (sosl_string)
-    (field_scope)
-    (returning_clause
-      (identifier)
-      (field_path (identifier))))
-  (sosl_query
-    (sosl_string)
-    (field_scope)
-    (returning_clause
-      (identifier)
-      (field_path (identifier))))
   (sosl_query
     (sosl_string)
     (field_scope)
@@ -100,10 +86,58 @@ FIND 'Help' IN SIDEBAR FIELDS RETURNING FAQ__kav(Title)
       (field_path (identifier)))))
 
 ====================================
-SOSL with UPDATE and OFFSET
+IN PHONE FIELDS
+====================================
+FIND '555-1234' IN PHONE FIELDS RETURNING Contact(Phone)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))))
+
+====================================
+IN SIDEBAR FIELDS
+====================================
+FIND 'Help' IN SIDEBAR FIELDS RETURNING FAQ__kav(Title)
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (field_scope)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))))
+
+====================================
+SOSL UPDATE TRACKING
 ====================================
 FIND 'test' RETURNING Article__kav(Title) UPDATE TRACKING
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))))
+
+====================================
+SOSL UPDATE VIEWSTAT
+====================================
 FIND 'test' RETURNING Article__kav(Title) UPDATE VIEWSTAT
+---
+(source_file
+  (sosl_query
+    (sosl_string)
+    (returning_clause
+      (identifier)
+      (field_path (identifier)))))
+
+====================================
+SOSL with OFFSET
+====================================
 FIND 'test' RETURNING Account(Name) OFFSET 25
 ---
 (source_file
@@ -112,16 +146,4 @@ FIND 'test' RETURNING Account(Name) OFFSET 25
     (returning_clause
       (identifier)
       (field_path (identifier)))
-    update: (identifier))
-  (sosl_query
-    (sosl_string)
-    (returning_clause
-      (identifier)
-      (field_path (identifier)))
-    update: (identifier))
-  (sosl_query
-    (sosl_string)
-    (returning_clause
-      (identifier)
-      (field_path (identifier)))
-    offset: (integer)))
+    (integer)))

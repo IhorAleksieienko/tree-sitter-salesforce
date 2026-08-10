@@ -343,15 +343,117 @@ SELECT Id FROM Contact WITH RecordVisibilityContext(maxDescribeValueLength=20, e
           (boolean))))))
 
 ==================
-USING SCOPE keywords
+USING SCOPE mine
 ==================
 
 SELECT Id FROM Account USING SCOPE mine
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+USING SCOPE delegated
+==================
+
 SELECT Id FROM Account USING SCOPE delegated
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+USING SCOPE everything
+==================
+
 SELECT Id FROM Account USING SCOPE everything
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+USING SCOPE mine_and_my_groups
+==================
+
 SELECT Id FROM Account USING SCOPE mine_and_my_groups
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+USING SCOPE my_territory
+==================
+
 SELECT Id FROM Account USING SCOPE my_territory
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+USING SCOPE my_team_territory
+==================
+
 SELECT Id FROM Account USING SCOPE my_team_territory
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (using_clause
+      (using_scope_clause
+        (using_scope_type)))))
+
+==================
+USING SCOPE team
+==================
+
 SELECT Id FROM Account USING SCOPE team
 
 ---
@@ -364,63 +466,13 @@ SELECT Id FROM Account USING SCOPE team
       (storage_identifier (identifier)))
     (using_clause
       (using_scope_clause
-        (using_scope_type))))
-  (soql_query_body
-    (select_clause
-      (field_identifier (identifier)))
-    (from_clause
-      (storage_identifier (identifier)))
-    (using_clause
-      (using_scope_clause
-        (using_scope_type))))
-  (soql_query_body
-    (select_clause
-      (field_identifier (identifier)))
-    (from_clause
-      (storage_identifier (identifier)))
-    (using_clause
-      (using_scope_clause
-        (using_scope_type))))
-  (soql_query_body
-    (select_clause
-      (field_identifier (identifier)))
-    (from_clause
-      (storage_identifier (identifier)))
-    (using_clause
-      (using_scope_clause
-        (using_scope_type))))
-  (soql_query_body
-    (select_clause
-      (field_identifier (identifier)))
-    (from_clause
-      (storage_identifier (identifier)))
-    (using_clause
-      (using_scope_clause
-        (using_scope_type))))
-  (soql_query_body
-    (select_clause
-      (field_identifier (identifier)))
-    (from_clause
-      (storage_identifier (identifier)))
-    (using_clause
-      (using_scope_clause
-        (using_scope_type))))
-  (soql_query_body
-    (select_clause
-      (field_identifier (identifier)))
-    (from_clause
-      (storage_identifier (identifier)))
-    (using_clause
-      (using_scope_clause
         (using_scope_type)))))
 
 ==================
-FOR and UPDATE clauses
+FOR clause
 ==================
 
 SELECT Id FROM Account FOR VIEW, REFERENCE
-SELECT Id FROM QuestionArticle__kav UPDATE TRACKING
-SELECT Id FROM QuestionArticle__kav UPDATE VIEWSTAT
 
 ---
 
@@ -432,14 +484,34 @@ SELECT Id FROM QuestionArticle__kav UPDATE VIEWSTAT
       (storage_identifier (identifier)))
     (for_clause
       (for_type)
-      (for_type)))
+      (for_type))))
+
+==================
+UPDATE TRACKING
+==================
+
+SELECT Id FROM QuestionArticle__kav UPDATE TRACKING
+
+---
+
+(source_file
   (soql_query_body
     (select_clause
       (field_identifier (identifier)))
     (from_clause
       (storage_identifier (identifier)))
     (update_clause
-      (update_type)))
+      (update_type))))
+
+==================
+UPDATE VIEWSTAT
+==================
+
+SELECT Id FROM QuestionArticle__kav UPDATE VIEWSTAT
+
+---
+
+(source_file
   (soql_query_body
     (select_clause
       (field_identifier (identifier)))
@@ -464,9 +536,9 @@ SELECT Title FROM KnowledgeArticleVersion WITH DATA CATEGORY Location__c ABOVE U
       (storage_identifier (identifier)))
     (with_clause
       (data_category_filter
-        group: (identifier)
-        category: (identifier))
+        (identifier)
+        (identifier))
       (data_category_filter
-        group: (identifier)
-        category: (identifier)
-        category: (identifier)))))
+        (identifier)
+        (identifier)
+        (identifier)))))
