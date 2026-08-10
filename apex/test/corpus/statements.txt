@@ -238,23 +238,23 @@ public class T {
         body: (block
           (dml_statement
             (dml_type)
-            (identifier))
+            record: (identifier))
           (dml_statement
             (dml_type)
-            (identifier))
+            record: (identifier))
           (dml_statement
             (dml_type)
-            (identifier))
+            record: (identifier))
           (dml_statement
             (dml_type)
-            (identifier))
+            record: (identifier))
           (dml_statement
             (dml_type)
-            (identifier))
+            record: (identifier))
           (dml_statement
             (dml_type)
-            (identifier)
-            (identifier)))))))
+            record: (identifier)
+            options: (identifier)))))))
 
 ==================
 Return, Break, Continue
@@ -471,4 +471,248 @@ public class T {
                     name: (identifier)
                     arguments: (argument_list
                       (string_literal))))))))))))
+
+====================================
+Explicit constructor invocation this
+====================================
+
+public class CustomClass {
+    public CustomClass() {
+        this('default', 0);
+    }
+    public CustomClass(String name) {
+        this();
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (explicit_constructor_invocation
+            (this)
+            arguments: (argument_list
+              (string_literal)
+              (int)))))
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier)))
+        body: (block
+          (explicit_constructor_invocation
+            (this)
+            arguments: (argument_list)))))))
+
+====================================
+Explicit constructor invocation super
+====================================
+
+public class CustomException extends Exception {
+    public CustomException(String msg) {
+        super(msg);
+    }
+    public CustomException(String msg, Exception cause) {
+        super(msg, cause);
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (superclass
+      (type_identifier
+        (identifier)))
+    body: (class_body
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier)))
+        body: (block
+          (explicit_constructor_invocation
+            (super)
+            arguments: (argument_list
+              (identifier)))))
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier))
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier)))
+        body: (block
+          (explicit_constructor_invocation
+            (super)
+            arguments: (argument_list
+              (identifier)
+              (identifier))))))))
+
+==================================================
+Explicit constructor invocation qualified super
+==================================================
+
+public class InnerClass extends BaseClass {
+    public InnerClass(OuterClass outer) {
+        outer.super();
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    (superclass
+      (type_identifier
+        (identifier)))
+    body: (class_body
+      (constructor_declaration
+        (modifiers
+          (modifier))
+        name: (identifier)
+        parameters: (formal_parameters
+          (formal_parameter
+            type: (type_identifier
+              (identifier))
+            name: (identifier)))
+        body: (block
+          (explicit_constructor_invocation
+            object: (identifier)
+            (super)
+            arguments: (argument_list)))))))
+
+====================================
+System.runAs statement
+====================================
+
+public class TestClass {
+    public void testRunAs() {
+        System.runAs(testUser) {
+            Account acc = new Account();
+            insert as user acc;
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (run_as_statement
+            user: (parenthesized_expression
+              (identifier))
+            body: (block
+              (local_variable_declaration
+                type: (type_identifier
+                  (identifier))
+                (variable_declarator
+                  name: (identifier)
+                  value: (new_expression
+                    type: (type_identifier
+                      (identifier))
+                    arguments: (argument_list))))
+              (dml_statement
+                (dml_type)
+                access_level: (dml_security_mode)
+                record: (identifier)))))))))
+
+====================================
+DML statements with security modes
+====================================
+
+public class T {
+    public void doWork() {
+        insert as user a;
+        update as system records;
+        upsert as user opps External_Id__c;
+        delete as user a;
+        undelete as system a;
+        merge as user a b;
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (dml_statement
+            (dml_type)
+            access_level: (dml_security_mode)
+            record: (identifier))
+          (dml_statement
+            (dml_type)
+            access_level: (dml_security_mode)
+            record: (identifier))
+          (dml_statement
+            (dml_type)
+            access_level: (dml_security_mode)
+            record: (identifier)
+            options: (identifier))
+          (dml_statement
+            (dml_type)
+            access_level: (dml_security_mode)
+            record: (identifier))
+          (dml_statement
+            (dml_type)
+            access_level: (dml_security_mode)
+            record: (identifier))
+          (dml_statement
+            (dml_type)
+            access_level: (dml_security_mode)
+            record: (identifier)
+            options: (identifier)))))))
+
 

@@ -32,7 +32,7 @@ insert a;
             right: (string_literal))))))
   (dml_statement
     (dml_type)
-    (identifier)))
+    record: (identifier)))
 
 ====================================
 For loop with SOQL query

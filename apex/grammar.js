@@ -137,12 +137,12 @@ module.exports = grammar({
   conflicts: ($) => [
     [$.type_identifier, $.expression],
     [$.scoped_type_identifier, $.expression],
-    [$.generic_type, $.expression],
     [$.type_identifier, $.scoped_type_identifier],
-    [$.type_identifier, $.generic_type],
-    [$.scoped_type_identifier, $.generic_type],
     [$._type, $.generic_type],
     [$.scoped_type_identifier],
+    [$.expression, $.explicit_constructor_invocation],
+    [$.scoped_type_identifier, $.expression, $.explicit_constructor_invocation],
+    [$.type_identifier, $.type_parameter],
   ],
 
   // ---------------------------------------------------------------------------
@@ -847,6 +847,31 @@ module.exports = grammar({
       $.continue_statement,
       $.throw_statement,
       $.dml_statement,
+      $.run_as_statement,
+      $.explicit_constructor_invocation,
+    ),
+
+    explicit_constructor_invocation: ($) => seq(
+      choice(
+        seq(
+          optional(field("type_arguments", $.type_arguments)),
+          choice($.this, $.super),
+        ),
+        seq(
+          field("object", $.primary_expression),
+          ".",
+          optional(field("type_arguments", $.type_arguments)),
+          $.super,
+        ),
+      ),
+      field("arguments", $.argument_list),
+      ";",
+    ),
+
+    run_as_statement: ($) => seq(
+      ci("System.runAs"),
+      field("user", $.parenthesized_expression),
+      field("body", $.block)
     ),
 
     if_statement: ($) => prec.right(seq(
@@ -963,7 +988,14 @@ module.exports = grammar({
     break_statement: ($) => seq(ci("break"), ";"),
     continue_statement: ($) => seq(ci("continue"), ";"),
 
-    dml_statement: ($) => seq($.dml_type, $.expression, optional($.expression), ";"),
+    dml_statement: ($) => seq(
+      $.dml_type,
+      optional(seq(ci("as"), field("access_level", $.dml_security_mode))),
+      field("record", $.expression),
+      optional(field("options", $.expression)),
+      ";"
+    ),
+    dml_security_mode: ($) => choice(ci("user"), ci("system")),
     dml_type: ($) => choice(
       ci("insert"), ci("update"), ci("upsert"),
       ci("delete"), ci("undelete"), ci("merge")

@@ -19,6 +19,7 @@
 ; Modifiers and DML
 (modifiers) @keyword
 (dml_type) @keyword
+(dml_security_mode) @keyword
 
 ; Built-in Identifiers & Literals
 (this) @variable.builtin

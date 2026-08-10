@@ -40,6 +40,7 @@ organized by the API version that introduced each feature.
 | inherited sharing | v44 (Winter '19) | ✅ Implemented | |
 | @SuppressWarnings | v36+ | ✅ Implemented | |
 | Safe Navigation Operator `?.` | v50 (Spring '21) | ✅ Implemented | |
+| User-Mode and System-Mode DML (`as user` / `as system`) | v54 (Spring '22) | ✅ Implemented | Supported on insert, update, upsert, delete, undelete, and merge |
 | Null Coalescing Operator `??` | v59 (Winter '24) | ✅ Implemented | |
 
 ## SOQL Features
@@ -97,7 +98,7 @@ organized by the API version that introduced each feature.
 | 50+ built-in functions (`IF`, `ISBLANK`, `REGEX`, `VLOOKUP`, etc.) | ✅ Implemented | See grammar for full list |
 | Nested function calls | ✅ Implemented | Arbitrary depth |
 
-## Apex Enhancements (Steps 10–20)
+## Apex Enhancements (Steps 10–21)
 
 | Feature | API Version | Parser Status | Notes |
 |---|---|---|---|
@@ -114,6 +115,9 @@ organized by the API version that introduced each feature.
 | Map Literal Initializers (`new Map<K,V>{k => v}`) | v7+ | ✅ Implemented | `map_initializer` and `map_key_initializer` nodes |
 | Static and Instance Initializers | v7+ | ✅ Implemented | `static_initializer` and `instance_initializer` blocks in classes |
 | Trigger Helper Member Declarations | v7+ | ✅ Implemented | Helper methods, fields, and inner types directly within `trigger_body` |
+| Explicit Constructor Chaining (`this(…)` / `super(…)`) | v7+ | ✅ Implemented | `explicit_constructor_invocation` node with type_arguments & qualifier |
+| `System.runAs(…)` Testing Statements | v7+ | ✅ Implemented | `run_as_statement` node with `user` and `body` fields |
+| Modern DML Security Modes (`as user` / `as system`) | v54+ | ✅ Implemented | `access_level` on `dml_statement` (`user` / `system`) |
 
 ## Backward Compatibility
 

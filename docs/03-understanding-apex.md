@@ -26,13 +26,44 @@ List<List<SObject>> searchResults = [FIND 'Acme*' IN ALL FIELDS RETURNING Accoun
 Our parser handles this by defining balanced `soql_expression` and `sosl_expression` rules, and then relying on Tree-Sitter's injection framework to parse the inner content with the standalone SOQL and SOSL parsers.
 
 ### DML Statements
-Apex has built-in keywords for Data Manipulation Language (DML) operations:
+Apex has built-in keywords for Data Manipulation Language (DML) operations, including modern security modes (`as user` and `as system` introduced in API v54+):
 ```apex
-insert newAccounts;
-update existingAccounts;
-delete obsoleteAccounts;
+insert as user newAccounts;
+update as system existingAccounts;
+upsert as user opps External_Id__c;
+delete as user obsoleteAccounts;
 ```
-These are statements, not method calls. The parser defines dedicated rules (`insert_statement`, `update_statement`, etc.) for each.
+These are statements, not method calls. The parser produces `dml_statement` nodes with optional `access_level` (`user` or `system`), `record`, and `options` child fields.
+
+### Explicit Constructor Chaining
+Apex constructors support explicit chaining to overloaded constructors in the same class via `this(...)` or superclass constructors via `super(...)` and `Outer.super(...)`:
+
+```apex
+public class CustomException extends Exception {
+    public CustomException() {
+        this('Default error message');
+    }
+    public CustomException(String msg) {
+        super(msg);
+    }
+}
+```
+These calls produce `explicit_constructor_invocation` AST nodes containing the invoked constructor keyword (`this` or `super`), optional `object` qualifier, optional `type_arguments`, and `arguments: (argument_list ...)`.
+
+### System.runAs Testing Statements
+Apex test methods use the `System.runAs(user) { ... }` block construct to execute code in the context of a specified user:
+
+```apex
+@IsTest
+static void testPermissions() {
+    User standardUser = [SELECT Id FROM User WHERE Profile.Name = 'Standard User' LIMIT 1];
+    System.runAs(standardUser) {
+        Account acc = new Account(Name = 'Test Corp');
+        insert as user acc;
+    }
+}
+```
+This produces a `run_as_statement` node with `user: (parenthesized_expression ...)` and `body: (block ...)`.
 
 ### Triggers
 Triggers are a unique entry point in Apex, associated with database events:

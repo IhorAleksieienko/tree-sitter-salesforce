@@ -30,6 +30,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Generic inheritance clauses** — `extends` and `implements` clauses support `generic_type` (e.g. `extends BaseService<Account>`, `implements Database.Batchable<sObject>`) and `type_parameters` in class/interface/method declarations.
 - **Static and instance initializers** (`static_initializer`, `instance_initializer`) — Support for `static { ... }` and bare `{ ... }` blocks in class bodies.
 - **Trigger helper member declarations** — Allow helper methods, constants, fields, and inner types directly within `trigger_body`.
+- **Explicit constructor chaining** (`explicit_constructor_invocation`) — Support for `this(...)`, `super(...)`, and outer-qualified `Outer.super(...)` constructor invocations.
+- **`System.runAs(...)` test statement** (`run_as_statement`) — Dedicated construct for unit test context blocks with `user` and `body` fields.
+- **Modern DML security modes** (`dml_security_mode`) — Support for `as user` and `as system` access levels across all DML statement forms (`insert`, `update`, `upsert`, `delete`, `undelete`, `merge`).
 - **Operator highlighting** for `=>` fat-arrow token in `apex/queries/highlights.scm`.
 - **CI/CD workflow** — GitHub Actions build matrix (Windows / Linux / macOS / WASM).
 - **WASM binaries** for all five grammars in `bindings/web/`.

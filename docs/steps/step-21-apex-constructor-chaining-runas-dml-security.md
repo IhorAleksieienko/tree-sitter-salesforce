@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Steps 19–20 are COMPLETE.
 > - Apex grammar has baseline fixes and initializer support.
 > - All corpus tests pass in `apex/`.
@@ -186,6 +186,6 @@ Confirm the CST contains `explicit_constructor_invocation`, `run_as_statement`, 
 
 ## Documentation Updates Required
 
-- [ ] `SALESFORCE_API.md`: Document support for `System.runAs`, constructor chaining (`this`/`super`), and DML `as user`/`as system` security modes.
-- [ ] `docs/03-understanding-apex.md`: Update Statements and Testing sections with `runAs` and user-mode DML examples.
-- [ ] `CHANGELOG.md`: Record addition of explicit constructor chaining, `System.runAs`, and DML security mode support.
+- [x] `SALESFORCE_API.md`: Document support for `System.runAs`, constructor chaining (`this`/`super`), and DML `as user`/`as system` security modes.
+- [x] `docs/03-understanding-apex.md`: Update Statements and Testing sections with `runAs` and user-mode DML examples.
+- [x] `CHANGELOG.md`: Record addition of explicit constructor chaining, `System.runAs`, and DML security mode support.

@@ -3111,6 +3111,132 @@
         {
           "type": "SYMBOL",
           "name": "dml_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "run_as_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "explicit_constructor_invocation"
+        }
+      ]
+    },
+    "explicit_constructor_invocation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "type_arguments",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "type_arguments"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "this"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "super"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "object",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "primary_expression"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "."
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "type_arguments",
+                      "content": {
+                        "type": "SYMBOL",
+                        "name": "type_arguments"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "super"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "arguments",
+          "content": {
+            "type": "SYMBOL",
+            "name": "argument_list"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "run_as_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[sS][yY][sS][tT][eE][mM][..][rR][uU][nN][aA][sS]"
+        },
+        {
+          "type": "FIELD",
+          "name": "user",
+          "content": {
+            "type": "SYMBOL",
+            "name": "parenthesized_expression"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "block"
+          }
         }
       ]
     },
@@ -3789,15 +3915,48 @@
           "name": "dml_type"
         },
         {
-          "type": "SYMBOL",
-          "name": "expression"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "PATTERN",
+                  "value": "[aA][sS]"
+                },
+                {
+                  "type": "FIELD",
+                  "name": "access_level",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "dml_security_mode"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "record",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
         },
         {
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "expression"
+              "type": "FIELD",
+              "name": "options",
+              "content": {
+                "type": "SYMBOL",
+                "name": "expression"
+              }
             },
             {
               "type": "BLANK"
@@ -3807,6 +3966,19 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "dml_security_mode": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[uU][sS][eE][rR]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[sS][yY][sS][tT][eE][mM]"
         }
       ]
     },
@@ -4028,20 +4200,8 @@
       "expression"
     ],
     [
-      "generic_type",
-      "expression"
-    ],
-    [
       "type_identifier",
       "scoped_type_identifier"
-    ],
-    [
-      "type_identifier",
-      "generic_type"
-    ],
-    [
-      "scoped_type_identifier",
-      "generic_type"
     ],
     [
       "_type",
@@ -4049,6 +4209,19 @@
     ],
     [
       "scoped_type_identifier"
+    ],
+    [
+      "expression",
+      "explicit_constructor_invocation"
+    ],
+    [
+      "scoped_type_identifier",
+      "expression",
+      "explicit_constructor_invocation"
+    ],
+    [
+      "type_identifier",
+      "type_parameter"
     ]
   ],
   "precedences": [],
