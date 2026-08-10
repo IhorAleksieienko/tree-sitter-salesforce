@@ -23,11 +23,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Generate all grammars
         run: npm run generate:all
@@ -56,13 +56,16 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
 
       - name: Generate all grammars
-        run: npm ci && npm run generate:all
+        run: npm ci --ignore-scripts && npm run generate:all
 
-      - name: Install Python package
-        run: pip install -e . --no-build-isolation
+      - name: Install dependencies & package
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install "tree-sitter>=0.22.0"
+          pip install .
 
       - name: Run Python smoke tests
         run: python scripts/test_bindings.py

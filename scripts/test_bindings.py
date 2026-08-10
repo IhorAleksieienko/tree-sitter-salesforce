@@ -12,8 +12,21 @@ if hasattr(sys.stdout, "reconfigure"):
 # Verify tree-sitter version
 import tree_sitter as _ts
 
-ver = tuple(int(x) for x in _ts.__version__.split(".")[:2])
-assert ver >= (0, 22), f"tree-sitter >= 0.22 required, found {_ts.__version__}"
+_v_str = None
+try:
+    from importlib.metadata import version
+    _v_str = version("tree-sitter")
+except Exception:
+    try:
+        from importlib.metadata import version
+        _v_str = version("tree_sitter")
+    except Exception:
+        _v_str = getattr(_ts, "__version__", None)
+
+if _v_str:
+    _digits = [int(x) for x in _v_str.split(".")[:2] if x.isdigit()]
+    if _digits and tuple(_digits) < (0, 22):
+        raise AssertionError(f"tree-sitter >= 0.22 required, found {_v_str}")
 
 import tree_sitter_salesforce as tss
 from tree_sitter import Parser

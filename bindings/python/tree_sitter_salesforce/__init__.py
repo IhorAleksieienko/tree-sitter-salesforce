@@ -25,11 +25,29 @@ Requires: tree-sitter >= 0.22.0
 
 import tree_sitter as _ts
 
-if tuple(int(x) for x in _ts.__version__.split(".")[:2]) < (0, 22):
-    raise ImportError(
-        f"tree-sitter-salesforce 0.2.0+ requires tree-sitter>=0.22.0. "
-        f"Found: {_ts.__version__}. Run: pip install 'tree-sitter>=0.22.0'"
-    )
+
+def _check_tree_sitter_version() -> None:
+    v_str = None
+    try:
+        from importlib.metadata import version
+        v_str = version("tree-sitter")
+    except Exception:
+        try:
+            from importlib.metadata import version
+            v_str = version("tree_sitter")
+        except Exception:
+            v_str = getattr(_ts, "__version__", None)
+
+    if v_str:
+        digits = [int(x) for x in v_str.split(".")[:2] if x.isdigit()]
+        if digits and tuple(digits) < (0, 22):
+            raise ImportError(
+                f"tree-sitter-salesforce 0.2.0+ requires tree-sitter>=0.22.0. "
+                f"Found: {v_str}. Run: pip install 'tree-sitter>=0.22.0'"
+            )
+
+
+_check_tree_sitter_version()
 
 from tree_sitter import Language
 
