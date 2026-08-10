@@ -562,6 +562,7 @@ module.exports = grammar({
       $.field_access,
       $.array_access,
       $.soql_expression,
+      $.sosl_expression,
     ),
 
     _lhs_expression: ($) => choice(
@@ -675,11 +676,63 @@ module.exports = grammar({
       "]"
     )),
 
+    /**
+     * Inline SOQL expression — the [SELECT ... FROM ...] construct inside Apex.
+     *
+     * Uses balanced-bracket parsing via the private _soql_content rule so that
+     * nested subqueries and expressions do not prematurely terminate the node.
+     *
+     * The _soql_content rule is private (underscore prefix) so it is inlined by
+     * tree-sitter and never appears as a named node in the AST. Only
+     * soql_expression is visible to consumers and injection rules.
+     *
+     * Examples:
+     *   [SELECT Id FROM Account]
+     *   [SELECT Id, (SELECT Name FROM Contacts) FROM Account]
+     *   [SELECT Id FROM Account WHERE Id IN :idList]
+     */
     soql_expression: ($) => seq(
       "[",
-      /[^\]]*/,
+      field("query", seq(ci("select"), optional($._soql_content))),
       "]"
     ),
+
+    /**
+     * Inline SOSL expression — the [FIND ... RETURNING ...] construct inside Apex.
+     *
+     * Shares the same balanced-bracket content rule as soql_expression.
+     * The SOSL grammar (Step 12) is injected into this node via injections.scm.
+     *
+     * Example:
+     *   [FIND 'SearchTerm' IN ALL FIELDS RETURNING Account(Name)]
+     */
+    sosl_expression: ($) => seq(
+      "[",
+      field("query", seq(ci("find"), optional($._sosl_content))),
+      "]"
+    ),
+
+    /**
+     * Balanced bracket content — used inside soql_expression and sosl_expression.
+     *
+     * Matches any sequence of:
+     *   - Characters that are NOT square brackets
+     *   - Nested bracket pairs (for subqueries like `(SELECT ... FROM ...)`)
+     *     Note: parentheses, not brackets, are used for SOQL subqueries.
+     *     Square brackets can appear in bind variable map access: :myMap['key']
+     *
+     * WHY NOT USE A SIMPLE REGEX?
+     * A regex cannot handle balanced delimiters. The grammar rule recurses to
+     * handle any depth of nesting correctly without a hard limit.
+     */
+    _soql_content: ($) => repeat1(
+      choice(
+        /[^\[\]]+/,                       // any non-bracket characters
+        seq("[", optional($._soql_content), "]")  // nested bracket pair
+      )
+    ),
+
+    _sosl_content: ($) => $._soql_content,
 
     /**
      * Primary expression — the simplest expressions.
@@ -783,15 +836,53 @@ module.exports = grammar({
       "}"
     ),
     
+    /**
+     * When clause — a single branch in a switch statement.
+     *
+     * Two forms are supported:
+     *
+     * 1. SOBJECT TYPE PATTERN (one or more):
+     *    when Account a { }                  (single type)
+     *    when Account a, Contact c { }       (multiple types — Salesforce extension)
+     *
+     * 2. LITERAL/ENUM PATTERN:
+     *    when 'a', 'b', 'c' { }     (string literals)
+     *    when 1, 2, 3 { }           (integer literals)
+     *    when MyEnum.Value1 { }     (enum values)
+     *
+     * WHY prec(1) ON when_type_pattern?
+     * Both forms start with an expression-like token. Without a precedence hint,
+     * tree-sitter would try both alternatives and could produce an ambiguous parse.
+     * Giving type patterns higher priority ensures `Account a` is always parsed as
+     * a type+name pair, not as two expressions (`Account`, `a`).
+     */
     when_clause: ($) => seq(
-      ci("when"), 
+      ci("when"),
       choice(
-        commaJoined1($.expression),
-        seq(field("type", $._type), field("name", $.identifier))
+        commaJoined1($.when_type_pattern),   // SObject type patterns (higher priority)
+        commaJoined1($.expression),          // Literal and enum patterns
       ),
       field("body", $.block)
     ),
-    
+
+    /**
+     * A single SObject type pattern inside a when clause.
+     *
+     * Syntax: TypeName variableName
+     *
+     * Examples:
+     *   Account a
+     *   Contact c
+     *   Opportunity opp
+     *
+     * The variable name is bound within the when block body and can be used
+     * directly without a cast.
+     */
+    when_type_pattern: ($) => prec(1, seq(
+      field("type", $._type),
+      field("name", $.identifier)
+    )),
+
     when_else_clause: ($) => seq(
       ci("when else"), field("body", $.block)
     ),

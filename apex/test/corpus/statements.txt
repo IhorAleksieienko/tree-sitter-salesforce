@@ -153,9 +153,10 @@ public class T {
               (int)
               body: (block))
             (when_clause
-              type: (type_identifier
-                (identifier))
-              name: (identifier)
+              (when_type_pattern
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
               body: (block))
             (when_else_clause
               body: (block))))))))
@@ -285,3 +286,189 @@ public class T {
           (return_statement)
           (break_statement)
           (continue_statement))))))
+
+====================================
+Switch with multiple SObject type patterns
+====================================
+
+public class T {
+    public void doWork() {
+        switch on obj {
+            when Account a, Contact c {
+                System.debug(a);
+            }
+            when Opportunity o {
+                System.debug(o);
+            }
+            when else {
+                System.debug('unknown');
+            }
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_statement
+            condition: (identifier)
+            (when_clause
+              (when_type_pattern
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              (when_type_pattern
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    object: (identifier)
+                    name: (identifier)
+                    arguments: (argument_list
+                      (identifier))))))
+            (when_clause
+              (when_type_pattern
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    object: (identifier)
+                    name: (identifier)
+                    arguments: (argument_list
+                      (identifier))))))
+            (when_else_clause
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    object: (identifier)
+                    name: (identifier)
+                    arguments: (argument_list
+                      (string_literal))))))))))))
+
+====================================
+Switch with single SObject type pattern
+====================================
+
+public class T {
+    public void doWork() {
+        switch on record {
+            when Account a {
+                System.debug(a.Name);
+            }
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_statement
+            condition: (identifier)
+            (when_clause
+              (when_type_pattern
+                type: (type_identifier
+                  (identifier))
+                name: (identifier))
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    object: (identifier)
+                    name: (identifier)
+                    arguments: (argument_list
+                      (field_access
+                        object: (identifier)
+                        field: (identifier)))))))))))))
+
+====================================
+Switch with literal and null patterns
+====================================
+
+public class T {
+    public void doWork() {
+        switch on day {
+            when 'Monday', 'Tuesday' {
+                System.debug('weekday');
+            }
+            when null {
+                System.debug('null');
+            }
+            when else {
+                System.debug('other');
+            }
+        }
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (switch_statement
+            condition: (identifier)
+            (when_clause
+              (string_literal)
+              (string_literal)
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    object: (identifier)
+                    name: (identifier)
+                    arguments: (argument_list
+                      (string_literal))))))
+            (when_clause
+              (null_literal)
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    object: (identifier)
+                    name: (identifier)
+                    arguments: (argument_list
+                      (string_literal))))))
+            (when_else_clause
+              body: (block
+                (expression_statement
+                  (method_invocation
+                    object: (identifier)
+                    name: (identifier)
+                    arguments: (argument_list
+                      (string_literal))))))))))))
+

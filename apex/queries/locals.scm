@@ -23,5 +23,6 @@
 (formal_parameter name: (identifier) @local.definition)
 (catch_formal_parameter name: (identifier) @local.definition)
 (enhanced_for_statement name: (identifier) @local.definition)
+(when_type_pattern name: (identifier) @local.definition)
 
 (identifier) @local.reference

@@ -1,0 +1,39 @@
+=====================================
+SOSL expression in Apex (placeholder)
+=====================================
+
+public class T {
+    public void doWork() {
+        List<List<SObject>> results = [FIND 'San Jose' IN ALL FIELDS RETURNING Account(Name)];
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (generic_type
+              (type_identifier
+                (identifier))
+              (type_arguments
+                (generic_type
+                  (type_identifier
+                    (identifier))
+                  (type_arguments
+                    (type_identifier
+                      (identifier))))))
+            (variable_declarator
+              name: (identifier)
+              value: (sosl_expression))))))))

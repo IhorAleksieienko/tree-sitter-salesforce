@@ -33,3 +33,40 @@ public class T {
             (variable_declarator
               name: (identifier)
               value: (soql_expression))))))))
+
+=========================
+SOQL with nested subquery
+=========================
+
+public class T {
+    public void doWork() {
+        List<Account> accts = [SELECT Id, (SELECT Name FROM Contacts) FROM Account WHERE Id IN :ids];
+    }
+}
+
+---
+
+(source_file
+  (class_declaration
+    (modifiers
+      (modifier))
+    name: (identifier)
+    body: (class_body
+      (method_declaration
+        (modifiers
+          (modifier))
+        type: (void_type)
+        name: (identifier)
+        parameters: (formal_parameters)
+        body: (block
+          (local_variable_declaration
+            type: (generic_type
+              (type_identifier
+                (identifier))
+              (type_arguments
+                (type_identifier
+                  (identifier))))
+            (variable_declarator
+              name: (identifier)
+              value: (soql_expression))))))))
+
