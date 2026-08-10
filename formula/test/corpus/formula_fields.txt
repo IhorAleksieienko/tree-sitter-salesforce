@@ -1,0 +1,71 @@
+====================================
+Simple arithmetic formula field
+====================================
+Amount * 0.1
+---
+(source_file
+  (binary_expression
+    (field_reference (identifier))
+    (number)))
+
+====================================
+String concatenation with &
+====================================
+FirstName & ' ' & LastName
+---
+(source_file
+  (binary_expression
+    (binary_expression
+      (field_reference
+        (identifier))
+      (string_literal))
+    (field_reference
+      (identifier))))
+
+====================================
+IF function
+====================================
+IF(Amount > 10000, 'Large', 'Small')
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (binary_expression
+      (field_reference
+        (identifier))
+      (number))
+    arguments: (string_literal)
+    arguments: (string_literal)))
+
+====================================
+Nested field path
+====================================
+Account.Parent.BillingState
+---
+(source_file
+  (field_reference
+    (identifier)
+    (identifier)
+    (identifier)))
+
+====================================
+Global variable
+====================================
+$User.ProfileId
+---
+(source_file
+  (global_variable
+    (identifier)
+    (identifier)))
+
+====================================
+Custom Metadata global variable
+====================================
+$CustomMetadata.Config__mdt.Default.Value__c
+---
+(source_file
+  (global_variable
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)))

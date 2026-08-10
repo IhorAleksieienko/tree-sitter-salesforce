@@ -1,0 +1,67 @@
+====================================
+ISBLANK check
+====================================
+ISBLANK(Email__c)
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (field_reference
+      (identifier))))
+
+====================================
+AND with NOT and REGEX
+====================================
+AND(NOT(ISBLANK(Email__c)), NOT(REGEX(Email__c, "[a-zA-Z0-9._]+@[a-zA-Z]+\\.[a-zA-Z]{2,}")))
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (function_call
+      name: (function_name)
+      arguments: (function_call
+        name: (function_name)
+        arguments: (field_reference
+          (identifier))))
+    arguments: (function_call
+      name: (function_name)
+      arguments: (function_call
+        name: (function_name)
+        arguments: (field_reference
+          (identifier))
+        arguments: (string_literal)))))
+
+====================================
+Cross-object field comparison
+====================================
+Account.BillingCountry = 'US' && AnnualRevenue > 1000000
+---
+(source_file
+  (binary_expression
+    (binary_expression
+      (field_reference
+        (identifier)
+        (identifier))
+      (string_literal))
+    (binary_expression
+      (field_reference
+        (identifier))
+      (number))))
+
+====================================
+ISPICKVAL check
+====================================
+ISPICKVAL(Status__c, 'Active') || ISPICKVAL(Status__c, 'Pending')
+---
+(source_file
+  (binary_expression
+    (function_call
+      name: (function_name)
+      arguments: (field_reference
+        (identifier))
+      arguments: (string_literal))
+    (function_call
+      name: (function_name)
+      arguments: (field_reference
+        (identifier))
+      arguments: (string_literal))))

@@ -1,0 +1,63 @@
+====================================
+Simple boolean comparison
+====================================
+$GlobalConstant.True
+---
+(source_file
+  (global_variable
+    (identifier)
+    (identifier)))
+
+====================================
+ISCHANGED field check
+====================================
+ISCHANGED(Status__c)
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (field_reference
+      (identifier))))
+
+====================================
+PRIORVALUE comparison
+====================================
+PRIORVALUE(Amount) < Amount
+---
+(source_file
+  (binary_expression
+    (function_call
+      name: (function_name)
+      arguments: (field_reference
+        (identifier)))
+    (field_reference
+      (identifier))))
+
+====================================
+Nested IF with ISNULL
+====================================
+IF(ISNULL(CloseDate__c), TODAY(), CloseDate__c)
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (function_call
+      name: (function_name)
+      arguments: (field_reference
+        (identifier)))
+    arguments: (function_call
+      name: (function_name))
+    arguments: (field_reference
+      (identifier))))
+
+====================================
+INCLUDES picklist multi-select
+====================================
+INCLUDES(Roles__c, 'Manager')
+---
+(source_file
+  (function_call
+    name: (function_name)
+    arguments: (field_reference
+      (identifier))
+    arguments: (string_literal)))
