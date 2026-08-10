@@ -53,6 +53,26 @@ desktop.ini
 *.log
 npm-debug.log*
 
+# --- Python Build Artifacts ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.so
+*.egg-info/
+dist/
+.pytest_cache/
+
+# --- C/C++ & Native Build Artifacts ---
+*.obj
+*.exp
+*.lib
+*.dll
+*.pdb
+*.o
+*.a
+*.dylib
+
 # --- Prebuilt Binaries ---
 # Platform-specific prebuilt native bindings
 prebuilds/
