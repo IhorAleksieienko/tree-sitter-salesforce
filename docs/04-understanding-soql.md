@@ -7,16 +7,19 @@ The Salesforce Object Query Language (SOQL) is used to read information stored i
 A standard SOQL query follows a strict clause order:
 1. `SELECT`
 2. `FROM`
-3. `WHERE` (optional)
-4. `WITH` (optional)
-5. `GROUP BY` (optional)
-6. `HAVING` (optional)
-7. `ORDER BY` (optional)
-8. `LIMIT` (optional)
-9. `OFFSET` (optional)
-10. `FOR` (optional)
+3. `USING` (optional)
+4. `WHERE` (optional)
+5. `WITH` (optional)
+6. `GROUP BY` (optional)
+7. `HAVING` (optional)
+8. `ORDER BY` (optional)
+9. `LIMIT` (optional)
+10. `OFFSET` (optional)
+11. `FOR` (optional)
+12. `UPDATE` (optional)
+13. `ALL ROWS` (optional)
 
-Our grammar enforces this structure in the `_soql_query_expression` rule by chaining these clauses sequentially.
+Our grammar enforces this structure in the `soql_query_body` rule by chaining these clauses sequentially.
 
 ## Salesforce-Specific Quirks
 
@@ -96,6 +99,21 @@ When embedded in Apex, SOQL queries can reference Apex variables using a colon p
 SELECT Id FROM Account WHERE Name = :accountName
 ```
 Our SOQL parser explicitly defines a `bind_variable` rule to capture `:identifier` or `:method_call()`.
+
+### Dynamic Formula Filtering (`FORMULA`)
+Salesforce Summer '26 introduces dynamic formula evaluation inside SOQL filter conditions (`WHERE` and `HAVING` clauses):
+```soql
+SELECT Id, Name FROM Contact WHERE FORMULA('Birthdate + 365') > TODAY
+SELECT Id, Name FROM Opportunity WHERE FORMULA('Amount * 1.1') > 50000
+```
+The parser encapsulates this via the `formula_expression` rule, accepting a string literal or value expression.
+
+### ALL ROWS Clause
+Appending `ALL ROWS` to a query instructs the database to return all matching records, including soft-deleted records from the Recycle Bin and archived Task/Event activities:
+```soql
+SELECT Id, Name, IsDeleted FROM Opportunity WHERE IsDeleted = true ALL ROWS
+```
+`all_rows_clause` is placed at the very end of the query following any `LIMIT`, `OFFSET`, `FOR`, or `UPDATE` clauses.
 
 ## Integration with Apex
 When writing a Tree-Sitter grammar, the SOQL parser is completely standalone. It parses standard SOQL strings. The integration with Apex happens solely via Tree-Sitter's injection system (`injections.scm`), which detects SOQL blocks inside Apex code and applies the SOQL parser to those specific text ranges.

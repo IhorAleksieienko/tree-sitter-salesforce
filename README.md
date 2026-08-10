@@ -16,7 +16,7 @@ and Anonymous Apex**.
   classes, interfaces, enums, triggers, DML, annotations, generics, and modern syntax
   (`?.`, `??`, switch/when, multi-SObject type patterns).
 - 🔍 **SOQL parser** — Full query syntax including `TYPEOF`, `GROUP BY ROLLUP/CUBE`,
-  date functions (`CALENDAR_MONTH`, `FISCAL_YEAR`), scalar functions (`FORMAT`, `convertCurrency`, `toLabel`, `GROUPING`), bind variables, and all security
+  date functions (`CALENDAR_MONTH`, `FISCAL_YEAR`), scalar functions (`FORMAT`, `convertCurrency`, `toLabel`, `GROUPING`), dynamic formula filtering (`FORMULA(...)`), `ALL ROWS` clause, bind variables, and all security
   clauses (`WITH USER_MODE / SYSTEM_MODE / DATA CATEGORY`).
 - 🔎 **SOSL parser** — Full-text search language: `FIND … IN … RETURNING … WITH …`,
   field scopes, per-object `WHERE` / `ORDER BY` / `LIMIT`, `WITH HIGHLIGHT`, `WITH SNIPPET`.

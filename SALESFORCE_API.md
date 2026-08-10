@@ -63,6 +63,8 @@ organized by the API version that introduced each feature.
 | WITH USER_MODE / WITH SYSTEM_MODE | ✅ Implemented | |
 | WITH SECURITY_ENFORCED | ✅ Implemented | |
 | WITH DATA CATEGORY Filtering | ✅ Implemented | Supports AT, ABOVE, BELOW, ABOVE_OR_BELOW category selectors |
+| FORMULA('...') Dynamic Formula Filtering (Summer '26) | ✅ Implemented | Evaluates dynamic formula expressions in `WHERE` and `HAVING` clauses |
+| ALL ROWS Clause | ✅ Implemented | Terminal clause querying soft-deleted Recycle Bin records and archived Task/Event activities |
 
 ## SOSL Features
 

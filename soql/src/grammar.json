@@ -232,6 +232,22 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "all_rows_clause",
+              "content": {
+                "type": "SYMBOL",
+                "name": "all_rows_clause"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -1273,6 +1289,19 @@
         }
       ]
     },
+    "all_rows_clause": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[aA][lL][lL]"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[rR][oO][wW][sS]"
+        }
+      ]
+    },
     "type_of_clause": {
       "type": "SEQ",
       "members": [
@@ -1404,6 +1433,10 @@
         {
           "type": "SYMBOL",
           "name": "function_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "formula_expression"
         },
         {
           "type": "SYMBOL",
@@ -1595,6 +1628,40 @@
               }
             }
           ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "formula_expression": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[fF][oO][rR][mM][uU][lL][aA]"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "expression",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "string_literal"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_value_expression"
+              }
+            ]
+          }
         },
         {
           "type": "STRING",

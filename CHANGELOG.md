@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **SOQL `GROUP BY ROLLUP/CUBE`** in `soql/grammar.js`.
 - **SOQL date functions** (`CALENDAR_MONTH`, `FISCAL_YEAR`, etc.) in `soql/grammar.js`.
 - **`WITH DATA CATEGORY`** clause in `soql/grammar.js`.
+- **SOQL dynamic formula filtering** (`formula_expression`: `FORMULA('...')`) in `WHERE` and `HAVING` clauses.
+- **SOQL `ALL ROWS` clause** (`all_rows_clause`) for soft-deleted and archived records.
 - **Python loaders**: `tss.apex_anon()`, `tss.sosl()`, `tss.formula()`.
 - **Map literal initializer syntax** (`map_initializer`, `map_key_initializer`) — Supports `new Map<K,V>{ key => value, ... }` with trailing comma support.
 - **Interface member declarations** — Interface bodies now support method signatures, constants, inner classes, interfaces, and enums.

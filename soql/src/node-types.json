@@ -16,6 +16,10 @@
           "named": true
         },
         {
+          "type": "formula_expression",
+          "named": true
+        },
+        {
           "type": "function_expression",
           "named": true
         },
@@ -29,6 +33,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "all_rows_clause",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "and_expression",
@@ -159,6 +168,10 @@
         },
         {
           "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "formula_expression",
           "named": true
         },
         {
@@ -420,6 +433,42 @@
     "fields": {}
   },
   {
+    "type": "formula_expression",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "date_function",
+            "named": true
+          },
+          {
+            "type": "field_identifier",
+            "named": true
+          },
+          {
+            "type": "formula_expression",
+            "named": true
+          },
+          {
+            "type": "function_expression",
+            "named": true
+          },
+          {
+            "type": "scalar_function",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "from_clause",
     "named": true,
     "fields": {},
@@ -463,6 +512,10 @@
         },
         {
           "type": "field_identifier",
+          "named": true
+        },
+        {
+          "type": "formula_expression",
           "named": true
         },
         {
@@ -656,6 +709,10 @@
           "named": true
         },
         {
+          "type": "formula_expression",
+          "named": true
+        },
+        {
           "type": "function_expression",
           "named": true
         },
@@ -747,6 +804,10 @@
           "named": true
         },
         {
+          "type": "formula_expression",
+          "named": true
+        },
+        {
           "type": "function_expression",
           "named": true
         },
@@ -774,6 +835,16 @@
     "type": "soql_query_body",
     "named": true,
     "fields": {
+      "all_rows_clause": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "all_rows_clause",
+            "named": true
+          }
+        ]
+      },
       "for_clause": {
         "multiple": false,
         "required": false,

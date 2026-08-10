@@ -25,7 +25,8 @@
  *       ├── limit_clause      (optional)  LIMIT 100
  *       ├── offset_clause     (optional)  OFFSET 50
  *       ├── for_clause        (optional)  FOR UPDATE
- *       └── update_clause     (optional)  UPDATE TRACKING
+ *       ├── update_clause     (optional)  UPDATE TRACKING
+ *       └── all_rows_clause   (optional)  ALL ROWS
  *
  * Target: Salesforce API v67 (Summer '25)
  *
@@ -163,7 +164,7 @@ module.exports = grammar({
      *
      * Clause order follows the SOQL specification:
      *   SELECT → FROM → USING → WHERE → WITH → GROUP BY → ORDER BY →
-     *   LIMIT → OFFSET → FOR → UPDATE
+     *   LIMIT → OFFSET → FOR → UPDATE → ALL ROWS
      *
      * Only SELECT and FROM are required. All other clauses are optional.
      *
@@ -182,6 +183,7 @@ module.exports = grammar({
       optional(field("offset_clause", $.offset_clause)),
       optional(field("for_clause", $.for_clause)),
       optional(field("update_clause", $.update_clause)),
+      optional(field("all_rows_clause", $.all_rows_clause)),
     ),
 
     // =========================================================================
@@ -533,6 +535,15 @@ module.exports = grammar({
     update_clause: ($) => seq(ci("UPDATE"), commaJoined1($.update_type)),
     update_type: ($) => choice(ci("TRACKING"), ci("VIEWSTAT")),
 
+    /**
+     * ALL ROWS clause — queries soft-deleted records from the Recycle Bin
+     * and archived Task and Event records.
+     * Must be placed at the end of the query.
+     *
+     * Example: SELECT Id FROM Opportunity WHERE IsDeleted = true ALL ROWS
+     */
+    all_rows_clause: ($) => seq(ci("ALL"), ci("ROWS")),
+
     // =========================================================================
     // TYPEOF CLAUSE
     // =========================================================================
@@ -586,13 +597,14 @@ module.exports = grammar({
     // =========================================================================
 
     /**
-     * A value expression — a field reference, date function, scalar function, or general function call.
+     * A value expression — a field reference, date function, scalar function, formula expression, or general function call.
      * Used in SELECT, WHERE, ORDER BY, and GROUP BY clauses.
      */
     _value_expression: ($) => choice(
       $.date_function,
       $.scalar_function,
       $.function_expression,
+      $.formula_expression,
       $.field_identifier
     ),
 
@@ -662,6 +674,21 @@ module.exports = grammar({
       $._function_name,
       "(",
       commaJoined1($._value_expression),
+      ")"
+    ),
+
+    /**
+     * FORMULA() expression — evaluates dynamic formula expressions
+     * in WHERE and HAVING clauses (Summer '26 SOQL feature).
+     *
+     * Examples:
+     *   WHERE FORMULA('Birthdate + 365') > TODAY
+     *   WHERE FORMULA('BillingState') = 'CA'
+     */
+    formula_expression: ($) => seq(
+      ci("FORMULA"),
+      "(",
+      field("expression", choice($.string_literal, $._value_expression)),
       ")"
     ),
 

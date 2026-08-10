@@ -144,3 +144,96 @@ SELECT Name FROM Account WITH USER_MODE
       (storage_identifier (identifier)))
     (with_clause
       (with_type))))
+
+==================
+ALL ROWS clause simple
+==================
+
+SELECT Id, Name FROM Account ALL ROWS
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier))
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (all_rows_clause)))
+
+==================
+ALL ROWS clause with WHERE and LIMIT
+==================
+
+SELECT Id FROM Opportunity WHERE IsDeleted = true LIMIT 50 ALL ROWS
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (boolean)))
+    (limit_clause
+      (int))
+    (all_rows_clause)))
+
+==================
+ALL ROWS clause with WHERE on IsArchived
+==================
+
+SELECT Id FROM Task WHERE IsArchived = true ALL ROWS
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (field_identifier (identifier))
+        (value_comparison_operator)
+        (boolean)))
+    (all_rows_clause)))
+
+==================
+ALL ROWS clause combined with WHERE, ORDER BY, and LIMIT
+==================
+
+SELECT Id, Name, IsDeleted FROM Opportunity WHERE FORMULA('Amount * 1.1') > 50000 ORDER BY CloseDate DESC LIMIT 100 ALL ROWS
+
+---
+
+(source_file
+  (soql_query_body
+    (select_clause
+      (field_identifier (identifier))
+      (field_identifier (identifier))
+      (field_identifier (identifier)))
+    (from_clause
+      (storage_identifier (identifier)))
+    (where_clause
+      (comparison_expression
+        (formula_expression
+          (string_literal))
+        (value_comparison_operator)
+        (int)))
+    (order_by_clause
+      (order_expression
+        (field_identifier (identifier))
+        (order_direction)))
+    (limit_clause
+      (int))
+    (all_rows_clause)))
+
+

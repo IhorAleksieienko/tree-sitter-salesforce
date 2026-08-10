@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Step 11 is COMPLETE.
 > - SOQL grammar is functional at `soql/grammar.js`.
 > - All SOQL corpus tests pass.
@@ -147,6 +147,6 @@ Confirm the CST contains `formula_expression` under `where_clause` and `all_rows
 
 ## Documentation Updates Required
 
-- [ ] `SALESFORCE_API.md`: Document Summer '26 `FORMULA(...)` SOQL expressions and `ALL ROWS` clause support.
-- [ ] `docs/04-understanding-soql.md`: Update SOQL Clauses section with `ALL ROWS` and dynamic formula filtering.
-- [ ] `CHANGELOG.md`: Record addition of SOQL `FORMULA(...)` and `ALL ROWS` support.
+- [x] `SALESFORCE_API.md`: Document Summer '26 `FORMULA(...)` SOQL expressions and `ALL ROWS` clause support.
+- [x] `docs/04-understanding-soql.md`: Update SOQL Clauses section with `ALL ROWS` and dynamic formula filtering.
+- [x] `CHANGELOG.md`: Record addition of SOQL `FORMULA(...)` and `ALL ROWS` support.
