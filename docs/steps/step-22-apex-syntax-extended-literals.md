@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: NOT STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Steps 19–21 are COMPLETE.
 > - Apex grammar has core declarations, initializers, and statements in place.
 > - All corpus tests pass in `apex/`.
@@ -203,6 +203,6 @@ Confirm zero `(ERROR)` nodes.
 
 ## Documentation Updates Required
 
-- [ ] `SALESFORCE_API.md`: Document Summer '26 multi-line strings, sized array creations, and extended literals.
-- [ ] `docs/03-understanding-apex.md`: Update Expressions and Control Flow sections with new literal types and case-insensitive switch examples.
-- [ ] `CHANGELOG.md`: Record addition of multi-line strings, array dimension sizing, extended literals, and class literals.
+- [x] `SALESFORCE_API.md`: Document Summer '26 multi-line strings, sized array creations, and extended literals.
+- [x] `docs/03-understanding-apex.md`: Update Expressions and Control Flow sections with new literal types and case-insensitive switch examples.
+- [x] `CHANGELOG.md`: Record addition of multi-line strings, array dimension sizing, extended literals, and class literals.

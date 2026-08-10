@@ -48,9 +48,9 @@ These steps implement all fixes, syntax extensions, multi-ecosystem bindings, an
 | Step | File | Gap Analysis Area | Priority | Status |
 |---|---|---|---|---|
 | 19 | [step-19-apex-interface-generics-maps.md](step-19-apex-interface-generics-maps.md) | Apex Interface methods, generic `implements`/`extends`, Map literals (`key => val`) | **P0** | ✅ Complete |
-| 20 | [step-20-apex-initializers-and-trigger-helpers.md](step-20-apex-initializers-and-trigger-helpers.md) | Apex `static { ... }`, instance `{ ... }`, Trigger helper declarations | **P1** | 🔲 Not started |
-| 21 | [step-21-apex-constructor-chaining-runas-dml-security.md](step-21-apex-constructor-chaining-runas-dml-security.md) | Apex `this(...)`/`super(...)`, `System.runAs(...)`, DML `as user`/`as system` | **P1** | 🔲 Not started |
-| 22 | [step-22-apex-syntax-extended-literals.md](step-22-apex-syntax-extended-literals.md) | Switch case-insensitivity, Summer '26 `'''...'''`, `new String[10]`, `100L`, `1.2e-5`, `Type.class` | **P1/P2** | 🔲 Not started |
+| 20 | [step-20-apex-initializers-and-trigger-helpers.md](step-20-apex-initializers-and-trigger-helpers.md) | Apex `static { ... }`, instance `{ ... }`, Trigger helper declarations | **P1** | ✅ Complete |
+| 21 | [step-21-apex-constructor-chaining-runas-dml-security.md](step-21-apex-constructor-chaining-runas-dml-security.md) | Apex `this(...)`/`super(...)`, `System.runAs(...)`, DML `as user`/`as system` | **P1** | ✅ Complete |
+| 22 | [step-22-apex-syntax-extended-literals.md](step-22-apex-syntax-extended-literals.md) | Switch case-insensitivity, Summer '26 `'''...'''`, `new String[10]`, `100L`, `1.2e-5`, `Type.class` | **P1/P2** | ✅ Complete |
 | 23 | [step-23-soql-formula-and-all-rows.md](step-23-soql-formula-and-all-rows.md) | SOQL Summer '26 `FORMULA(...)` in `WHERE`, SOQL `ALL ROWS` clause | **P1** | 🔲 Not started |
 | 24 | [step-24-soql-using-lookup-record-visibility-and-time.md](step-24-soql-using-lookup-record-visibility-and-time.md) | SOQL `USING LOOKUP … BIND`, `WITH RecordVisibilityContext(...)`, `TimeLiteral` & `convertTimezone()` | **P2** | 🔲 Not started |
 | 25 | [step-25-sosl-delimiters-with-clauses-and-projections.md](step-25-sosl-delimiters-with-clauses-and-projections.md) | SOSL `{brace}` search terms, modern `WITH` clauses (`USER_MODE`, `METADATA`), `RETURNING` projections | **P1/P2** | 🔲 Not started |
