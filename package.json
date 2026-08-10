@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-salesforce",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tree-sitter grammars for Salesforce languages: Apex, SOQL, and more",
   "homepage": "https://github.com/ia/tree-sitter-salesforce",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ia/tree-sitter-salesforce.git"
+    "url": "git+https://github.com/ia/tree-sitter-salesforce.git"
   },
   "keywords": [
     "tree-sitter",
@@ -39,19 +39,11 @@
   },
   "main": "bindings/node",
   "scripts": {
-    "build": "npm run build-generate",
-    "build-generate": "npm run build-soql && npm run build-apex && npm run build-apex-anon && npm run build-sosl && npm run build-formula",
-    "build-apex": "cd apex && npx tree-sitter generate",
-    "build-apex-anon": "cd apex-anon && npx tree-sitter generate",
-    "build-soql": "cd soql && npx tree-sitter generate",
-    "build-sosl": "cd sosl && npx tree-sitter generate",
-    "build-formula": "cd formula && npx tree-sitter generate",
-    "test": "npm run test-apex && npm run test-apex-anon && npm run test-soql && npm run test-sosl && npm run test-formula",
-    "test-apex": "cd apex && npx tree-sitter test",
-    "test-apex-anon": "cd apex-anon && npx tree-sitter test",
-    "test-soql": "cd soql && npx tree-sitter test",
-    "test-sosl": "cd sosl && npx tree-sitter test",
-    "test-formula": "cd formula && npx tree-sitter test",
+    "build": "npm run generate:all",
+    "generate:all": "node scripts/generate-all.js",
+    "build:wasm": "node scripts/build-wasm.js",
+    "test:all": "node scripts/test-all.js",
+    "test": "node scripts/test-all.js",
     "install": "node-gyp-build"
   },
   "files": [
@@ -63,6 +55,7 @@
     "bindings/node/*.js",
     "bindings/node/*.ts",
     "bindings/node/binding.cc",
+    "bindings/web/*",
     "binding.gyp",
     "prebuilds/**"
   ]

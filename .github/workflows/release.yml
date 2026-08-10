@@ -1,0 +1,143 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Build Python Wheels for all platforms
+  # ─────────────────────────────────────────────────────────────
+  build-wheels:
+    name: Build wheels (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Generate all grammars
+        run: npm ci && npm run generate:all
+
+      - name: Build wheels (cibuildwheel)
+        uses: pypa/cibuildwheel@v2.22.0
+        env:
+          # Build for Python 3.9, 3.10, 3.11, 3.12
+          CIBW_BUILD: "cp39-* cp310-* cp311-* cp312-*"
+          # Skip 32-bit Windows and musl Linux
+          CIBW_SKIP: "*-win32 *-musllinux*"
+          # ARM64 and x86_64 on macOS
+          CIBW_ARCHS_MACOS: "x86_64 arm64"
+          # ARM64 on Linux via QEMU emulation
+          CIBW_ARCHS_LINUX: "x86_64 aarch64"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.os }}
+          path: wheelhouse/*.whl
+
+  # ─────────────────────────────────────────────────────────────
+  # Build WASM Binaries
+  # ─────────────────────────────────────────────────────────────
+  build-wasm:
+    name: Build WASM binaries
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: "3.1.50"
+
+      - name: Generate all grammars
+        run: npm ci && npm run generate:all
+
+      - name: Build WASM for all grammars
+        run: npm run build:wasm
+
+      - name: Verify WASM files exist
+        run: |
+          ls -la bindings/web/
+          for grammar in apex soql sosl formula apex_anon; do
+            if [ ! -f "bindings/web/tree-sitter-${grammar}.wasm" ]; then
+              echo "ERROR: Missing WASM for ${grammar}"
+              exit 1
+            fi
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wasm-binaries
+          path: bindings/web/*.wasm
+
+  # ─────────────────────────────────────────────────────────────
+  # Publish to PyPI
+  # ─────────────────────────────────────────────────────────────
+  publish-pypi:
+    name: Publish to PyPI
+    needs: [build-wheels]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/tree-sitter-salesforce/
+
+    permissions:
+      id-token: write # Required for trusted publishing (OIDC)
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          merge-multiple: true
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  # ─────────────────────────────────────────────────────────────
+  # Publish npm package
+  # ─────────────────────────────────────────────────────────────
+  publish-npm:
+    name: Publish to npm
+    needs: [build-wheels, build-wasm]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: wasm-binaries
+          path: bindings/web/
+
+      - name: Generate all grammars
+        run: npm ci && npm run generate:all
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

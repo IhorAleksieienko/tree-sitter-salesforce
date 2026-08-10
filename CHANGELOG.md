@@ -48,6 +48,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Formula Test Corpus & Queries**: Added comprehensive corpus test suites (`validation_rules.txt`, `formula_fields.txt`, `flow_criteria.txt`) and syntax highlight captures (`highlights.scm`).
 - **Formula Multi-Language Bindings**: Exposed `formula` grammar via Node.js native bindings (`require('tree-sitter-salesforce').formula`) and Python bindings (`tree_sitter_salesforce.formula()`).
 - **Formula Documentation**: Added `docs/06b-understanding-formula.md` covering expression architecture, precedence rules, and function recognition.
+- **CI/CD Build Matrix**: Implemented `.github/workflows/ci.yml` running across Ubuntu, macOS, and Windows runners for all 5 grammars and Python versions 3.9, 3.10, 3.11, and 3.12.
+- **Automated Multi-Platform Release Pipeline**: Implemented `.github/workflows/release.yml` with `cibuildwheel` (Linux x86_64, Linux aarch64 via QEMU, macOS universal2/arm64, Windows x64), Emscripten WebAssembly compilation, trusted OIDC PyPI publishing, and automated npm publishing.
+- **WebAssembly Bindings**: Added `bindings/web/index.js` loader exporting WASM binary paths for Apex, Anonymous Apex, SOQL, SOSL, and Formula parsers.
+- **Build & Test Automation Scripts**: Added `scripts/generate-all.js`, `scripts/build-wasm.js`, `scripts/test-all.js`, and `scripts/test_bindings.py`.
+- **Release Documentation**: Added `docs/10-release-process.md` detailing the end-to-end release process, artifact matrix, and rollback procedures.
 
 ## [0.1.0] - Initial Release
 

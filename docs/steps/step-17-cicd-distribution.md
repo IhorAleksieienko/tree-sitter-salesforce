@@ -2,7 +2,7 @@
 
 > **Agent Checkpoint — Read This First**
 >
-> **Status**: This step is NOT YET STARTED.
+> **Status**: COMPLETE.
 > **Prerequisites**: Steps 10–16 are COMPLETE.
 > - All five grammars are implemented, tested, and registered.
 > - Python bindings use the modern `nanobind` capsule API.
@@ -10,8 +10,7 @@
 > - The repository has a remote on GitHub (or equivalent CI provider).
 >
 > **Design Flag ℹ️**: This step creates the automation infrastructure. It does not modify
-> any grammar or binding code. If any of the Steps 10–16 have incomplete work, those issues
-> will surface here as CI failures — which is expected behavior. Fix upstream steps first.
+> any grammar or binding code. All CI workflows, scripts, WASM bindings, and release process documentation are in place.
 
 ---
 
@@ -611,11 +610,11 @@ npm publish --dry-run --access public
 
 ## Documentation Updates Required After Completion
 
-- [ ] `README.md` — Add CI badge (copy the badge URL from GitHub Actions)
-- [ ] `README.md` — Add WASM usage instructions to Quick Start
-- [ ] `CONTRIBUTING.md` — Explain the CI workflow and how to trigger releases
-- [ ] `CHANGELOG.md` — Add entry for CI/CD and WASM distribution
-- [ ] Create `docs/10-release-process.md` explaining how to cut a release (bump version, tag, verify CI)
+- [x] `README.md` — Add CI badge (copy the badge URL from GitHub Actions)
+- [x] `README.md` — Add WASM usage instructions to Quick Start
+- [x] `CONTRIBUTING.md` — Explain the CI workflow and how to trigger releases
+- [x] `CHANGELOG.md` — Add entry for CI/CD and WASM distribution
+- [x] Create `docs/10-release-process.md` explaining how to cut a release (bump version, tag, verify CI)
 
 ---
 

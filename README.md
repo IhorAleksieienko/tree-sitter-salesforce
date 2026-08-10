@@ -1,5 +1,10 @@
 # tree-sitter-salesforce
 
+[![CI](https://github.com/ia/tree-sitter-salesforce/actions/workflows/ci.yml/badge.svg)](https://github.com/ia/tree-sitter-salesforce/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/tree-sitter-salesforce.svg)](https://www.npmjs.com/package/tree-sitter-salesforce)
+[![PyPI version](https://img.shields.io/pypi/v/tree-sitter-salesforce.svg)](https://pypi.org/project/tree-sitter-salesforce/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Tree-sitter grammars for Salesforce languages — **Apex**, **Anonymous Apex**, **SOQL**, **SOSL**, and **Formula Language**.
 
 > Providing fast, incremental, error-tolerant parsing for Salesforce development tools.
@@ -101,6 +106,30 @@ formula_tree = parser.parse(b"IF(Amount > 10000, 'Large', 'Small')")
 print(formula_tree.root_node)
 ```
 
+### WebAssembly (Browser / VSCode Web)
+
+```sh
+npm install web-tree-sitter tree-sitter-salesforce
+```
+
+```javascript
+const Parser = require('web-tree-sitter');
+const { apexWasm, soqlWasm, soslWasm, formulaWasm, apexAnonWasm } = require('tree-sitter-salesforce/bindings/web');
+
+async function main() {
+  await Parser.init();
+  const parser = new Parser();
+
+  // Load compiled WASM grammar
+  const Apex = await Parser.Language.load(apexWasm);
+  parser.setLanguage(Apex);
+
+  const tree = parser.parse('public class AccountService { }');
+  console.log(tree.rootNode.toString());
+}
+main();
+```
+
 ## Parser Status
 
 | Parser | Grammar | Tests | Highlights | Injection | Tags |
@@ -149,6 +178,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 - [Grammar DSL Cheatsheet](docs/02-grammar-dsl-cheatsheet.md)
 - [Adding a New Language](docs/05-adding-new-language.md)
 - [Testing Guide](docs/06-testing-guide.md)
+- [Release Process & Distribution](docs/10-release-process.md)
 - [Architecture](ARCHITECTURE.md)
 
 ## Contributing
