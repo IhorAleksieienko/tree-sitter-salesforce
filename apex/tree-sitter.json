@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "version": "0.2.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for Apex",
+    "authors": [
+      {
+        "name": "Ihor A."
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/ia/tree-sitter-salesforce.git"
+    }
+  },
+  "grammars": [
+    {
+      "name": "apex",
+      "camelcase": "Apex",
+      "scope": "source.apex",
+      "file-types": ["cls", "trigger", "apex"],
+      "highlights": [
+        "queries/highlights.scm"
+      ],
+      "injections": [
+        "queries/injections.scm"
+      ],
+      "locals": [
+        "queries/locals.scm"
+      ],
+      "tags": [
+        "queries/tags.scm"
+      ]
+    }
+  ],
+  "bindings": {
+    "c": false,
+    "go": false,
+    "java": false,
+    "kotlin": false,
+    "node": false,
+    "python": false,
+    "rust": false,
+    "swift": false
+  }
+}
