@@ -143,11 +143,11 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
 
   # ─────────────────────────────────────────────────────────────
-  # Publish to npm with @test tag (Runs ONLY on test_v* tags if NPM_TOKEN exists)
+  # Publish to npm with @test tag (Runs ONLY on test_v* tags)
   # ─────────────────────────────────────────────────────────────
   publish-npm-test:
     name: Publish to npm (@test)
-    if: startsWith(github.ref_name, 'test_') && secrets.NPM_TOKEN != ''
+    if: startsWith(github.ref_name, 'test_')
     needs: [build-wheels, build-wasm]
     runs-on: ubuntu-latest
 
@@ -168,6 +168,7 @@ jobs:
         run: npm ci && npm run generate:all
 
       - name: Publish to npm (@test tag)
+        if: env.NODE_AUTH_TOKEN != ''
         run: npm publish --access public --tag test
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
