@@ -199,6 +199,7 @@ jobs:
         run: npm ci && npm run generate:all
 
       - name: Publish to npm (@latest)
+        if: env.NODE_AUTH_TOKEN != ''
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
