@@ -1,78 +1,106 @@
 # Release Process
 
-This document describes how to cut a new release of `tree-sitter-salesforce`.
+This document describes how to cut test releases and production releases for `tree-sitter-salesforce`.
 
-## Prerequisites
+---
 
-- All grammar steps complete and merged to `main`
-- All CI checks green on `main`
-- `sf-rag-engine` regression tests confirmed passing
+## 1. Release Strategy Overview
 
-## Release Checklist
+The release workflow ([`.github/workflows/release.yml`](../.github/workflows/release.yml)) uses **tag prefix routing**:
 
-### 1. Version Bump
+| Tag Pattern | Target Environment | Python Registry | npm Dist-Tag |
+|---|---|---|---|
+| `test_v*` (e.g. `test_v0.2.0-rc1`) | **Staging / Test** | **TestPyPI** (`test.pypi.org`) | `@test` |
+| `v*.*.*` (e.g. `v0.2.0`) | **Production** | **PyPI** (`pypi.org`) | `@latest` (default) |
 
+---
+
+## 2. Prerequisites
+
+- All grammar steps complete and merged to `main`.
+- All CI checks green on `main`.
+- **One-time PyPI / TestPyPI setup**:
+  - TestPyPI trusted publisher linked to `testpypi` environment in GitHub.
+  - PyPI trusted publisher linked to `pypi` environment in GitHub.
+- **npm Token**: `NPM_TOKEN` secret set in GitHub Actions.
+
+---
+
+## 3. Release Checklist
+
+### Step 1. Version Bump
 Update version in both files **to match**:
-
-```sh
+```toml
 # pyproject.toml
 version = "0.X.Y"
-
-# package.json
+```
+```json
+// package.json
 "version": "0.X.Y"
 ```
 
-### 2. Update CHANGELOG.md
-
-Move items from the `[Unreleased]` section to a new version heading:
+### Step 2. Update CHANGELOG.md
+Move items from `[Unreleased]` to a new version section:
 ```markdown
 ## [0.X.Y] — YYYY-MM-DD
 ```
 
-### 3. Verify Locally
-
-```cmd
+### Step 3. Local Verification
+```bash
+node scripts/generate-all.js
 node scripts/test-all.js
 python scripts/test_bindings.py
 npm publish --dry-run
 ```
-
 All must exit code 0.
 
-### 4. Commit and Tag
+### Step 4. Trigger Release via Tag
 
-```sh
+#### Option A: Publish a Test Package to TestPyPI & npm (@test)
+```bash
+git add pyproject.toml package.json CHANGELOG.md
+git commit -m "chore: test release v0.X.Y-rc1"
+git tag test_v0.X.Y-rc1
+git push origin main --tags
+```
+
+#### Option B: Publish a Production Release to PyPI & npm (@latest)
+```bash
 git add pyproject.toml package.json CHANGELOG.md
 git commit -m "chore: release v0.X.Y"
 git tag v0.X.Y
 git push origin main --tags
 ```
 
-### 5. Monitor CI
+### Step 5. Monitor GitHub Actions
+Open the **Actions** tab on GitHub:
+- `build-wheels`: Compiles wheels for Windows, Linux (x86_64, aarch64), and macOS.
+- `build-wasm`: Compiles 5 WASM binaries.
+- **If `test_v*` tag**:
+  - `publish-testpypi` runs.
+  - `publish-npm-test` runs (publishes with `--tag test`).
+- **If `v*.*.*` tag**:
+  - `publish-pypi` runs.
+  - `publish-npm-prod` runs (publishes with `--tag latest`).
 
-Open the Actions tab. The `release.yml` workflow triggers automatically on the tag push.
-Watch for:
-- ✅ `build-wheels` — all 3 OS × 4 Python versions
-- ✅ `build-wasm` — 5 WASM binaries
-- ✅ `publish-pypi` — wheel upload
-- ✅ `publish-npm` — npm publish
+### Step 6. Verify Published Packages
 
-### 6. Verify Published Packages
+```bash
+# From TestPyPI (if using test_v* tag)
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ "tree-sitter-salesforce==0.X.Y"
 
-```sh
-# PyPI
+# From Production PyPI (if using v*.*.* tag)
 pip install "tree-sitter-salesforce==0.X.Y"
-python -c "import tree_sitter_salesforce as tss; tss.apex(); print('OK')"
 
-# npm
+# From npm test tag
+npm install tree-sitter-salesforce@test
+
+# From npm production latest
 npm install tree-sitter-salesforce@0.X.Y
-node -e "const s = require('tree-sitter-salesforce'); console.log(Object.keys(s))"
 ```
 
-### 7. Create GitHub Release
-
-- Go to the repository Releases page
-- Click "Draft a new release"
-- Select the new tag
-- Paste the CHANGELOG entry as the release notes
-- Attach the WASM artifacts from the CI run
+### Step 7. Create GitHub Release
+- Go to GitHub Releases $\rightarrow$ **Draft a new release**.
+- Select the `v0.X.Y` tag.
+- Paste the CHANGELOG notes and attach WASM artifacts if desired.
+- Click **Publish release**.

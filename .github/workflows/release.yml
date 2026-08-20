@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v*.*.*"
+      - "test_v*"
 
 jobs:
   # ─────────────────────────────────────────────────────────────
@@ -90,10 +91,38 @@ jobs:
           path: bindings/web/*.wasm
 
   # ─────────────────────────────────────────────────────────────
-  # Publish to PyPI
+  # Publish to TestPyPI (Runs ONLY on test_v* tags)
+  # ─────────────────────────────────────────────────────────────
+  publish-testpypi:
+    name: Publish to TestPyPI
+    if: startsWith(github.ref_name, 'test_')
+    needs: [build-wheels]
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/project/tree-sitter-salesforce/
+
+    permissions:
+      id-token: write # Required for trusted publishing (OIDC)
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          merge-multiple: true
+          path: dist/
+
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  # ─────────────────────────────────────────────────────────────
+  # Publish to Production PyPI (Runs ONLY on v*.*.* tags)
   # ─────────────────────────────────────────────────────────────
   publish-pypi:
     name: Publish to PyPI
+    if: startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'test_')
     needs: [build-wheels]
     runs-on: ubuntu-latest
     environment:
@@ -114,10 +143,11 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
 
   # ─────────────────────────────────────────────────────────────
-  # Publish npm package
+  # Publish to npm with @test tag (Runs ONLY on test_v* tags if NPM_TOKEN exists)
   # ─────────────────────────────────────────────────────────────
-  publish-npm:
-    name: Publish to npm
+  publish-npm-test:
+    name: Publish to npm (@test)
+    if: startsWith(github.ref_name, 'test_') && secrets.NPM_TOKEN != ''
     needs: [build-wheels, build-wasm]
     runs-on: ubuntu-latest
 
@@ -137,7 +167,37 @@ jobs:
       - name: Generate all grammars
         run: npm ci && npm run generate:all
 
-      - name: Publish to npm
+      - name: Publish to npm (@test tag)
+        run: npm publish --access public --tag test
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # ─────────────────────────────────────────────────────────────
+  # Publish to npm with @latest (Runs ONLY on v*.*.* tags)
+  # ─────────────────────────────────────────────────────────────
+  publish-npm-prod:
+    name: Publish to npm (@latest)
+    if: startsWith(github.ref_name, 'v') && !startsWith(github.ref_name, 'test_')
+    needs: [build-wheels, build-wasm]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: wasm-binaries
+          path: bindings/web/
+
+      - name: Generate all grammars
+        run: npm ci && npm run generate:all
+
+      - name: Publish to npm (@latest)
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
