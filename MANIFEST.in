@@ -1,0 +1,16 @@
+include LICENSE
+include NOTICE
+include README.md
+include pyproject.toml
+include setup.py
+include binding.gyp
+include tree-sitter.json
+
+recursive-include bindings/python *.c *.h *.py *.pyi py.typed
+recursive-include common *.js
+recursive-include apex/src *.c *.h *.json
+recursive-include apex-anon/src *.c *.h *.json
+recursive-include soql/src *.c *.h *.json
+recursive-include sosl/src *.c *.h *.json
+recursive-include formula/src *.c *.h *.json
+recursive-include sflog/src *.c *.h *.json
