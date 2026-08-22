@@ -54,6 +54,7 @@ desktop.ini
 npm-debug.log*
 
 # --- Python Build Artifacts ---
+bindings/python/tree_sitter_salesforce/_version.py
 __pycache__/
 *.py[cod]
 *$py.class

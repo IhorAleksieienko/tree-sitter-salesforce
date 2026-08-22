@@ -1,6 +1,6 @@
 [project]
 name = "tree-sitter-salesforce"
-version = "0.2.0"
+dynamic = ["version"]
 description = "Salesforce Apex, SOQL, SOSL, Formula, and Debug Log (sflog) grammars for tree-sitter"
 license = {text = "MIT"}
 requires-python = ">=3.10"
@@ -22,11 +22,17 @@ classifiers = [
 
 [build-system]
 requires = [
-    "setuptools>=68",
+    "setuptools>=68.0",
     "wheel",
+    "setuptools-scm>=8",
     "tree-sitter>=0.22.0",
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_file = "bindings/python/tree_sitter_salesforce/_version.py"
+tag_regex = '^(?:[\w-]+[_-])?(?P<version>[vV]?\d+(?:\.\d+){0,2}[^\+]*)(?:\+.*)?$'
+fallback_version = "0.2.0"
 
 [tool.setuptools.packages.find]
 where = ["bindings/python"]

@@ -47,6 +47,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -61,7 +63,7 @@ jobs:
 
       - name: Install dependencies & package
         run: |
-          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip setuptools wheel setuptools-scm
           pip install "tree-sitter>=0.24.0"
           pip install .
 
@@ -81,6 +83,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
@@ -122,6 +126,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
