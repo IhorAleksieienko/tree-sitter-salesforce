@@ -39,15 +39,25 @@ See [docs/05-adding-new-language.md](docs/05-adding-new-language.md) for full de
 3. Run `npm run generate:all && npm run test:all`
 4. Submit a PR with the test and fix
 
-## CI/CD & Automated Releases
+## Versioning & Release Policy
 
-- **Pull Requests & Commits**: Every push to `main`/`develop` and PR against `main` runs `.github/workflows/ci.yml` across Ubuntu, macOS, and Windows runners (testing all grammars and Python versions 3.10–3.13).
-- **Releases**: Pushing a version tag `v*.*.*` automatically triggers `.github/workflows/release.yml`, building multi-platform wheels via `cibuildwheel` (including Linux `aarch64` via QEMU), compiling WebAssembly modules via Emscripten, and publishing to PyPI and npm.
-- See [docs/10-release-process.md](docs/10-release-process.md) for the complete release process.
+This project strictly adheres to [Semantic Versioning (SemVer)](https://semver.org/):
+
+`v<MAJOR>.<MINOR>.<PATCH>`
+
+* **`PATCH` (`0.x.Z`)**: Bug fixes, Tree-sitter shift/reduce conflict resolutions, improved error tolerance, and test fixture updates with zero AST breaking changes.
+* **`MINOR` (`0.Y.0`)**: New language parsers (e.g., new sub-grammars), support for new Salesforce Seasonal API Releases (e.g., Summer '25 / API v67.0 baseline to Winter '26), or new binding features.
+* **`MAJOR` (`X.0.0`)**: Breaking changes to core AST node names or structural field definitions in `grammar.js` that affect downstream queries.
+
+### Release Workflow
+- Versioning is strictly tag-driven using `setuptools-scm` and SemVer Git tags (`vX.Y.Z`).
+- Pushing a production tag `v*.*.*` automatically triggers `.github/workflows/release.yml`, which runs all test gates, builds multi-platform wheels for Python 3.12–3.14 across Linux (`x86_64`), macOS (`x86_64`, `arm64`), and Windows (`x86_64`), builds WebAssembly modules, and publishes tokenlessly to PyPI via GitHub OIDC and to npm.
+- Staging releases can be tested on TestPyPI by pushing a `test_v*` tag (e.g., `test_v0.2.0-rc1`).
+- See [docs/10-release-process.md](docs/10-release-process.md) for step-by-step release maintainer instructions.
 
 ## Reporting Issues
 
-If you find Apex, SOQL, SOSL, or Formula code that doesn't parse correctly:
+If you find Apex, SOQL, SOSL, Formula, or Debug Log code that doesn't parse correctly:
 1. Open an issue with the minimal code sample
 2. Include the expected parse tree if possible
 3. Or submit a PR with a failing corpus test case

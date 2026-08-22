@@ -2,14 +2,14 @@
   "name": "tree-sitter-salesforce",
   "version": "0.2.0",
   "description": "Tree-sitter grammars for Salesforce languages: Apex, SOQL, and more",
-  "homepage": "https://github.com/ia/tree-sitter-salesforce",
+  "homepage": "https://github.com/IhorAleksieienko/tree-sitter-salesforce",
   "license": "MIT",
   "author": {
     "name": "Ihor A."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ia/tree-sitter-salesforce.git"
+    "url": "git+https://github.com/IhorAleksieienko/tree-sitter-salesforce.git"
   },
   "keywords": [
     "tree-sitter",
