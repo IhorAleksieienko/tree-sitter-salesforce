@@ -33,6 +33,7 @@ build-backend = "setuptools.build_meta"
 version_file = "bindings/python/tree_sitter_salesforce/_version.py"
 tag_regex = '^(?:[\w-]+[_-])?(?P<version>[vV]?\d+(?:\.\d+){0,2}[^\+]*)(?:\+.*)?$'
 fallback_version = "0.2.0"
+local_scheme = "no-local-version"
 
 [tool.setuptools.packages.find]
 where = ["bindings/python"]
